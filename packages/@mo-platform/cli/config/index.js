@@ -5,7 +5,7 @@
 
 require('dotenv').config({silent: true});
 
-if(process.env.NODE_ENV === "test" || process.env.APPO_COV) {
+if(process.env.NODE_ENV === "test" || process.env.MOAPP_COV) {
 	module.exports = require('./test')
 } else if(process.env.NODE_ENV === "development") {
 	console.log("development mode\n")

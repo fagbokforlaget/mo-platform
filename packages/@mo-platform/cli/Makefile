@@ -4,7 +4,7 @@ test:
 		@NODE_ENV=test ./node_modules/.bin/mocha test/*.js --$(REPORTER)
 
 test-cov: lib-cov
-		@APPO_COV=1 ./node_modules/.bin/mocha test/*.js --cover-html
+		@MOAPP_COV=1 ./node_modules/.bin/mocha test/*.js --cover-html
 
 lib-cov:
 		@rm -fr ./$@

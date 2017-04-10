@@ -6,13 +6,13 @@ var expect = require('chai').expect,
     fs = require('fs'),
     promptHelper = require('./helpers/prompt_helper');
 
-describe('Appo', function() {
+describe('MoApp', function() {
 
   describe('init', function () {
     var result, output = '', answers, app_json = "app.json";
 
     before(function (done) {
-      result = childProcess.spawn('appo', ['init'], []);
+      result = childProcess.spawn('moapp', ['init'], []);
 
       answers = {
         name: "name",

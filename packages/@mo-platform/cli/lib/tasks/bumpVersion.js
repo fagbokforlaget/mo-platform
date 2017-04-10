@@ -1,7 +1,7 @@
 module.exports = function(commandOptions) {
 	var semver = require('semver'),
 		fs = require('fs'),
-		preReleaseName = 'appo',
+		preReleaseName = 'moapp',
 		exec = require('child_process').exec,
 		chalk = require('chalk'),
 		error = chalk.bold.red,

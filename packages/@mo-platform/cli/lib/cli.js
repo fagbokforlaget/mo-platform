@@ -57,5 +57,9 @@ exports.run =  function() {
     return tasks.search(options);
   }
 
+  if (options.argv.remain.length && options.argv.remain[0] === "login") {
+    return tasks.login(options);
+  }
+
   return;
 }

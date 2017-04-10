@@ -1,3 +1,3 @@
 module.exports = function() {
-  console.log("Usage: appo [options]\nExample: appo help");
+  console.log("Usage: moapp [options]\nExample: moapp help");
 }

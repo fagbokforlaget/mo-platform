@@ -9,18 +9,18 @@ var expect = require('chai').expect,
     promptHelper = require('./helpers/prompt_helper'),
     path = require('path');
 
-describe('Appo', function() {
+describe('MoApp', function() {
 
   describe('login', function () {
-    var result, output = '', answers, mo_config = path.resolve(os.homedir(), '.mo-config.json');
+    var result, output = '', answers, mo_config = '.mo-config.json';
 
     before(function (done) {
       answers = {
-        username: "fagbokforlaget_test",
+        username: "fagbokforlaget",
         api_key: "123456"
       };
 
-      result = childProcess.exec('appo login');
+      result = childProcess.exec('moapp login  --configFile='+ mo_config);
       done();
     });
 
@@ -38,7 +38,6 @@ describe('Appo', function() {
        fs.readFile(mo_config, 'utf8', function (err,data) {
             var j = JSON.parse(data);
 
-            expect(j.username).to.equal(answers.username);
             expect(j['api_key']).to.equal(answers['api_key']);
             done()
        });

@@ -5,14 +5,14 @@ var expect = require('chai').expect,
     fs = require('fs-extra'),
     promptHelper = require('./helpers/prompt_helper');
 
-describe('Appo', function() {
+describe('MoApp', function() {
 
   describe('undeploy', function () {
     var result;
 
     describe('without app.json', function() {
       before(function (done) {
-        childProcess.exec('appo delete', function (error, stdout, stderr) {
+        childProcess.exec('moapp delete', function (error, stdout, stderr) {
           result = stdout
           done()
         });
@@ -29,7 +29,7 @@ describe('Appo', function() {
       
       before(function (done) {
         fs.copy('./test/fixtures/app', './', function(err) {
-          var cp = childProcess.spawn('appo', ['delete'])
+          var cp = childProcess.spawn('moapp', ['delete'])
 
           promptHelper(cp, {"Are you sure? (y/n)": 'y'}, "Are you sure? (y/n)")
             .then(function(data) {
@@ -58,7 +58,7 @@ describe('Appo', function() {
       
       before(function (done) {
         fs.copy('./test/fixtures/app', './', function(err) {
-          var cp = childProcess.spawn('appo', ['delete'])
+          var cp = childProcess.spawn('moapp', ['delete'])
 
           promptHelper(cp, {"Are you sure? (y/n)": 'n'}, "Are you sure? (y/n)")
             .then(function(data) {

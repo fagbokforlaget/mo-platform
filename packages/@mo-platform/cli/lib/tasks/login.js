@@ -3,23 +3,28 @@
 var fs = require('fs'),
     path = require('path'),
     os = require('os'),
-    PromZard = require('promzard').PromZard,
-    configInfo = path.resolve(__dirname, '../helpers/app-config.js'),
-    configPath = path.resolve(os.homedir(), '.mo-config.json'),
-    config = {};
+    PromZard = require('promzard').PromZard;
 
-module.exports = function() {
-  fs.readFile(configPath, 'utf8', function (err, data) {
+module.exports = function(options) {
+  let config = {};
+  let configInfo = path.resolve(__dirname, '../helpers/app-config.js');
+  let configFile = options.configFile || path.resolve(os.homedir(), '.mo-config.json')
+
+  fs.readFile(configFile, 'utf8', function (err, data) {
     var ctx = {};
 
-    try {
-      ctx = JSON.parse(data);
-      config = JSON.parse(data);
-    } catch (e) {
-      ctx = {}
+    if (!err) {
+      try {
+        ctx = JSON.parse(data);
+        config = JSON.parse(data);
+      } catch (e) {
+        ctx = {}
+      }
+    } else {
+      console.log("This will create a new file: " + configFile);
     }
 
-    ctx.dirname = path.dirname(configPath);
+    ctx.dirname = path.dirname(configFile);
     ctx.basename = path.basename(ctx.dirname);
 
     var pz = new PromZard(configInfo, ctx);
@@ -34,7 +39,7 @@ module.exports = function() {
       })
 
 
-      fs.writeFile(configPath, JSON.stringify(config, null, 2), function (er) {
+      fs.writeFile(configFile, JSON.stringify(config, null, 2), function (er) {
         if (er) {
           throw er;
         }
@@ -43,7 +48,7 @@ module.exports = function() {
     })
 
     pz.on('error', function(error) {
-      console.log("\nAppo error:", error.message)
-    })
+      console.log("\moapp error:", error.message)
+    });
   })
 }

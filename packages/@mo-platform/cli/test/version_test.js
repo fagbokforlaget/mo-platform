@@ -2,18 +2,18 @@ var expect = require('chai').expect,
     packageJson = require('../package.json'),
     childProcess = require('child_process');
 
-describe('Appo', function() {
+describe('MoApp', function() {
 
   describe('--version', function () {
     var result1, result2;
 
     before(function (done) {
-        childProcess.exec('appo --version', function (error, stdout, stderr) {
+        childProcess.exec('moapp --version', function (error, stdout, stderr) {
             if (error) done(error);
             result1 = stdout.trim("\n");
             if (result2) done();
         });
-        childProcess.exec('appo --v', function (error, stdout, stderr) {
+        childProcess.exec('moapp --v', function (error, stdout, stderr) {
             if (error) done(error);
             result2 = stdout.trim("\n");
             if (result1) done();

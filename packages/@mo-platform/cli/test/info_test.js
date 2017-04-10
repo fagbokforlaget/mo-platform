@@ -5,13 +5,13 @@ var expect = require('chai').expect,
     childProcess = require('child_process'),
     fs = require('fs');
 
-describe('Appo', function() {
+describe('MoApp', function() {
 
   describe('info', function () {
     var result, output = '', answers, app_json = "app.json";
 
     before(function (done) {
-      result = childProcess.spawn('appo', ['init'], []);
+      result = childProcess.spawn('moapp', ['init'], []);
 
       answers = {
         name: "name",
@@ -53,7 +53,7 @@ describe('Appo', function() {
 
       result.on('exit', function() {
         fs.stat(app_json, function(err, stat) {
-          childProcess.exec('appo info', function (error, stdout, stderr) {
+          childProcess.exec('moapp info', function (error, stdout, stderr) {
             var j = JSON.parse(stdout);
 
             expect(j.name).to.equal(answers.name)

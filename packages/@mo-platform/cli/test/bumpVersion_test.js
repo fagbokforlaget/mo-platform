@@ -6,14 +6,14 @@ var expect = require('chai').expect,
     path = require('path'),
     file = path.resolve('app.json');
 
-describe('Appo', function() {
+describe('MoApp', function() {
 
   describe('bumpVersion', function () {
   	var appoVersionBefore, fileDataBefore;
 
   	before(function(done){
       fs.copy('./test/fixtures/app', './', function(err) {
-        childProcess.exec('appo deploy', function (error, stdout, stderr) {
+        childProcess.exec('moapp deploy', function (error, stdout, stderr) {
           error = error
           result = stdout
           done()
@@ -37,7 +37,7 @@ describe('Appo', function() {
 
   	it('should bump major version with valid version', function() {
 		//run appo version major.minor.patch
-  		var result = childProcess.execSync('appo version 6.1.9 --no-commit');
+  		var result = childProcess.execSync('moapp version 6.1.9 --no-commit');
   		if (result.stderr) console.log(error(result.err));
   		var fileData = fs.readFileSync(file, 'utf8');
   		var appoVersionAfter = semver.clean((JSON.parse(fileData)).version);
@@ -46,7 +46,7 @@ describe('Appo', function() {
 
   	it('should bump patch when no valid version is given', function() {
   		//run appo version
-  		var result = childProcess.execSync('appo version --no-commit');
+  		var result = childProcess.execSync('moapp version --no-commit');
   		if (result.stderr) console.log(error(result.err));
   		var fileData = fs.readFileSync(file, 'utf8');
   		var appoVersionAfter = semver.clean((JSON.parse(fileData)).version);
@@ -55,7 +55,7 @@ describe('Appo', function() {
 
   	it('should bump minor', function() {
   		//run appo version minor
-  		var result = childProcess.execSync('appo version minor --no-commit');
+  		var result = childProcess.execSync('moapp version minor --no-commit');
   		if (result.stderr) console.log(error(result.err));
   		var fileData = fs.readFileSync(file, 'utf8');
   		var appoVersionAfter = semver.clean((JSON.parse(fileData)).version);
@@ -64,7 +64,7 @@ describe('Appo', function() {
 
   	it('should bump major', function() {
 		//run appo version major
-  		var result = childProcess.execSync('appo version major --no-commit');
+  		var result = childProcess.execSync('moapp version major --no-commit');
   		if (result.stderr) console.log(error(result.err));
   		var fileData = fs.readFileSync(file, 'utf8');
   		var appoVersionAfter = semver.clean((JSON.parse(fileData)).version);
@@ -74,7 +74,7 @@ describe('Appo', function() {
 
   	it('should bump patch', function() {
 		//run appo version patch
-  		var result = childProcess.execSync('appo version patch --no-commit');
+  		var result = childProcess.execSync('moapp version patch --no-commit');
   		if (result.stderr) console.log(error(result.err));
   		var fileData = fs.readFileSync(file, 'utf8');
   		var appoVersionAfter = semver.clean((JSON.parse(fileData)).version);
@@ -83,7 +83,7 @@ describe('Appo', function() {
 
   	it('should not update when semver returns null', function() {
 		//run appo version wrongversion
-  		var result = childProcess.execSync('appo version 1.3 --no-commit'); // invalid semver
+  		var result = childProcess.execSync('moapp version 1.3 --no-commit'); // invalid semver
   		if (result.stderr) console.log(error(result.err));
   		var fileData = fs.readFileSync(file, 'utf8');
   		var appoVersionAfter = semver.clean((JSON.parse(fileData)).version);

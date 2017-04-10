@@ -4,14 +4,14 @@ var expect = require('chai').expect,
     childProcess = require('child_process'),
     fs = require('fs-extra');
 
-describe('Appo', function() {
+describe('MoApp', function() {
 
   describe('deploy', function () {
     var result;
 
     describe('without app.json', function() {
       before(function (done) {
-        childProcess.exec('appo deploy', function (error, stdout, stderr) {
+        childProcess.exec('moapp deploy', function (error, stdout, stderr) {
           result = stdout
           done()
         });
@@ -28,7 +28,7 @@ describe('Appo', function() {
       
       before(function (done) {
         fs.copy('./test/fixtures/app', './', function(err) {
-          childProcess.exec('appo deploy', function (error, stdout, stderr) {
+          childProcess.exec('moapp deploy', function (error, stdout, stderr) {
             error = error
             result = stdout
             done()
