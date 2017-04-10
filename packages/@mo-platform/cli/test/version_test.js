@@ -1,0 +1,33 @@
+var expect = require('chai').expect,
+    packageJson = require('../package.json'),
+    childProcess = require('child_process');
+
+describe('Appo', function() {
+
+  describe('--version', function () {
+    var result1, result2;
+
+    before(function (done) {
+        childProcess.exec('appo --version', function (error, stdout, stderr) {
+            if (error) done(error);
+            result1 = stdout.trim("\n");
+            if (result2) done();
+        });
+        childProcess.exec('appo --v', function (error, stdout, stderr) {
+            if (error) done(error);
+            result2 = stdout.trim("\n");
+            if (result1) done();
+        });
+    });
+
+    it('should return the correct version number with --version', function () {
+        expect(result1).to.equal(packageJson.version);
+    });
+
+    it('should return the correct version number with -v', function () {
+        expect(result2).to.equal(packageJson.version);
+    });
+
+  });
+
+});

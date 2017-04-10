@@ -1,0 +1,22 @@
+{
+  "name": "test-app",
+  "version": "0.0.1",
+  "description": "test package",
+  "main": "index.html",
+  "keywords": [
+    "test",
+    "package"
+  ],
+  "authors": [
+    "Michal Ostrowski"
+  ],
+  "module": "amd",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

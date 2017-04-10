@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+'use strict';
+
+process.title = 'moapp';
+
+var resolve = require('resolve')
+  , exit = require('exit');
+
+resolve('moapp', {
+  basedir: process.cwd()
+}, function(err, localFile) {
+  var cli;
+  if (err) {
+    cli = require('../lib/cli');
+  }
+  else {
+    cli = require(localFile);
+  }
+  cli.run(process.argv);
+});
+

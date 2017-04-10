@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>SignIn Demo</title>
+	<script type="text/javascript" src="dist/moauth.umd.js"></script>
+</head>
+
+<body>
+	<div id="welcome">
+	<a href="#" id="login" onclick="auth.authorize()">Sign In with e-portal</a>
+	</div>
+<script type="text/javascript">
+var auth = new moauth('http://localhost:8000/example/example.html');
+auth.checkToken(window.location.search, function(err, user) {
+	if (!err) {
+		console.log(user);
+		var container = document.getElementById("welcome")
+		container.innerHTML = "Welcome, " + user.displayName + " (" + user.eportal.Role +")";
+		container.innerHTML += " <a href='#' onclick='auth.logout()'>Logout</a>";
+	}
+});
+</script>
+
+</body>
+
+
+</html>

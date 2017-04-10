@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "devDependencies": {
+    "lerna": "^2.0.0-rc.1"
+  },
+  "name": "mo-client",
+  "version": "0.1.0",
+  "description": "Mo EcmaScript client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
