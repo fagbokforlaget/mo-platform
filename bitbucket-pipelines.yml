@@ -1,0 +1,11 @@
+image: node:6.9
+
+pipelines:
+  default:
+    - step:
+        script: # Modify the commands below to build your repository.
+          - npm --version
+          - node --version
+          - npm install -g lerna
+          - lerna bootstrap
+          - npm test
