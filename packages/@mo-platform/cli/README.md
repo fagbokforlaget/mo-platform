@@ -19,6 +19,7 @@ API Spec
 6. info
 7. version
 8. help
+9. login
 
 `init`
 
@@ -73,3 +74,11 @@ appo version [<newversion> | major | minor | patch]
 `help`
 
 Display help information.
+
+`login`
+
+Login into MoJS SDK
+
+```
+appo login
+```
