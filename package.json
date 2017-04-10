@@ -12,7 +12,7 @@
   "main": "index.js",
   "scripts": {
     "changelog": "./scripts/changelog.js",
-    "test": "lerna run test --stream"
+    "test": "cd packages/@mo-platform/cli && npm link && cd ../../../ && lerna run test --stream"
   },
 	"config": {
     "ghooks": {
