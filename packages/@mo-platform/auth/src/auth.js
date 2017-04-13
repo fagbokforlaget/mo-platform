@@ -41,36 +41,48 @@ export default class Authentication {
     return this.currentUser || JSON.parse(this.storage.getItem('user')) || undefined;
   }
 
-  checkToken(loc = window.location.search, callback) {
-    var params = this._parseQueryString(loc);
+  checkToken(loc = window.location.search) {
+    let params = this._parseQueryString(loc);
+    let self = this;
 
-    if (this.isAuthenticated()) {
-      callback(null, this.getUser());
-      return;
-    }
+    return new Promise((resolve, reject) => {
+      if (self.isAuthenticated()) {
+        resolve(self.getUser());
+      }
 
-    if (params.token) {
-      this.token = params.token;
-      window.history.replaceState({}, '', this.redirectUrl);
-      this.fetchUser(this.authUrl + '/_auth/user?token=' + this.token, callback);
-    } else {
-      callback(true, null);
-    }
+      if (params.token) {
+        self.token = params.token;
+        if (window) {
+          window.history.replaceState({}, '', self.redirectUrl);
+        }
+        self.fetchUser(this.authUrl + '/_auth/user?token=' + self.token)
+        .then((user) => {
+          resolve(user);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      } else {
+        reject(new Error('access token not found'));
+      }
+    });
   }
 
-  fetchUser(url, next) {
+  fetchUser(url) {
     let resp;
     let self = this;
 
-    request('GET', url)
-    .end(function (error, response) {
-      if (!error && response.statusCode === 200 && response.body) {
-        resp = response.body;
-        self.storage.setItem('user', JSON.stringify(resp.user));
-        next(false, resp.user);
-      } else {
-        next(error, null);
-      }
+    return new Promise((resolve, reject) => {
+      request('GET', url)
+      .end(function (error, response) {
+        if (!error && response.statusCode === 200 && response.body) {
+          resp = response.body;
+          self.storage.setItem('user', JSON.stringify(resp.user));
+          resolve(resp.user);
+        } else {
+          reject(new Error('authentication failed:' + error));
+        }
+      });
     });
   }
 

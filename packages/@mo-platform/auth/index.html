@@ -14,13 +14,12 @@
 	</div>
 <script type="text/javascript">
 var auth = new moauth('http://localhost:8000/example/example.html');
-auth.checkToken(window.location.search, function(err, user) {
-	if (!err) {
-		console.log(user);
-		var container = document.getElementById("welcome")
-		container.innerHTML = "Welcome, " + user.displayName + " (" + user.eportal.Role +")";
-		container.innerHTML += " <a href='#' onclick='auth.logout()'>Logout</a>";
-	}
+auth
+.checkToken(window.location.search)
+.then( function(user) {
+  var container = document.getElementById("welcome")
+	container.innerHTML = "Welcome, " + user.displayName + " (" + user.eportal.Role +")";
+	container.innerHTML += " <a href='#' onclick='auth.logout()'>Logout</a>";
 });
 </script>
 
