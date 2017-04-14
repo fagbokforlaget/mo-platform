@@ -1,15 +1,34 @@
-# Webpack library starter
+# JS client for MoAuth
 
-Webpack based boilerplate for producing libraries (Input: ES6, Output: universal library)
+MoAuth provides an OAuth proxy to various providers. For the time being it only supports [Fagbokforlaget e-portal](https://eportal.fagbokforlaget.no) or FEIDE. This js library provides necessary abstraction to MoAuth.
 
-## Features
+## Install
+```
+<script
+src="https://unpkg.com/@mo-platform/auth@0.0.2/dist/moauth.umd.js"></script>
 
-* Webpack based.
-* ES6 as a source.
-* Exports in a [umd](https://github.com/umdjs/umd) format so your library works everywhere.
-* ES6 test setup with [Mocha](http://mochajs.org/) and [Chai](http://chaijs.com/).
-* Linting with [ESLint](http://eslint.org/).
+<script>
+let auth = new moauth("http://localhost:8000") // callback url
 
+// initate oauth workflow
+auth.authorize();
+
+// listen to access token in url query
+auth
+.checkToken()
+.then(user) {
+  console.log(user);
+  //do something with user
+}
+.catch(err) {
+  console.error(err);
+}
+
+// clears localstorage for access token
+auth.logout();
+</script>
+
+```
 ## Process
 
 ```
@@ -47,37 +66,6 @@ ES6 source files
 * `npm run test` - well ... it runs the tests :)
 * `npm run test:watch` - same as above but in a watch mode
 
-## Readings
+## Acknowledgements
 
 * [Start your own JavaScript library using webpack and ES6](http://krasimirtsonev.com/blog/article/javascript-library-starter-using-webpack-es6)
-
-## Misc
-
-### An example of using dependencies that shouldn’t be resolved by webpack, but should become dependencies of the resulting bundle
-
-In the following example we are excluding React and Lodash:
-
-```js
-{
-  devtool: 'source-map',
-  output: {
-    path: '...',
-    libraryTarget: 'umd',
-    library: '...'
-  },
-  entry: '...',
-  ...
-  externals: {
-    react: 'react'
-    // Use more complicated mapping for lodash.
-    // We need to access it differently depending
-    // on the environment.
-    lodash: {
-      commonjs: 'lodash',
-      commonjs2: 'lodash',
-      amd: '_',
-      root: '_'
-    }
-  }
-}
-```
