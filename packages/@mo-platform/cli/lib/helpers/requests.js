@@ -10,8 +10,8 @@ exports.putPackageData = function(name, version) {
       .field('s', 'f')
       .attach({'package': '' + name + "-" + version + ".zip"})
       .end(function(response) {
-        if(response.error) {
-          return reject(response.error.message)
+        if(response.body && response.body.error) {
+          return reject(response.body.error)
         }
 
         if(response.status !== 200) {
@@ -33,10 +33,10 @@ exports.postPackageData = function(json) {
       .type('json')
       .send({"data": json})
       .end(function (response) {
-        if(response.error) {
-          return reject(response.error.message)
+        if(response.body && response.body.error) {
+          return reject(response.body.error)
         }
-        
+
         if(response.status !== 200) {
           return reject(response.body)
         }
