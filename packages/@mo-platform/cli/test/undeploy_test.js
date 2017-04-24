@@ -12,30 +12,33 @@ describe('MoApp', function() {
 
     describe('without app.json', function() {
       before(function (done) {
-        childProcess.exec('moapp delete', function (error, stdout, stderr) {
-          result = stdout
-          done()
-        });
+        fs.copy('./test/fixtures/tmp_config_file.json', './', (err) => {
+          childProcess.exec('moapp delete --configFile=tmp_config_file.json', function (error, stdout, stderr) {
+            result = stdout
+            done()
+          })
+        })
       });
 
       it('should throw error when app.json is missing', function(done) {
           expect(result).to.match(/no such file/)
           done()
-      })        
+      })
     })
 
     describe('with app.json', function() {
       var result, error;
-      
       before(function (done) {
-        fs.copy('./test/fixtures/app', './', function(err) {
-          var cp = childProcess.spawn('moapp', ['delete'])
+        fs.copy('./test/fixtures/tmp_config_file.json', './tmp_config_file.json', (err) => {
+          fs.copy('./test/fixtures/app', './', function(err) {
+            var cp = childProcess.spawn('moapp', ['delete', '--configFile=tmp_config_file.json'])
 
-          promptHelper(cp, {"Are you sure? (y/n)": 'y'}, "Are you sure? (y/n)")
-            .then(function(data) {
-              result = data
-              done()
-            })
+            promptHelper(cp, {"Are you sure? (y/n)": 'y'}, "Are you sure? (y/n)")
+              .then(function(data) {
+                result = data
+                done()
+              })
+          })
         })
       });
 
@@ -55,23 +58,27 @@ describe('MoApp', function() {
 
     describe('without acceptance', function() {
       var result, error;
-      
-      before(function (done) {
-        fs.copy('./test/fixtures/app', './', function(err) {
-          var cp = childProcess.spawn('moapp', ['delete'])
 
-          promptHelper(cp, {"Are you sure? (y/n)": 'n'}, "Are you sure? (y/n)")
-            .then(function(data) {
-              result = data
-              done()
-            })
+      before(function (done) {
+        fs.copy('./test/fixtures/tmp_config_file.json', './tmp_config_file.json', (err) => {
+          fs.copy('./test/fixtures/app', './', function(err) {
+            var cp = childProcess.spawn('moapp', ['delete', '--configFile=tmp_config_file.json'])
+
+            promptHelper(cp, {"Are you sure? (y/n)": 'n'}, "Are you sure? (y/n)")
+              .then(function(data) {
+                result = data
+                done()
+              })
+          })
         })
       });
 
       after(function(done) {
         fs.remove('./dist', function(err) {
           fs.remove('app.json', function(err) {
-            done()
+            fs.remove('tmp_config_file.json', (err) => {
+              done()
+            })
           })
         })
       })

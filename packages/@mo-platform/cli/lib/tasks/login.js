@@ -3,7 +3,8 @@
 var fs = require('fs'),
     path = require('path'),
     os = require('os'),
-    PromZard = require('promzard').PromZard;
+    PromZard = require('promzard').PromZard,
+    requests = require('../helpers/requests');
 
 module.exports = function(options) {
   let config = {};
@@ -38,13 +39,19 @@ module.exports = function(options) {
         }
       })
 
+      requests.authenticate(config)
+        .then(function(data) {
+          config.token = data.token
+          fs.writeFile(configFile, JSON.stringify(config, null, 2), function (er) {
+            if (er) {
+              throw er;
+            }
 
-      fs.writeFile(configFile, JSON.stringify(config, null, 2), function (er) {
-        if (er) {
-          throw er;
-        }
-
-      })
+          })
+        })
+        .catch(function(e) {
+          console.log(e)
+        })
     })
 
     pz.on('error', function(error) {
