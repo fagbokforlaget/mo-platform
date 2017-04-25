@@ -46,7 +46,7 @@ exports.run =  function() {
   }
 
   if (options.argv.remain.length && options.argv.remain[0] === "delete") {
-    return tasks.undeploy();
+    return tasks.undeploy(options);
   }
 
   if (options.argv.remain.length && options.argv.remain[0] === "version") {

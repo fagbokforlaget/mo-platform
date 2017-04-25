@@ -17,13 +17,13 @@ module.exports = function(options) {
   		return
   	}
 
-  	return requests.postPackageData(json)
+  	return requests.postPackageData(json, options)
   			.then(function(data) {
   				console.log(data)
   				return new ZipFile(distFolder, json.name, json.version).zip()
   			})
   			.then(function(data) {
-  				return requests.putPackageData(json.name, json.version)
+  				return requests.putPackageData(json.name, json.version, options)
   			})
   			.then(function(data) {
   				console.log(data)

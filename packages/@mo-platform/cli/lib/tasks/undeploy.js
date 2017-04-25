@@ -4,11 +4,11 @@ var path = require('path'),
     fs = require('fs-extra'),
     PromZard = require('promzard').PromZard,
     input = path.resolve(__dirname, '../helpers/undeploy_prompt.js'),
-    pckgPath = path.resolve('app.json'),    
+    pckgPath = path.resolve('app.json'),
     requests = require('../helpers/requests'),
     prompta;
 
-module.exports = function() {
+module.exports = function(options) {
   fs.readJSON(pckgPath, function(err, json) {
   	if(err) {
   		console.log(err.message)
@@ -16,7 +16,7 @@ module.exports = function() {
   	}
 
   	return prompta().then(function(data) {
-          return requests.deletePackage(json)
+          return requests.deletePackage(json, options)
         })
   			.then(function(data) {
   				console.log(data)
