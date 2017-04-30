@@ -3,7 +3,7 @@
 var PromZard = require('promzard').PromZard,
     path = require('path'),
     input = path.resolve(__dirname, '../helpers/app-init-input.js'),
-    pckgPath = path.resolve('app.json'),
+    pckgPath = path.resolve('mo-app.json'),
     fs = require('fs'),
     pkg;
 

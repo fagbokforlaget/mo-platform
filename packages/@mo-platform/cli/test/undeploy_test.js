@@ -10,7 +10,7 @@ describe('MoApp', function() {
   describe('undeploy', function () {
     var result;
 
-    describe('without app.json', function() {
+    describe('without mo-app.json', function() {
       before(function (done) {
         fs.copy('./test/fixtures/tmp_config_file.json', './', (err) => {
           childProcess.exec('moapp delete --configFile=tmp_config_file.json', function (error, stdout, stderr) {
@@ -26,7 +26,7 @@ describe('MoApp', function() {
       })
     })
 
-    describe('with app.json', function() {
+    describe('with mo-app.json', function() {
       var result, error;
       before(function (done) {
         fs.copy('./test/fixtures/tmp_config_file.json', './tmp_config_file.json', (err) => {
@@ -44,7 +44,7 @@ describe('MoApp', function() {
 
       after(function(done) {
         fs.remove('./dist', function(err) {
-          fs.remove('app.json', function(err) {
+          fs.remove('mo-app.json', function(err) {
             done()
           })
         })
@@ -75,7 +75,7 @@ describe('MoApp', function() {
 
       after(function(done) {
         fs.remove('./dist', function(err) {
-          fs.remove('app.json', function(err) {
+          fs.remove('mo-app.json', function(err) {
             fs.remove('tmp_config_file.json', (err) => {
               done()
             })
