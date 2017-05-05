@@ -9,7 +9,7 @@ var expect = require('chai').expect,
 describe('MoApp', function() {
 
   describe('init', function () {
-    var result, output = '', answers, app_json = "app.json";
+    var result, output = '', answers, app_json = "mo-app.json";
 
     before(function (done) {
       result = childProcess.spawn('moapp', ['init'], []);
@@ -34,7 +34,7 @@ describe('MoApp', function() {
       });
     })
 
-    it('should build app.json file', function (done) {
+    it('should build mo-app.json file', function (done) {
       promptHelper(result, answers, "license")
         .then(function(data) {
           fs.stat(app_json, function(err, stat) {

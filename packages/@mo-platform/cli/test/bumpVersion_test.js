@@ -4,7 +4,7 @@ var expect = require('chai').expect,
     error = require('chalk').bold.red,
     fs = require('fs-extra'),
     path = require('path'),
-    file = path.resolve('app.json');
+    file = path.resolve('mo-app.json');
 
 describe('MoApp', function() {
 

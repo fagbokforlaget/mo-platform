@@ -8,7 +8,7 @@ var expect = require('chai').expect,
 describe('MoApp', function() {
 
   describe('info', function () {
-    var result, output = '', answers, app_json = "app.json";
+    var result, output = '', answers, app_json = "mo-app.json";
 
     before(function (done) {
       result = childProcess.spawn('moapp', ['init'], []);
@@ -33,7 +33,7 @@ describe('MoApp', function() {
       });
     })
 
-    it('should build app.json file', function (done) {
+    it('should build mo-app.json file', function (done) {
       var i = 0;
       result.stdout.on('data', function(d) {
         var _d = (''+d).split(':')[0];

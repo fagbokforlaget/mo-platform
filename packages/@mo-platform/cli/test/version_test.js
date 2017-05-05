@@ -10,22 +10,22 @@ describe('MoApp', function() {
     before(function (done) {
         childProcess.exec('moapp --version', function (error, stdout, stderr) {
             if (error) done(error);
-            result1 = stdout.trim("\n");
+            result1 = stdout.split("\n");
             if (result2) done();
         });
         childProcess.exec('moapp --v', function (error, stdout, stderr) {
             if (error) done(error);
-            result2 = stdout.trim("\n");
+            result2 = stdout.split("\n");
             if (result1) done();
         });
     });
 
     it('should return the correct version number with --version', function () {
-        expect(result1).to.equal(packageJson.version);
+        expect(result1[2]).to.equal(packageJson.version);
     });
 
     it('should return the correct version number with -v', function () {
-        expect(result2).to.equal(packageJson.version);
+        expect(result2[2]).to.equal(packageJson.version);
     });
 
   });

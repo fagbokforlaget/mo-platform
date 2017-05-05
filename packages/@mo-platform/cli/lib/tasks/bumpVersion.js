@@ -1,20 +1,35 @@
 module.exports = function(commandOptions) {
-	var semver = require('semver'),
-		fs = require('fs'),
-		preReleaseName = 'moapp',
-		exec = require('child_process').exec,
-		chalk = require('chalk'),
-		error = chalk.bold.red,
-		success = chalk.bold.green,
-		file = 'app.json',
-		characterEncoding = 'utf8',
-		noCommit = false;
+    var semver = require('semver'),
+        fs = require('fs'),
+        preReleaseName = 'moapp',
+        exec = require('child_process').exec,
+        chalk = require('chalk'),
+        error = chalk.bold.red,
+        success = chalk.bold.green,
+        info = chalk.bgYellow,
+        file = 'mo-app.json',
+        fallbackFile = 'app.json',
+        characterEncoding = 'utf8',
+        noCommit = false;
 
 
   if (typeof commandOptions.commit !== "undefined") {
     noCommit = !commandOptions.commit;
   }
 
+    try {
+        let fileExists = fs.statSync(file);
+    } catch (e) {
+        try {
+            let fallbackFileExists = fs.statSync(fallbackFile);
+            fs.rename(fallbackFile, file, function(renameErr) {
+                if ( renameErr ) console.log('ERROR: ' + renameErr);
+                console.log(info('fallback file , app.json found , renaming the file to mo-app.json'));
+            });
+        } catch (err) {
+            return console.log(error('Error in Reading File. ' + err));
+        }
+    }
 	var options = commandOptions.argv.remain.slice(1);
 	var type = null;
 
@@ -64,7 +79,7 @@ module.exports = function(commandOptions) {
 
 			/* git create Tag */
 			cmd.push('git tag -a '+ tag + ' -m "Bumped version to '+ tag +'"');
-			/*git push command doesnâ€™t transfer tags to remote servers */
+			/*git push command doesn’t transfer tags to remote servers */
 			/* or git push origin --tags , when a lot of tags */
 			cmd.push('git push origin '+tag);
 			/* git commit */
