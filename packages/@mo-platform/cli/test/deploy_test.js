@@ -43,7 +43,7 @@ describe('MoApp', function() {
 
       after(function(done) {
         fs.remove('./dist', function(err) {
-          fs.remove('app.json', function(err) {
+          fs.remove('mo-app.json', function(err) {
             done()
           })
         })

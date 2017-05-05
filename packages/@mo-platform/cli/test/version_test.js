@@ -21,11 +21,11 @@ describe('MoApp', function() {
     });
 
     it('should return the correct version number with --version', function () {
-        expect(result1[2]).to.equal(packageJson.version);
+        expect(result1).to.include(packageJson.version);
     });
 
     it('should return the correct version number with -v', function () {
-        expect(result2[2]).to.equal(packageJson.version);
+        expect(result2).to.include(packageJson.version);
     });
 
   });

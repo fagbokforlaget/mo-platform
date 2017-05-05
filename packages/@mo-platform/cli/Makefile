@@ -1,7 +1,7 @@
 REPORTER = spec
 
 test:
-		@NODE_ENV=test ./node_modules/.bin/mocha test/*.js --$(REPORTER)
+		@NODE_ENV=test ./node_modules/.bin/mocha --colors test/*.js --$(REPORTER)
 
 test-cov: lib-cov
 		@MOAPP_COV=1 ./node_modules/.bin/mocha test/*.js --cover-html
