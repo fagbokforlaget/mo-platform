@@ -13,6 +13,7 @@ exports.putPackageData = function(name, version, options) {
         .header('Accept', 'application/json')
         .field('s', 'f')
         .attach({'package': '' + name + "-" + version + ".zip"})
+        .send({'token': authData.token})
         .end(function(response) {
           if(response.body && response.body.error) {
             return reject(response.body.error)
@@ -39,7 +40,7 @@ exports.postPackageData = function(json, options) {
       unirest.post(config.moServer + '/api/packages')
         .header('Accept', 'application/json')
         .type('json')
-        .send({"data": json})
+        .send({"data": json, token: authData.token})
         .end(function (response) {
           if(response.body && response.body.error) {
             return reject(response.body.error)
@@ -63,6 +64,7 @@ exports.deletePackage = function(json, options) {
       unirest.delete(config.moServer + '/api/packages/' + json.name)
         .header('Accept', 'application/json')
         .type('json')
+        .send({'token': authData.token})
         .end(function (response) {
           if(response.error) {
             return reject(response.error.message)
