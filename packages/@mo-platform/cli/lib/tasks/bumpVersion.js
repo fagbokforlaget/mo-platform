@@ -1,16 +1,16 @@
 module.exports = function(commandOptions) {
-	var semver = require('semver'),
-		fs = require('fs'),
-		preReleaseName = 'moapp',
-		exec = require('child_process').exec,
-		chalk = require('chalk'),
-		error = chalk.bold.red,
-		success = chalk.bold.green,
+    var semver = require('semver'),
+        fs = require('fs'),
+        preReleaseName = 'moapp',
+        exec = require('child_process').exec,
+        chalk = require('chalk'),
+        error = chalk.bold.red,
+        success = chalk.bold.green,
         info = chalk.bgYellow,
         file = 'mo-app.json',
         fallbackFile = 'app.json',
-		characterEncoding = 'utf8',
-		noCommit = false;
+        characterEncoding = 'utf8',
+        noCommit = false;
 
 
   if (typeof commandOptions.commit !== "undefined") {
@@ -79,7 +79,7 @@ module.exports = function(commandOptions) {
 
 			/* git create Tag */
 			cmd.push('git tag -a '+ tag + ' -m "Bumped version to '+ tag +'"');
-			/*git push command doesnâ€™t transfer tags to remote servers */
+			/*git push command doesn’t transfer tags to remote servers */
 			/* or git push origin --tags , when a lot of tags */
 			cmd.push('git push origin '+tag);
 			/* git commit */
