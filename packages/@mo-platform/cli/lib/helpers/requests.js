@@ -10,10 +10,9 @@ exports.putPackageData = function(name, version, options) {
   return moConfigFile.read(options).then((authData) => {
       return new Promise(function(resolve, reject) {
       unirest.put(config.moServer + "/api/packages/" + name + "/" + version)
-        .header('Accept', 'application/json')
-        .field('s', 'f')
+        .headers({'Accept': 'application/json', 'Content-Type': 'multipart/form-data'})
+        .field('token', authData.token)
         .attach({'package': '' + name + "-" + version + ".zip"})
-        .send({'token': authData.token})
         .end(function(response) {
           if(response.body && response.body.error) {
             return reject(response.body.error)
