@@ -21,7 +21,7 @@ describe('MoApp', function() {
       });
 
       it('should throw error when app.json is missing', function(done) {
-          expect(result).to.match(/no such file/)
+          expect(result).to.match(/Could not deploy/)
           done()
       })
     })
@@ -55,7 +55,7 @@ describe('MoApp', function() {
       })
 
       it('should send package', function(done) {
-        expect(result).to.match(/status: \'ok\'/)
+        expect(result).to.match(/done/)
         done()
       })
     })
