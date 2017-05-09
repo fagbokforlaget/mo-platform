@@ -8,8 +8,9 @@ var fs = require('fs-extra'),
     ZipFile = require('../helpers/zipfile'),
     requests = require('../helpers/requests'),
     chalk = require('chalk'),
-    info = chalk.bgYellow,
-    error = chalk.bold.red;
+    info = chalk.yellow,
+    error = chalk.bold.red,
+    success = chalk.bold.green;
 
 
 module.exports = function(options) {
@@ -25,32 +26,43 @@ module.exports = function(options) {
                 console.log(info('fallback file , app.json found , renaming the file to mo-app.json'));
             });
         } catch (err) {
-            return console.log(error('Error in Reading File. ' + err));
+            return console.error(error('Error in Reading File. ' + err));
         }
     }
 
   fs.readJSON(pckgPath, function(err, json) {
   	if(err) {
-  		console.log(error(err.message))
+  		console.error(error(err.message))
   		return
   	}
 
-  	return requests.postPackageData(json, options)
-  			.then(function(data) {
-          console.log(data)
-  				return new ZipFile(distFolder, json.name, json.version).zip()
-  			})
-  			.then(function(data) {
-  				return requests.putPackageData(json.name, json.version, options)
-  			})
-  			.then(function(data) {
-          console.log(data)
-  				return
-  			})
-  			.catch(function(err) {
-  				console.log(error(err.message))
-  				return
-  			})
+    let zipper = new ZipFile(distFolder, json.name, json.version)
+    let created = false
+
+    return zipper.zip()
+      .then((data) => {
+        console.log(info('Zipped package file'))
+        return requests.postPackageData(json, options)
+      })
+      .then((data) => {
+        console.log(info('Created package on server with following:'))
+        console.log(data)
+        created = true
+        return requests.putPackageData(json.name, json.version, options)
+
+      })
+      .then((data) => {
+        console.log(success('All done'))
+        return
+      })
+      .catch((err) => {
+        if (created) {
+          console.info(info('Removing app from server'))
+          requests.deletePackage(json, options)
+        }
+        console.info(info('Could not deploy:'))
+        console.error(error(err.message || err))
+      })
 
   })
 }
