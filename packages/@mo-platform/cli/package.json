@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/forlagshuset/mo-appo.git"
+    "url": "https://github.com/fagbokforlaget/mo-platform.git"
   },
   "keywords": [
     "cli",
@@ -21,7 +21,7 @@
   ],
   "author": "Deepak Thukral <deepak.thukral@fagbokforlaget.no>",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/forlagshuset/mo-appo#readme",
+  "homepage": "https://github.com/fagbokforlaget/mo-platform.git#readme",
   "dependencies": {
     "chalk": "^1.1.3",
     "cli-table": "^0.3.1",
