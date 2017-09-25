@@ -9,8 +9,11 @@ export default class MultiDictClient {
     });
   }
 
-  search(phrase, language) {
-    return this.client.get('/phrases/search', {'params':{'phrase': phrase, 'language': language}});
+  search(phrase, language, trans_lang, fallback_lang) {
+    let params = {'phrase': phrase, 'language': language};
+    if ( trans_lang ) { params['trans_lang'] = trans_lang; }
+    if ( fallback_lang ) { params['fallback_lang'] = fallback_lang; }
+    return this.client.get('/phrases/search', {'params': params});
   }
 
 }
