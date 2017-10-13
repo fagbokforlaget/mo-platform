@@ -3,19 +3,19 @@
 MoAuth provides an OAuth proxy to various providers. For the time being it only supports [Fagbokforlaget e-portal](https://eportal.fagbokforlaget.no) or FEIDE. This js library provides necessary abstraction to MoAuth.
 
 ## Install
-```
+```bash
 npm install @mo-platform/auth
 ```
 
-## Use
-```
+### Use
+```javascript
 import MoAuth from '@mo-platform/auth'
 let auth = new MoAuth()
 // do something with auth
-
 ```
 
-## Install browser method
+### Install browser method
+```
 <script
 src="https://unpkg.com/@mo-platform/auth@0.3.2/dist/moauth.umd.js"></script>
 
@@ -41,6 +41,7 @@ auth.logout();
 </script>
 
 ```
+
 ## Process
 
 ```
