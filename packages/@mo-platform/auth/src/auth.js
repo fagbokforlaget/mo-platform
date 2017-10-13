@@ -1,16 +1,17 @@
 var request = require('superagent');
 
 export default class Authentication {
-  constructor(redirectUrl, storage = undefined, authUrl = 'https://moauth.fagbokforlaget.no') {
-    this.redirectUrl = redirectUrl;
-    this.authUrl = authUrl;
+  constructor(opts) {
+    let {authUrl:authUrl, clientId:clientId, storage:storage} = opts;
+    this.authUrl = authUrl || 'https://moauth.fagbokforlaget.no';
     this.currentUser = undefined;
     this.token = undefined;
+    this.clientId = clientId;
     this.storage = storage || window.localStorage;
   }
 
-  get loginUrl() {
-    return this.authUrl + '/_auth/login?redirect_url=' + this.redirectUrl;
+  loginUrl(redirectUrl, scope=undefined) {
+    return this.authUrl + '/_auth/login?client_id=' + (this.clientId || 'generic') + '&redirect_url=' + redirectUrl + '&scope=' + (scope || 'dbok');
   }
 
   _parseQueryString(loc) {
@@ -33,8 +34,9 @@ export default class Authentication {
     return urlParams;
   }
 
-  authorize() {
-    window.location = this.loginUrl;
+  authorize(obj) {
+    let {redirectUrl: redirectUrl, scope: scope} = obj;
+    window.location = this.loginUrl(redirectUrl || window.location, scope);
   }
 
   getUser() {

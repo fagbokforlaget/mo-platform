@@ -5,13 +5,13 @@ MoAuth provides an OAuth proxy to various providers. For the time being it only 
 ## Install
 ```
 <script
-src="https://unpkg.com/@mo-platform/auth@0.0.2/dist/moauth.umd.js"></script>
+src="https://unpkg.com/@mo-platform/auth@0.3.0/dist/moauth.umd.js"></script>
 
 <script>
-let auth = new moauth("http://localhost:8000") // callback url
+let auth = new moauth()
 
 // initate oauth workflow
-auth.authorize();
+auth.authorize({redirectUrl: 'http://locahost:8000'}); // url redirect (optional)
 
 // listen to access token in url query
 auth

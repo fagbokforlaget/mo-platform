@@ -9,7 +9,7 @@ let auth;
 
 describe('Given an instance of MoAuth', function () {
   before(function () {
-    auth = new MoAuth("https://test-app.app.fagbokforlaget.no", fakeStorage);
+    auth = new MoAuth({'storage': fakeStorage});
   });
   describe('isAuthenticated', function () {
     it('should return false', () => {
