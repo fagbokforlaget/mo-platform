@@ -10,10 +10,10 @@
 
 <body>
 	<div id="welcome">
-	<a href="#" id="login" onclick="auth.authorize()">Sign In with e-portal</a>
+    <a href="#" id="login" onclick="auth.authorize({'redirectUrl': window.location})">Sign In with e-portal</a>
 	</div>
 <script type="text/javascript">
-var auth = new moauth('http://localhost:8000/example/example.html');
+var auth = new moauth();
 auth
 .checkToken(window.location.search)
 .then( function(user) {

@@ -4,8 +4,20 @@ MoAuth provides an OAuth proxy to various providers. For the time being it only 
 
 ## Install
 ```
+npm install @mo-platform/auth
+```
+
+## Use
+```
+import MoAuth from '@mo-platform/auth'
+let auth = new MoAuth()
+// do something with auth
+
+```
+
+## Install browser method
 <script
-src="https://unpkg.com/@mo-platform/auth@0.3.1/dist/moauth.umd.js"></script>
+src="https://unpkg.com/@mo-platform/auth@0.3.2/dist/moauth.umd.js"></script>
 
 <script>
 let auth = new moauth()
