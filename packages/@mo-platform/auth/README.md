@@ -17,7 +17,7 @@ let auth = new MoAuth()
 ### Install browser method
 ```
 <script
-src="https://unpkg.com/@mo-platform/auth@0.3.2/dist/moauth.umd.js"></script>
+src="https://unpkg.com/@mo-platform/auth@0.3.3/dist/moauth.umd.js"></script>
 
 <script>
 let auth = new moauth()
