@@ -57,7 +57,7 @@ export default class Authentication {
       if (params.token) {
         self.token = params.token;
         if (window) {
-          window.history.replaceState({}, '', self.redirectUrl);
+          window.history.replaceState({}, '', window.location + window.location.hash || '');
         }
         self.fetchUser(this.authUrl + '/_auth/user?token=' + self.token)
         .then((user) => {
