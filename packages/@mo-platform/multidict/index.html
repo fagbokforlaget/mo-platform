@@ -19,9 +19,9 @@ dict
 .then( function(data) {
   var container = document.getElementById("welcome")
   console.log(data.data);
-  data.data.phrases.forEach(function(phrase) {
-    console.log(phrase);
-	  container.innerHTML += phrase.name;
+  data.data.forEach(function(row) {
+    console.log(row.phrase);
+	  container.innerHTML += row.phrase.props.name;
   });
 });
 </script>
