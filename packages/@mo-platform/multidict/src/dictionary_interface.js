@@ -85,7 +85,7 @@ dictionary_interface = (function (){
 
             var wordClass,
                 wordInflections = obj.inflections,
-                baseForm        = obj.props.idx,
+                baseForm        = obj.base_form,
                 wordExplanation = obj.props.explanation,
                 wordSynonyms    = obj.synonyms,
                 wordSpelling    = obj.alternative_spellings,
@@ -129,7 +129,7 @@ dictionary_interface = (function (){
                 );
             }
 
-            if (baseForm && (baseForm !== selectedWord)) {
+            if (baseForm) {
                 $outHtml.append(
                     $('<p/>', {
                         'class': 'basic-form lang-info'
@@ -140,7 +140,6 @@ dictionary_interface = (function (){
                     )
                 );
             }
-
 
             if (!translation) {
                 $outHtml.append(

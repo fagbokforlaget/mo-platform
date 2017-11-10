@@ -17,16 +17,31 @@ export default class MultiDictClient {
     return new Promise(function(resolve, reject) {
         self.client.get('/phrases/search', {'params': params})
         .then(function(response) {
-            resolve( self._apply_dict_rules(response) );
+            resolve( self._apply_dict_rules(response, phrase) );
         }, function(error) {
             reject(error);
         });
     });
   }
 
-  _apply_dict_rules(response){
+  _apply_dict_rules(response, phrase){
     response.data = this._inflection_rule(response.data);
+    response.data = this._baseform(response.data, phrase);
     return response;
+  }
+
+  _baseform(data, lookup_word){
+    if (typeof(data) !== 'object' ){
+      return;
+    }
+    data.forEach(function(el){
+      let baseForm = el.phrase.props.idx;
+      if (baseForm && lookup_word != baseForm) {
+        el.phrase.base_form = baseForm;
+      }
+    });
+
+    return data;
   }
 
   _inflection_rule(data){
