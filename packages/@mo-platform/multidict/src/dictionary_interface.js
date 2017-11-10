@@ -78,227 +78,192 @@ dictionary_interface = (function (){
 
         this.presentPhrase = function (obj, selectedWord, form) {
             var self = this,
-                response_obj = obj,
-                source_code = self.sourceCode,
-                translatedWord,
-                $outHtml = $('<div/>', {'class': 'dictionary'});
+            response_obj = obj,
+            $outHtml = $('<div/>', {'class': 'dictionary'});
 
-                obj = obj.phrase;
+            obj = obj.phrase;
 
-                var wordClass,
-                    wordInflections = obj.inflections,
-                    baseForm = obj.props.idx,
-                    wordExplanation = obj.props.explanation,
-                    wordSynonyms = obj.synonyms,
-                    wordSpelling = obj.alternative_spellings,
-                    wordGender = obj.gender ? obj.gender.props.name : '',
-                    outGender,
-                    translatedWord = '',
-                    auto_inflection = '',
-                    inflections = [],
-                    conjugations = '',
-                    base_conjugations = '',
-                    base_inflection = false,
-                    translation_used,
-                    trans_c,
-                    $hiddenHtml;
+            var wordClass,
+                wordInflections = obj.inflections,
+                baseForm        = obj.props.idx,
+                wordExplanation = obj.props.explanation,
+                wordSynonyms    = obj.synonyms,
+                wordSpelling    = obj.alternative_spellings,
+                wordGender      = obj.gender ? obj.gender.props.name : '',
+                translatedWord  = '',
+                auto_inflection = '',
+                inflections     = [],
+                conjugations    = '',
+                base_conjugations = '',
+                $hiddenHtml;
 
-                wordClass = obj.wordclass.props.name || 'Frase';
-                wordClass = wordClass.replace(',', ', ');
-                translation = response_obj.translation || response_obj.fallback_translation;
+            wordClass   = obj.wordclass.props.name || 'Frase';
+            wordClass   = wordClass.replace(',', ', ');
+            translation = response_obj.translation || response_obj.fallback_translation;
 
-                if (translation) {
-                    translatedWord = translatedWord + translation.props.name + ', ';
+            if (translation) {
+                translatedWord = translatedWord + translation.props.name + ', ';
+            }
+
+            $.each(wordInflections, function (index, conj) {
+                var name = conj.props.name;
+                if ( conj.props.automatic ) {
+                    auto_inflection += name + ', ';
+                    base_conjugations  += conj.form.props.name + ' or '
                 }
+                else {
+                    inflections.push(name);
+                    conjugations  += conj.form.props.name + ' or '
+                }
+            });
 
-                $.each(wordInflections, function (index, conj) {
-                    var name = conj.props.name;
-                    if ( conj.props.automatic ) {
-                        auto_inflection += name + ', ';
-                        base_conjugations  += conj.form.props.name + ' or '
-                    }
-                    else {
-                        inflections.push(name);
-                        conjugations  += conj.form.props.name + ' or '
-                    }
+            if (selectedWord) {
+                $outHtml.append(
+                    $('<p/>', {
+                        'class': 'selected-word',
+                        'data-word': selectedWord
+                    })
+                    .html(selectedWord)
+                    //.prepend(self.embedAudio(selectedWord))
+                    //.prepend(self.soundIcon(selectedWord))
+                );
+            }
+
+            if (baseForm && (baseForm !== selectedWord)) {
+                $outHtml.append(
+                    $('<p/>', {
+                        'class': 'basic-form lang-info'
+                    })
+                    .html(baseForm)
+                    .prepend(
+                        $('<span/>').text('Base form:')
+                    )
+                );
+            }
+
+
+            if (!translation) {
+                $outHtml.append(
+                    $('<p/>', {
+                        'class': 'no-translation lang-info'
+                    })
+                    .html(
+                        'No translation found - use external resources.'
+                    )
+                );
+            }
+
+            if (translatedWord) {
+                $outHtml.append(
+                    $('<p/>', {
+                        'class': 'name'
+                    })
+                    .html(translatedWord + ' ')
+                );
+            }
+
+            if (wordExplanation) {
+                $outHtml.append(
+                    $('<p/>', {
+                        'class': 'explanation lang-info'
+                    })
+                    .html(wordExplanation)
+                );
+            }
+
+            if (wordClass) {
+
+                $hiddenHtml = $('<div/>', {
+                    'class': 'hidden-content'
                 });
 
-                if (selectedWord) {
-                    $outHtml.append(
-                        $('<p/>', {
-                            'class': 'selected-word',
-                            'data-word': selectedWord
-                        })
-                        .html(selectedWord)
-                        //.prepend(self.embedAudio(selectedWord))
-                        //.prepend(self.soundIcon(selectedWord))
-                    );
-                }
+                $hiddenHtml.append(
+                    $('<p/>', {
+                        'class': 'speech lang-info'
+                    })
+                    .html(wordClass)
+                    .prepend(
+                        $('<span/>').text('Word class:')
+                    )
+                );
 
-                if (baseForm && (baseForm !== selectedWord)) {
-                    $outHtml.append(
-                        $('<p/>', {
-                            'class': 'basic-form lang-info'
-                        })
-                        .html(baseForm)
-                        .prepend(
-                            $('<span/>').text('Base form:')
-                        )
-                    );
-                }
+                $outHtml.append($hiddenHtml);
+            }
 
+            if (wordInflections.length > 0) {
 
-                if (!translation) {
-                    $outHtml.append(
-                        $('<p/>', {
-                            'class': 'no-translation lang-info'
-                        })
-                        .html(
-                            'No translation found - use external resources.'
-                        )
-                    );
-                }
-
-                if (translatedWord) {
-                    $outHtml.append(
-                        $('<p/>', {
-                            'class': 'name'
-                        })
-                        .html(translatedWord + ' ')
-                    );
-                }
-
-                if (wordExplanation) {
-                    $outHtml.append(
-                        $('<p/>', {
-                            'class': 'explanation lang-info'
-                        })
-                        .html(wordExplanation)
-                    );
-                }
+                $hiddenHtml.append(
+                    $('<p/>', {
+                        'class': 'grammatical-form lang-info'
+                    })
+                    .html(obj.form.props.name)
+                    .prepend(
+                        $('<span/>').text('Form:')
+                    )
+                );
 
                 if (wordInflections.length > 0) {
-
-                    $hiddenHtml = $('<div/>', {
-                        'class': 'hidden-content'
-                    });
-
                     $hiddenHtml.append(
                         $('<p/>', {
-                            'class': 'speech lang-info'
+                            'class': 'inflection lang-info'
                         })
-                        .html(wordClass)
+                        .html(inflections.join(', '))
                         .prepend(
-                            $('<span/>').text('Word class:')
+                            $('<span/>').text('Inflection:')
                         )
                     );
-
-                    $hiddenHtml.append(
-                        $('<p/>', {
-                            'class': 'grammatical-form lang-info'
-                        })
-                        .html(obj.form.props.name)
-                        .prepend(
-                            $('<span/>').text('Form:')
-                        )
-                    );
-
-                    if (wordInflections.length > 0) {
-
-                       /* if (auto_inflection.length > 1) {
-                            $hiddenHtml.append(
-                                $('<p/>', {
-                                    'class': 'basic-inflection lang-info'
-                                })
-                                .html(base_conjugations)
-                                .prepend(
-                                    $('<span/>').text(self.ui.gettext('Ordinary inflection:'))
-                                )
-                            );
-                        } else {
-                        */
-                            $hiddenHtml.append(
-                                $('<p/>', {
-                                    'class': 'inflection lang-info'
-                                })
-                                .html(inflections.join(', '))
-                                .prepend(
-                                    $('<span/>').text('Inflection:')
-                                )
-                            );
-                        //}
-                    }
-
-                    if (wordSynonyms && wordSynonyms.length > 0) {
-                        var $synonyms = $('<span class="synonym-list"/>'),
-                            i;
-
-                        for (i = 0; i < wordSynonyms.length; i += 1) {
-                            var $item = $('<span/>'),
-                                $synonym = $('<i/>'),
-                                synonym_id = wordSynonyms[i].id,
-                                synonym_name = wordSynonyms[i].name;
-
-                            if (i !== 0) {
-                                $item.text(', ');
-                            }
-
-                            $synonym.attr('data-id', synonym_id).text(synonym_name).appendTo($item);
-                            $synonyms.append($item);
-                        }
-
-                        $hiddenHtml.append(
-                            $('<p/>', {
-                                'class': 'synonyms lang-info'
-                            })
-                            .html($synonyms)
-                            .prepend(
-                                $('<span/>').text('Synonyms:')
-                            )
-                        ).find('.synonym-list').on('click', 'i', function () {
-                            var $self = $(this),
-                                item_id = $self.attr('data-id'),
-                                item_name = $self.text();
-
-                            $self.closest('.define_').find('.buttonpane button').trigger('click');
-                            $('.sodefine a').trigger('click', [item_name])
-                        });
-                    }
-
-                    if (wordSpelling && wordSpelling.props) {
-                        $hiddenHtml.append(
-                            $('<p/>', {
-                                'class': 'spelling lang-info'
-                            })
-                            .html(wordSpelling.props.name)
-                            .prepend(
-                                $('<span/>').text('Alternative spelling:')
-                            )
-                        );
-                    }
-
-                    $outHtml.append($hiddenHtml);
-                } else {
-                    if (wordClass) {
-
-                        $hiddenHtml = $('<div/>', {
-                            'class': 'hidden-content'
-                        });
-
-                        $hiddenHtml.append(
-                            $('<p/>', {
-                                'class': 'speech lang-info'
-                            })
-                            .html(wordClass)
-                            .prepend(
-                                $('<span/>').text('Word class:')
-                            )
-                        );
-
-                        $outHtml.append($hiddenHtml);
-                    }
                 }
 
+                if (wordSynonyms && wordSynonyms.length > 0) {
+                    var $synonyms = $('<span class="synonym-list"/>'),
+                        i;
+
+                    for (i = 0; i < wordSynonyms.length; i += 1) {
+                        var $item = $('<span/>'),
+                            $synonym = $('<i/>'),
+                            synonym_id = wordSynonyms[i].id,
+                            synonym_name = wordSynonyms[i].name;
+
+                        if (i !== 0) {
+                            $item.text(', ');
+                        }
+
+                        $synonym.attr('data-id', synonym_id).text(synonym_name).appendTo($item);
+                        $synonyms.append($item);
+                    }
+
+                    $hiddenHtml.append(
+                        $('<p/>', {
+                            'class': 'synonyms lang-info'
+                        })
+                        .html($synonyms)
+                        .prepend(
+                            $('<span/>').text('Synonyms:')
+                        )
+                    ).find('.synonym-list').on('click', 'i', function () {
+                        var $self = $(this),
+                            item_id = $self.attr('data-id'),
+                            item_name = $self.text();
+
+                        $self.closest('.define_').find('.buttonpane button').trigger('click');
+                        $('.sodefine a').trigger('click', [item_name])
+                    });
+                }
+
+                if (wordSpelling && wordSpelling.props) {
+                    $hiddenHtml.append(
+                        $('<p/>', {
+                            'class': 'spelling lang-info'
+                        })
+                        .html(wordSpelling.props.name)
+                        .prepend(
+                            $('<span/>').text('Alternative spelling:')
+                        )
+                    );
+                }
+
+                $outHtml.append($hiddenHtml);
+            }
 
             return $outHtml;
         };
