@@ -5,26 +5,44 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>MultiDict Demo</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript" src="dist/multidict.js"></script>
+    <script type="text/javascript" src="src/dictionary_interface.js"></script>
+    <style>
+    .dictionary{
+        border: 1px solid;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    </style>
 </head>
 
 <body>
+    <h2> Lookup word : kart </h2>
 	<div id="welcome">
     Fetching data ...
 	</div>
 <script type="text/javascript">
+
+var dictionary = new dictionary_interface({
+    language: 'nb_NO',
+    trans_lang: 'nb_NO',
+    fallback_lang: 'en_GB'
+});
+dictionary.search('kart', function(contents){
+    $('#welcome').empty().html(contents);
+});
+
+</script>
+
+<pre>
 var dict = new MultiDictClient();
 dict
-.search('dyr', 'nb_NO', 'en_GB')
+.search('kart', 'nb_NO', 'en_GB')
 .then( function(data) {
-  var container = document.getElementById("welcome")
-  console.log(data.data);
-  data.data.forEach(function(row) {
-    console.log(row.phrase);
-	  container.innerHTML += row.phrase.props.name;
-  });
+    console.log(data);
 });
-</script>
+</pre>
 
 </body>
 
