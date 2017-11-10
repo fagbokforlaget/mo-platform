@@ -25,7 +25,7 @@ export default class MultiDictClient {
   }
 
   _apply_dict_rules(response, phrase){
-    response.data = this._inflection_rule(response.data);
+    response.data = this._inflection_rule(response.data, phrase);
     response.data = this._baseform(response.data, phrase);
     return response;
   }
@@ -44,12 +44,13 @@ export default class MultiDictClient {
     return data;
   }
 
-  _inflection_rule(data){
+  _inflection_rule(data, lookup_word){
     if (typeof(data) !== 'object' ){
       return;
     }
     data.forEach(function(el){
       let inflections = el.phrase.inflections;
+      el.phrase.lookup_word_form = {};
       // Seperate inflections and auto inflections
       if (typeof(inflections) === 'object' ){
 
@@ -57,10 +58,13 @@ export default class MultiDictClient {
         let inf_by_form = {};
 
         inflections.forEach(function(inf, i){
-          if (inf.props.automatic){
+          if ( inf.props.automatic || inf.props.type == 'extra'){
             auto_inflections.push(inf);
           }
           else {
+            if ( inf.props.name == lookup_word ) {
+              el.phrase.lookup_word_form = inf.form;
+            }
             /*
               We need to find all inflection of same form and we need to keep the order too
               Lets create a object example

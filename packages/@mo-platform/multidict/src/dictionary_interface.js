@@ -195,7 +195,7 @@ dictionary_interface = (function (){
                     $('<p/>', {
                         'class': 'grammatical-form lang-info'
                     })
-                    .html(obj.form.props.name)
+                    .html(obj.lookup_word_form.props.name || obj.form.props.name)
                     .prepend(
                         $('<span/>').text('Form:')
                     )
