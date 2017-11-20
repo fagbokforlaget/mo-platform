@@ -2,6 +2,12 @@
 
 Multidict js client provides dictionary service in various mo apps.
 
+npm run dev
+
+npm run build is to build
+
+you can also include dictionary from unpkg cdn
+
 ## Install
 ```
 <script

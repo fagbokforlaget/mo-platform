@@ -2,21 +2,26 @@ var request = require('superagent');
 
 export default class Authentication {
   constructor(opts = {}) {
-    let {authUrl, clientId, storage} = opts;
+    let {authUrl, clientId, storage, loginUrl, userFetchUrl} = opts;
 
     this.authUrl = authUrl || 'https://moauth.fagbokforlaget.no';
     this.currentUser = undefined;
     this.token = undefined;
     this.clientId = clientId;
     this.storage = storage || window.localStorage;
+    this.loginUrl = loginUrl || this.authUrl + '/_auth/login';
+    this.userFetchUrl = userFetchUrl || this.authURL + '/_auth/user?token=';
   }
 
-  loginUrl(redirectUrl, scope = undefined) {
-    return this.authUrl + '/_auth/login?client_id=' + (this.clientId || 'generic') + '&redirect_url=' + redirectUrl + '&scope=' + (scope || 'dbok');
+  _loginUrl(redirectUrl, scope = undefined) {
+    if (!this.loginUrl.includes('?')) {
+      this.loginUrl += '?';
+    }
+    return this.loginUrl + '&client_id=' + (this.clientId || 'generic') + '&redirect_url=' + redirectUrl + '&scope=' + (scope || 'dbok');
   }
 
   _parseQueryString(loc) {
-    var urlParams,
+    let urlParams,
       match,
       pl = /\+/g,
       search = /([^&=]+)=?([^&]*)/g,
@@ -38,7 +43,7 @@ export default class Authentication {
   authorize(obj = {}) {
     let {redirectUrl, scope} = obj;
 
-    window.location = this.loginUrl(redirectUrl || window.location, scope);
+    window.location = this._loginUrl(redirectUrl || window.location, scope);
   }
 
   getUser() {
@@ -48,22 +53,25 @@ export default class Authentication {
   checkToken(loc = window.location.search) {
     let params = this._parseQueryString(loc);
     let self = this;
+    let accessToken = params.token || this.storage.getItem('token');
 
     return new Promise((resolve, reject) => {
       if (self.isAuthenticated()) {
         resolve(self.getUser());
       }
 
-      if (params.token) {
-        self.token = params.token;
+      if (accessToken) {
+        self.token = accessToken;
         if (window) {
           window.history.replaceState({}, '', window.location.pathname + window.location.hash || '');
         }
-        self.fetchUser(this.authUrl + '/_auth/user?token=' + self.token)
+        self.storage.setItem('token', self.token);
+        self.fetchUser(this.userFetchUrl + encodeURIComponent(self.token))
         .then((user) => {
           resolve(user);
         })
         .catch((err) => {
+          self.storage.removeItem('token');
           reject(err);
         });
       } else {
@@ -92,6 +100,7 @@ export default class Authentication {
 
   logout(url) {
     this.storage.removeItem('user');
+    this.storage.removeItem('token');
     if (url) {
       window.location = url;
     }

@@ -13,10 +13,11 @@
     <a href="#" id="login" onclick="auth.authorize({'redirectUrl': window.location})">Sign In with e-portal</a>
 	</div>
 <script type="text/javascript">
-var auth = new moauth();
+var auth = new moauth({loginUrl: 'https://booksync.fagbokforlaget.no/auth/login?api_key=nYElPZXuEnfIZmNFuIRlNGVWWP1kTq0NowUzxQ2pEN8', userFetchUrl: 'https://booksync.fagbokforlaget.no/api/user?access_token='});
 auth
-.checkToken(window.location.search)
+.checkToken()
 .then( function(user) {
+  console.log(user);
   var container = document.getElementById("welcome")
 	container.innerHTML = "Welcome, " + user.displayName + " (" + user.eportal.Role +")";
 	container.innerHTML += " <a href='#' onclick='auth.logout()'>Logout</a>";
