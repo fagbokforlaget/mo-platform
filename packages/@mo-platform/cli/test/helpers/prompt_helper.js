@@ -29,7 +29,11 @@ module.exports = function(child_process, answers, last_answer) {
       })
 
       child_process.on('exit', function() {
-        return resolve(result, error)
+	if (error.length) {
+		return resolve(error)
+	} else {
+        	return resolve(result)
+	}
       })
 	})
 }

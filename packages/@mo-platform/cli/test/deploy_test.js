@@ -14,14 +14,14 @@ describe('MoApp', function() {
       before(function (done) {
         fs.copy('./test/fixtures/tmp_config_file.json', './tmp_config_file.json', (err) => {
           childProcess.exec('moapp deploy --configFile=tmp_config_file.json', function(error, stdout, stderr) {
-            result = stdout
+            result = stderr
             done()
           });
         })
       });
 
       it('should throw error when app.json is missing', function(done) {
-          expect(result).to.match(/Could not deploy/)
+          expect(result).to.match(/ENOENT/)
           done()
       })
     })

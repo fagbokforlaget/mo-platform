@@ -7,8 +7,10 @@ var PromZard = require('promzard').PromZard,
     fs = require('fs'),
     pkg;
 
-module.exports = function() {
-  fs.readFile(pckgPath, 'utf8', function (er, d) {
+module.exports = function(options) {
+  var packageFile = path.resolve(options.file || 'mo-app.json');
+
+  fs.readFile(packageFile, 'utf8', function (er, d) {
     var ctx = {};
 
     try {
@@ -38,7 +40,7 @@ module.exports = function() {
       })
 
 
-      fs.writeFile(pckgPath, JSON.stringify(pkg, null, 2), function (er) {
+      fs.writeFile(packageFile, JSON.stringify(pkg, null, 2), function (er) {
         if (er) {
           throw er
         }

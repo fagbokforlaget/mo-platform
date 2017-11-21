@@ -4,8 +4,6 @@ var path = require('path'),
     fs = require('fs-extra'),
     PromZard = require('promzard').PromZard,
     input = path.resolve(__dirname, '../helpers/undeploy_prompt.js'),
-    pckgPath = path.resolve('mo-app.json'),
-    pckgFallbackPath = path.resolve('app.json'),
     requests = require('../helpers/requests'),
     chalk = require('chalk'),
     error = chalk.bold.red,
@@ -13,38 +11,30 @@ var path = require('path'),
     prompta;
 
 module.exports = function(options) {
+  var packageFile = path.resolve(options.file || 'mo-app.json');
+
   try {
-        let fileExists = fs.statSync(pckgPath);
-    } catch (e) {
-        try {
-            let fallbackFileExists = fs.statSync(pckgFallbackPath);
-            fs.rename(pckgFallbackPath, pckgPath, function(renameErr) {
-                if ( renameErr ) console.log('ERROR: ' + renameErr);
-                console.log(info('fallback file , app.json found , renaming the file to mo-app.json'));
-            });
-        } catch (err) {
-            return console.log(error('Error in Reading File. ' + err));
-        }
+    let fileExists = fs.statSync(packageFile);
+  } catch (err) {
+    return console.error(error('Error in Reading File. ' + err));
+  }
+
+  fs.readJSON(packageFile, function(err, json) {
+    if(err) {
+      console.log(err.message)
+      return
     }
-
-  fs.readJSON(pckgPath, function(err, json) {
-  	if(err) {
-  		console.log(err.message)
-  		return
-  	}
-
-  	return prompta().then(function(data) {
-          return requests.deletePackage(json, options)
-        })
-  			.then(function(data) {
-  				console.log(data)
-          return
-  			})
-  			.catch(function(e) {
-  				console.log(e)
-  				return
-  			})
-
+    return prompta().then(function(data) {
+      return requests.deletePackage(json, options)
+    })
+    .then(function(data) {
+      console.log(data)
+      return
+    })
+    .catch(function(e) {
+      console.error(e)
+      return
+    })
   })
 }
 

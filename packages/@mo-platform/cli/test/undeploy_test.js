@@ -14,7 +14,7 @@ describe('MoApp', function() {
       before(function (done) {
         fs.copy('./test/fixtures/tmp_config_file.json', './', (err) => {
           childProcess.exec('moapp delete --configFile=tmp_config_file.json', function (error, stdout, stderr) {
-            result = stdout
+            result = stderr
             done()
           })
         })
@@ -65,10 +65,10 @@ describe('MoApp', function() {
             var cp = childProcess.spawn('moapp', ['delete', '--configFile=tmp_config_file.json'])
 
             promptHelper(cp, {"Are you sure? (y/n)": 'n'}, "Are you sure? (y/n)")
-              .then(function(data) {
-                result = data
-                done()
-              })
+	      .then(function(err) {
+		result = err
+		done()
+	      })
           })
         })
       });
