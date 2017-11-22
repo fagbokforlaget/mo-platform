@@ -34,11 +34,11 @@ exports.run =  function() {
   }
 
   if (options.argv.remain.length && options.argv.remain[0] === "info") {
-    return tasks.info();
+    return tasks.info(options);
   }
 
   if (options.argv.remain.length && options.argv.remain[0] === "init") {
-    return tasks.init();
+    return tasks.init(options);
   }
 
   if (options.argv.remain.length && options.argv.remain[0] === "deploy") {
