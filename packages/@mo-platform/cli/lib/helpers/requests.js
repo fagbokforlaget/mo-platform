@@ -98,3 +98,26 @@ exports.authenticate = function(json) {
       });
   })
 }
+
+exports.rollback = (json, version, options) => {
+  return moConfigFile.read(options).then((authData) => {
+    return new Promise((resolve, reject) => {
+      unirest.post(config.moServer + '/api/packages/' + json.name + '/rollback/' + version)
+            .header('Accept', 'application/json')
+            .type('json')
+            .send({'token': authData.token})
+            .end((response) => {
+              console.log(response.body)
+              if(response.body && response.body.error) {
+                return reject(response.body.error)
+              }
+
+              if(response.status !== 200) {
+                return reject(response.body)
+              }
+
+              return resolve(response.body)
+            });
+    })
+  })
+}

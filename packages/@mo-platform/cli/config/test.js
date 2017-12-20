@@ -1,5 +1,16 @@
 var nock = require('nock')
 
+var postRolback = nock('http://localhost:3000')
+                .post('/api/packages/test-app/rollback/0.0.1')
+                .reply(200, {
+                  name: "test-app",
+                  version: "0.0.1",
+                  data: {
+                    "name": "test-app",
+                    "version": "0.0.1"
+                  }
+            });
+
 var post = nock('http://localhost:3000')
                 .post('/api/packages')
                 .reply(200, {
