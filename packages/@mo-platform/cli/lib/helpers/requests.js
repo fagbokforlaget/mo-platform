@@ -19,7 +19,8 @@ exports.putPackageData = function(name, version, options) {
           }
 
           if(response.status !== 200) {
-            return reject(response.body)
+            let message = (response.body ? response.body : response.error)
+            return reject(message)
           }
 
           fs.remove('' + name + "-" + version + ".zip", function(err) {

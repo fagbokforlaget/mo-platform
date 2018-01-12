@@ -40,11 +40,10 @@ module.exports = function(options) {
         console.log(data)
         created = true
         return requests.putPackageData(json.name, json.version, options)
-
       })
       .then((data) => {
         console.log(success('All done'))
-        return
+        return true
       })
       .catch((err) => {
         if (created) {
@@ -52,7 +51,9 @@ module.exports = function(options) {
           requests.deletePackage(json, options)
         }
         console.info(info('Could not deploy:'))
-        console.error(error(err.message || err))
+
+        let message = (err ? (err.message || err) : "unknown error")
+        console.error(error(message))
       })
 
   })
