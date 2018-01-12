@@ -19,7 +19,11 @@ exports.putPackageData = function(name, version, options) {
           }
 
           if(response.status !== 200) {
-            let message = (response.body ? response.body : response.error)
+            let bodyMessage = response.body
+            let errorMessage = bodyMessage ? bodyMessage : response.error
+
+
+            let message = errorMessage ? errorMessage : ("undefined error, code status" + response.status)
             return reject(message)
           }
 
@@ -47,7 +51,12 @@ exports.postPackageData = function(json, options) {
           }
 
           if(response.status !== 200) {
-            return reject(response.body)
+            let bodyMessage = response.body
+            let errorMessage = bodyMessage ? bodyMessage : response.error
+
+
+            let message = errorMessage ? errorMessage : ("undefined error, code status" + response.status)
+            return reject(message)
           }
 
           return resolve(response.body)
