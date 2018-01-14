@@ -61,5 +61,9 @@ exports.run =  function() {
     return tasks.login(options);
   }
 
+  if (options.argv.remain.length && options.argv.remain[0] === "rollback") {
+    return tasks.rollback(options, options.argv.remain[1]);
+  }
+
   return;
 }
