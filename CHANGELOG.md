@@ -1,3 +1,8 @@
+<a name="0.1.0"></a>
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.0...v0.1.0) (2018-01-16)
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.3.4...v0.4.0) (2017-11-22)
 
@@ -25,13 +30,22 @@
 
 
 <a name="0.3.3"></a>
-## [0.3.3](https://bitbucket.org/forlagshuset/mo-client/compare/v0.3.1...v0.3.3) (2017-10-19)
+## [0.3.3](https://bitbucket.org/forlagshuset/mo-client/compare/v0.3.2...v0.3.3) (2017-10-19)
+
+
+### Bug Fixes
+
+* removes token form url ([c390802](https://bitbucket.org/forlagshuset/mo-client/commits/c390802))
+
+
+
+<a name="0.3.2"></a>
+## [0.3.2](https://bitbucket.org/forlagshuset/mo-client/compare/v0.3.1...v0.3.2) (2017-10-13)
 
 
 ### Bug Fixes
 
 * makes arguments default, better doc ([9ffb660](https://bitbucket.org/forlagshuset/mo-client/commits/9ffb660))
-* removes token form url ([c390802](https://bitbucket.org/forlagshuset/mo-client/commits/c390802))
 
 
 
