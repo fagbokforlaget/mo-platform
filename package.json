@@ -18,5 +18,8 @@
     "test": "cd packages/@mo-platform/cli && npm link && cd ../../../ && lerna run test --stream"
   },
   "author": "Deepak Thukral<iapain@iapa.in>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@mo-platform/cli": "^0.4.1"
+  }
 }
