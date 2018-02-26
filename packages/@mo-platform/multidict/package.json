@@ -37,7 +37,8 @@
   "author": "Deepak Thukral",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.16.2"
+    "axios": "^0.16.2",
+    "babel-polyfill": "^6.26.0"
   },
   "bugs": {
     "url": "https://github.com/fagbokforlaget/mo-platform/issues"
