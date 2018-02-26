@@ -1,5 +1,10 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.0...v0.1.0) (2018-01-16)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.1...v0.1.0) (2018-02-26)
+
+
+
+<a name="0.4.1"></a>
+## [0.4.1](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.0...v0.4.1) (2018-01-16)
 
 
 
