@@ -17,7 +17,7 @@ export default class Authentication {
     if (!this.loginUrl.includes('?')) {
       this.loginUrl += '?';
     }
-    return this.loginUrl + '&client_id=' + (this.clientId || 'generic') + '&redirect_url=' + redirectUrl + '&scope=' + (scope || 'dbok');
+    return this.loginUrl + '&client_id=' + (this.clientId || 'generic') + '&redirect_url=' + encodeURIComponent(redirectUrl) + '&scope=' + (scope || 'dbok');
   }
 
   _parseQueryString(loc) {

@@ -13,7 +13,7 @@
     <a href="#" id="login" onclick="auth.authorize({'redirectUrl': window.location})">Sign In with e-portal</a>
 	</div>
 <script type="text/javascript">
-var auth = new moauth({loginUrl: 'https://booksync.fagbokforlaget.no/auth/login?api_key=nYElPZXuEnfIZmNFuIRlNGVWWP1kTq0NowUzxQ2pEN8', userFetchUrl: 'https://booksync.fagbokforlaget.no/api/user?access_token='});
+var auth = new moauth();
 auth
 .checkToken()
 .then( function(user) {
