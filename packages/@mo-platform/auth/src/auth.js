@@ -10,7 +10,7 @@ export default class Authentication {
     this.clientId = clientId;
     this.storage = storage || window.localStorage;
     this.loginUrl = loginUrl || this.authUrl + '/_auth/login';
-    this.userFetchUrl = userFetchUrl || this.authURL + '/_auth/user?token=';
+    this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user?token=';
   }
 
   _loginUrl(redirectUrl, scope = undefined) {
@@ -53,15 +53,14 @@ export default class Authentication {
   checkToken(loc = window.location.search) {
     let params = this._parseQueryString(loc);
     let self = this;
-    let accessToken = params.token || this.storage.getItem('token');
+    self.token = params.token || this.storage.getItem('token') || undefined;
 
     return new Promise((resolve, reject) => {
       if (self.isAuthenticated()) {
         resolve(self.getUser());
       }
 
-      if (accessToken) {
-        self.token = accessToken;
+      if (self.token) {
         if (window) {
           window.history.replaceState({}, '', window.location.pathname + window.location.hash || '');
         }
