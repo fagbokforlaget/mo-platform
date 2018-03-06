@@ -53,6 +53,7 @@ export default class Authentication {
   checkToken(loc = window.location.search) {
     let params = this._parseQueryString(loc);
     let self = this;
+
     self.token = params.token || this.storage.getItem('token') || undefined;
 
     return new Promise((resolve, reject) => {
