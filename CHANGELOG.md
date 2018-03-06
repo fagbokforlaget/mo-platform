@@ -1,5 +1,16 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.3...v0.1.0) (2018-03-06)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.4...v0.1.0) (2018-03-06)
+
+
+### Bug Fixes
+
+* minor linting ([639472f](https://bitbucket.org/forlagshuset/mo-client/commits/639472f))
+* upgraded packages to avoid security issues ([3cdf750](https://bitbucket.org/forlagshuset/mo-client/commits/3cdf750))
+
+
+
+<a name="0.4.4"></a>
+## [0.4.4](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.3...v0.4.4) (2018-03-06)
 
 
 ### Bug Fixes
