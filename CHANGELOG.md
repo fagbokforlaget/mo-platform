@@ -1,5 +1,15 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.2...v0.1.0) (2018-03-02)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.3...v0.1.0) (2018-03-06)
+
+
+### Bug Fixes
+
+* bug that caused redirection loop and adds tests ([5b086b8](https://bitbucket.org/forlagshuset/mo-client/commits/5b086b8))
+
+
+
+<a name="0.4.3"></a>
+## [0.4.3](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.2...v0.4.3) (2018-03-02)
 
 
 ### Bug Fixes
