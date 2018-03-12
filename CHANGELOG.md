@@ -1,5 +1,10 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.4...v0.1.0) (2018-03-06)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.5...v0.1.0) (2018-03-12)
+
+
+
+<a name="0.4.5"></a>
+## [0.4.5](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.4...v0.4.5) (2018-03-06)
 
 
 ### Bug Fixes
