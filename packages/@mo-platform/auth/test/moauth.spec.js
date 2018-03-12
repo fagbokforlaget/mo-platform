@@ -31,23 +31,6 @@ describe('Given an instance of MoAuth', function () {
     });
   });
 
-  describe('overriding default values', function () {
-    it('should override authUrl', () => {
-      auth.authUrl = 'https://dev.booksync.fagbokforlaget.no';
-      expect(auth.authUrl).to.be.equal('https://dev.booksync.fagbokforlaget.no');
-    });
-
-    it('should override userFetchUrl', () => {
-      auth.userFetchUrl = 'https://dev.booksync.fagbokforlaget.no/api/user?access_token=';
-      expect(auth.userFetchUrl).to.be.equal('https://dev.booksync.fagbokforlaget.no/api/user?access_token=');
-    });
-
-    it('should override loginUrl', () => {
-      auth.loginUrl = 'https://dev.booksync.fagbokforlaget.no/auth/login?api_key=LSKsoWO1tjjl6pfjnnP8MY14h2STkW2rLUqJAfE0MD4';
-      expect(auth.loginUrl).to.be.equal('https://dev.booksync.fagbokforlaget.no/auth/login?api_key=LSKsoWO1tjjl6pfjnnP8MY14h2STkW2rLUqJAfE0MD4');
-    });
-  });
-
   describe('booksyncUser', function () {
     it('should fetchUser from booksync', () => {
       const fakeResponse = {
@@ -95,5 +78,14 @@ describe('Given an instance of MoAuth', function () {
         expect(err.message).to.be.equal('access token not found');
       });
     });
+  });
+});
+
+describe('passing values through constructor', function () {
+  it('should use passed values', () => {
+    const auth2 = new MoAuth({'authUrl': 'https://someurl.com', 'userFetchUrl': 'https://someurl.com/page?=param', 'storage': fakeStorage});
+
+    expect(auth2.authUrl).to.be.equal('https://someurl.com');
+    expect(auth2.userFetchUrl).to.be.equal('https://someurl.com/page?=param');
   });
 });
