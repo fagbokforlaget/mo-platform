@@ -54,7 +54,7 @@ export default class Authentication {
     let params = this._parseQueryString(loc);
     let self = this;
 
-    self.token = params.token || this.storage.getItem('token') || undefined;
+    self.token = params.token || params.access_token || this.storage.getItem('token') || undefined;
 
     return new Promise((resolve, reject) => {
       if (self.isAuthenticated()) {
@@ -89,8 +89,8 @@ export default class Authentication {
       .end(function (error, response) {
         if (!error && response.statusCode === 200 && response.body) {
           resp = response.body;
-          self.storage.setItem('user', JSON.stringify(resp.user));
-          resolve(resp.user);
+          self.storage.setItem('user', JSON.stringify(resp.user || resp.objects[0]));
+          resolve(resp.user || resp.objects[0]);
         } else {
           reject(new Error('authentication failed:' + error));
         }

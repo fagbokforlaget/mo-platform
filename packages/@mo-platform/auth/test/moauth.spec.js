@@ -31,6 +31,26 @@ describe('Given an instance of MoAuth', function () {
     });
   });
 
+  describe('booksyncUser', function () {
+    it('should fetchUser from booksync', () => {
+      const fakeResponse = {
+        objects: [{
+          books: ["5782", "4929194219"],
+          username: 'someone@ourcompany.com'
+        }]
+      }
+
+      auth.currentUser = fakeResponse.objects[0];
+
+      return auth.checkToken('?token=token&time=something&tag=1').then( (user) => {
+        expect(user.username).to.be.equal('someone@ourcompany.com');
+        expect(user.books).to.deep.equal(['5782', '4929194219']);
+        auth.currentUser = undefined;
+        auth.token = undefined;
+      });
+    });
+  });
+
   describe('should checkToken', function () {
     it('should find token in query string', () => {
       auth.currentUser = {username: 'abc'}
@@ -42,11 +62,30 @@ describe('Given an instance of MoAuth', function () {
       });
     });
 
+    it('should find access_token in query string', () => {
+      auth.currentUser = {username: 'abc'}
+      return auth.checkToken('?access_token=accessToken&time=something&tag=1').then( (user) => {
+        expect(user.username).to.be.equal('abc');
+        expect(auth.token).to.be.equal('accessToken');
+        auth.currentUser = undefined;
+        auth.token = undefined;
+      });
+    });
+
     it('should NOT find token in query string', () => {
       return auth.checkToken('#open?time=something&tag=1').then( (user) => {
       }).catch( (err) => {
         expect(err.message).to.be.equal('access token not found');
       });
     });
+  });
+});
+
+describe('passing values through constructor', function () {
+  it('should use passed values', () => {
+    const auth2 = new MoAuth({'authUrl': 'https://someurl.com', 'userFetchUrl': 'https://someurl.com/page?=param', 'storage': fakeStorage});
+
+    expect(auth2.authUrl).to.be.equal('https://someurl.com');
+    expect(auth2.userFetchUrl).to.be.equal('https://someurl.com/page?=param');
   });
 });
