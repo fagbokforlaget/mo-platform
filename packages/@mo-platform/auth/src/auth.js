@@ -65,7 +65,7 @@ export default class Authentication {
     self.token = params.token || params.access_token || this.storage.getItem('token') || undefined;
 
     return new Promise((resolve, reject) => {
-      if (self.isAuthenticated()) {
+      if (self.isAuthenticated() && self.token) {
         resolve(self.getUser());
       }
 
@@ -98,7 +98,7 @@ export default class Authentication {
           let resp = response.body;
           let user = resp.user || resp.objects[0];
 
-          self.storage.setItem('user', user);
+          self.storage.setItem('user', JSON.stringify(user));
           resolve(user);
         } else {
           reject(new Error('authentication failed:' + error));

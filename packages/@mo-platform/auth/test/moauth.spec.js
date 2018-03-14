@@ -78,6 +78,17 @@ describe('Given an instance of MoAuth', function () {
         expect(err.message).to.be.equal('access token not found');
       });
     });
+
+    it('should NOT resolve promize if token is missing', async () => {
+      auth.currentUser = {username: 'abc'}
+      try {
+        const user = await auth.checkToken('?');
+        expect(user).to.be.equal(undefined);
+      }
+      catch (err) {
+        expect(err.message).to.be.equal('access token not found');
+      }
+    });
   });
 });
 
