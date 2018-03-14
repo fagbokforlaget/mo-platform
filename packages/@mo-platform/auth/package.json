@@ -1,6 +1,6 @@
 {
   "name": "@mo-platform/auth",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Mo authentication library",
   "main": "dist/moauth.umd.js",
   "scripts": {
