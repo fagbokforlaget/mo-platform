@@ -47,7 +47,15 @@ export default class Authentication {
   }
 
   getUser() {
-    return this.currentUser || JSON.parse(this.storage.getItem('user')) || undefined;
+    let storeUser = this.storage.getItem('user');
+
+    if (this.currentUser) {
+      return this.currentUser;
+    }
+    if (storeUser) {
+      return JSON.parse(storeUser);
+    }
+    return undefined;
   }
 
   checkToken(loc = window.location.search) {
@@ -81,16 +89,17 @@ export default class Authentication {
   }
 
   fetchUser(url) {
-    let resp;
     let self = this;
 
     return new Promise((resolve, reject) => {
       request('GET', url)
       .end(function (error, response) {
         if (!error && response.statusCode === 200 && response.body) {
-          resp = response.body;
-          self.storage.setItem('user', JSON.stringify(resp.user || resp.objects[0]));
-          resolve(resp.user || resp.objects[0]);
+          let resp = response.body;
+          let user = resp.user || resp.objects[0];
+
+          self.storage.setItem('user', user);
+          resolve(user);
         } else {
           reject(new Error('authentication failed:' + error));
         }

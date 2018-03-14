@@ -4,7 +4,7 @@ import MoAuth from '../src/index.js';
 chai.expect();
 
 const expect = chai.expect;
-const fakeStorage = {'getItem': function(key) { return false; }};
+const fakeStorage = {'getItem': function(key) { return false; }, 'setItem': function(key) { return key; }};
 let auth;
 
 describe('Given an instance of MoAuth', function () {
