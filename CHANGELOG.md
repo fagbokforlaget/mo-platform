@@ -1,5 +1,15 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.5...v0.1.0) (2018-03-12)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.6...v0.1.0) (2018-03-14)
+
+
+### Bug Fixes
+
+* improves undefined user handling ([8e80ce2](https://bitbucket.org/forlagshuset/mo-client/commits/8e80ce2))
+
+
+
+<a name="0.4.6"></a>
+## [0.4.6](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.5...v0.4.6) (2018-03-12)
 
 
 
