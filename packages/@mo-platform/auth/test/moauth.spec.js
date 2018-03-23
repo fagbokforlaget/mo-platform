@@ -51,7 +51,7 @@ describe('Given an instance of MoAuth', function () {
     });
   });
 
-  describe('should checkToken', function () {
+  describe('should checkToken and checkAccess', function () {
     it('should find token in query string', () => {
       auth.currentUser = {username: 'abc'}
       return auth.checkToken('?token=token&time=something&tag=1').then( (user) => {
@@ -87,6 +87,18 @@ describe('Given an instance of MoAuth', function () {
       }
       catch (err) {
         expect(err.message).to.be.equal('access token not found');
+      }
+    });
+    // TODO fake it in future using sinon
+    it('should check access', async () => {
+      auth.currentUser = {username: 'bac'};
+      try {
+        const user = await auth.checkToken('?token=something');
+	const product = await auth.checkAccess('myproduct');
+	expect(auth.token).to.be.equal('something');
+      }
+      catch (err) {
+        expect(err.message).to.be.equal('This user does not have access to this product');
       }
     });
   });

@@ -17,7 +17,7 @@ let auth = new MoAuth()
 ### Install browser method
 ```
 <script
-src="https://unpkg.com/@mo-platform/auth@0.3.4/dist/moauth.umd.js"></script>
+src="https://unpkg.com/@mo-platform/auth@0.5.0/dist/moauth.umd.js"></script>
 
 <script>
 let auth = new moauth()
@@ -34,6 +34,17 @@ auth
 }
 .catch(err) {
   console.error(err);
+}
+
+// To check product access
+auth
+.checkAccess('productId')
+.then(product) {
+  console.log(product)
+}
+.catch(err) {
+  console.log(err);
+  // No access
 }
 
 // clears localstorage for access token
