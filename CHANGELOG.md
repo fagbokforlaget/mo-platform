@@ -1,5 +1,20 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.7...v0.1.0) (2018-03-14)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.8...v0.1.0) (2018-03-23)
+
+
+### Bug Fixes
+
+* strict about missing access token ([f6c515e](https://bitbucket.org/forlagshuset/mo-client/commits/f6c515e))
+
+
+### Features
+
+* adds authorization check api ([c4f9055](https://bitbucket.org/forlagshuset/mo-client/commits/c4f9055))
+
+
+
+<a name="0.4.8"></a>
+## [0.4.8](https://bitbucket.org/forlagshuset/mo-client/compare/v0.4.7...v0.4.8) (2018-03-14)
 
 
 
