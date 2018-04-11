@@ -7,12 +7,14 @@ export default class MultiDictClient {
       'headers': {'X-Custom-Header': 'dict-client'},
       'timeout': 2000
     });
+    this.bookTitle = undefined;
   }
 
   search(phrase, language, trans_lang, fallback_lang) {
     let params = {'phrase': phrase, 'language': language};
     if ( trans_lang ) { params['trans_lang'] = trans_lang; }
     if ( fallback_lang ) { params['fallback_lang'] = fallback_lang; }
+    if ( this.bookTitle ) { params['source'] = this.bookTitle; }
     let self = this;
     return new Promise(function(resolve, reject) {
         self.client.get('/phrases/search', {'params': params})
