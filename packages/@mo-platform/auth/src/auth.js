@@ -2,7 +2,7 @@ var request = require('superagent');
 
 export default class Authentication {
   constructor(opts = {}) {
-    let {authUrl, clientId, storage, loginUrl, userFetchUrl} = opts;
+    let {authUrl, clientId, storage, loginUrl, userFetchUrl, accessCheckUrl} = opts;
 
     this.authUrl = authUrl || 'https://moauth.fagbokforlaget.no';
     this.currentUser = undefined;
@@ -11,6 +11,7 @@ export default class Authentication {
     this.storage = storage || window.localStorage;
     this.loginUrl = loginUrl || this.authUrl + '/_auth/login';
     this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user?token=';
+    this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access/{{productId}}?token={{token}}';
   }
 
   _loginUrl(redirectUrl, scope = undefined) {
@@ -65,11 +66,11 @@ export default class Authentication {
     self.token = params.token || params.access_token || this.storage.getItem('token') || undefined;
 
     return new Promise((resolve, reject) => {
-      if (self.isAuthenticated() && self.token) {
+      if (self.isAuthenticated() && self.token && typeof self.token !== 'undefined') {
         resolve(self.getUser());
       }
 
-      if (self.token) {
+      if (self.token && typeof self.token !== 'undefined') {
         if (window) {
           window.history.replaceState({}, '', window.location.pathname + window.location.hash || '');
         }
@@ -80,6 +81,26 @@ export default class Authentication {
         })
         .catch((err) => {
           self.storage.removeItem('token');
+          reject(err);
+        });
+      } else {
+        reject(new Error('access token not found'));
+      }
+    });
+  }
+
+  checkAccess(productId) {
+    const token = this.token || this.storage.getItem('token') || undefined;
+
+    return new Promise((resolve, reject) => {
+      if (token && typeof token !== 'undefined') {
+        const url = this.accessCheckUrl.replace(/{{productId}}/g, productId).replace(/{{token}}/g, token);
+
+        this.fetchAccess(url)
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
           reject(err);
         });
       } else {
@@ -102,6 +123,23 @@ export default class Authentication {
           resolve(user);
         } else {
           reject(new Error('authentication failed:' + error));
+        }
+      });
+    });
+  }
+
+  fetchAccess(url) {
+    return new Promise((resolve, reject) => {
+      request('GET', url)
+      .end(function (error, response) {
+        if (!error && response.statusCode === 200 && response.body) {
+          if (response.body.success) {
+            resolve(response.body.product);
+          } else {
+            reject(new Error('This user does not have access to this product'));
+          }
+        } else {
+          reject(error);
         }
       });
     });
