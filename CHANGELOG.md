@@ -1,5 +1,16 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.0...v0.1.0) (2018-04-11)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.1...v0.1.0) (2018-04-13)
+
+
+### Bug Fixes
+
+* removes polyfills ([c3b2ffe](https://bitbucket.org/forlagshuset/mo-client/commits/c3b2ffe))
+* removes polyfills ([c312046](https://bitbucket.org/forlagshuset/mo-client/commits/c312046))
+
+
+
+<a name="0.5.1"></a>
+## [0.5.1](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.0...v0.5.1) (2018-04-11)
 
 
 
