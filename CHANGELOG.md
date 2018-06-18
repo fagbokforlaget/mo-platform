@@ -1,5 +1,15 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.1...v0.1.0) (2018-04-13)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.2...v0.1.0) (2018-06-18)
+
+
+### Bug Fixes
+
+* do not remove accessToken if request fails ([1fd3362](https://bitbucket.org/forlagshuset/mo-client/commits/1fd3362))
+
+
+
+<a name="0.5.2"></a>
+## [0.5.2](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.1...v0.5.2) (2018-04-13)
 
 
 ### Bug Fixes
