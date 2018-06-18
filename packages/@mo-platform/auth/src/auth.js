@@ -80,7 +80,6 @@ export default class Authentication {
           resolve(user);
         })
         .catch((err) => {
-          self.storage.removeItem('token');
           reject(err);
         });
       } else {
