@@ -1,5 +1,15 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.2...v0.1.0) (2018-06-18)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.3...v0.1.0) (2018-06-19)
+
+
+### Features
+
+* upgrades to webpack4 ([f4ec226](https://bitbucket.org/forlagshuset/mo-client/commits/f4ec226))
+
+
+
+<a name="0.5.3"></a>
+## [0.5.3](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.2...v0.5.3) (2018-06-18)
 
 
 ### Bug Fixes
