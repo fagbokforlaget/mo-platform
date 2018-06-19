@@ -1,43 +1,29 @@
-var webpack = require('webpack');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var path = require('path');
-var env = require('yargs').argv.mode;
+const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const path = require('path');
 
-var libraryName = 'moauth';
+const libraryName = 'moauth';
 
-var plugins = [], outputFile;
-
-if (env === 'build') {
-  plugins.push(new UglifyJsPlugin({ minimize: true, sourceMap: true }));
-  outputFile = libraryName + '.umd.min.js';
-} else {
-  outputFile = libraryName + '.umd.js';
-}
-
-var config = {
+let config = {
   entry: [__dirname + '/src/index.js'],
-  devtool: 'source-map',
   output: {
     path: __dirname + '/dist',
-    filename: outputFile,
+    filename: libraryName + '.bundle.js',
     library: libraryName,
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
   module: {
     rules: [
-			{
+      {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            [ 'es2015', { modules: false } ]
-          ]
-        }
+        loader: 'babel-loader'
       },
       {
-        test: /(\.jsx|\.js)$/,
+        enforce: 'pre',
+        test: /\.js$/,
         loader: "eslint-loader",
         exclude: /node_modules/
       }
@@ -49,16 +35,34 @@ var config = {
       "node_modules"
     ]
   },
-  plugins: plugins
+  plugins: [
+    new webpack.LoaderOptionsPlugin({ options: {} }),
+  ]
 };
 
-module.exports = function(env) {
-  if (env === 'production') {
-    plugins.push(new UglifyJsPlugin({ minimize: true, sourceMap: true }));
-    outputFile = libraryName + '.min.js';
-  } else {
-    outputFile = libraryName + '.js';
+module.exports = (env) => {
+  if (env.mode === 'development') {
+    config.devtool = 'eval-sourcemap';
   }
-
+  else {
+    config.devtool = 'source-map';
+    config.optimization = {
+      minimizer: [
+        new UglifyJsPlugin({
+          sourceMap: true,
+          uglifyOptions: {
+            compress: {
+              inline: false
+	    },
+          },
+	}),
+      ],
+    };
+    config.plugins = [
+      ...config.plugins,
+      new CompressionPlugin(),
+    ];
+  }
   return config;
+
 };
