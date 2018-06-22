@@ -1,5 +1,15 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.6.0...v0.1.0) (2018-06-22)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.6.1...v0.1.0) (2018-06-22)
+
+
+### Bug Fixes
+
+* security audits ([2a07b33](https://bitbucket.org/forlagshuset/mo-client/commits/2a07b33))
+
+
+
+<a name="0.6.1"></a>
+## [0.6.1](https://bitbucket.org/forlagshuset/mo-client/compare/v0.6.0...v0.6.1) (2018-06-22)
 
 
 ### Bug Fixes
