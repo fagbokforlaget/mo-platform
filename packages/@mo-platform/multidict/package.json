@@ -6,8 +6,8 @@
   "scripts": {
     "build": "webpack --env=production",
     "dev": "webpack --progress --colors --watch --env=devlopment",
-    "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
-    "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
+    "test": "mocha --require babel-core/register --colors ./test/*.spec.js",
+    "test:watch": "mocha --require babel-core/register --colors -w ./test/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "chai": "^4.0.2",
     "eslint": "4.1.1",
     "eslint-loader": "1.8.0",
-    "mocha": "3.4.2",
+    "mocha": "^5.2.0",
     "webpack": "3.0.0",
     "yargs": "8.0.2"
   },
