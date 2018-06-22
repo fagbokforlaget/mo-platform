@@ -1,5 +1,15 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.3...v0.1.0) (2018-06-19)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.6.0...v0.1.0) (2018-06-22)
+
+
+### Bug Fixes
+
+* properly parse hash parameters ([74e6216](https://bitbucket.org/forlagshuset/mo-client/commits/74e6216))
+
+
+
+<a name="0.6.0"></a>
+# [0.6.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.3...v0.6.0) (2018-06-19)
 
 
 ### Features
