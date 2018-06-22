@@ -25,17 +25,22 @@ export default class Authentication {
     const pl = /\+/g
     const search = /([^&=]+)=?([^&]*)/g
     const decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')) }
-    const query = loc.substring(1)
     let urlParams = {}
-    let match
+    let query = loc.substring(1)
+
+    if (/\?/.test(query)) {
+      query = query.split('?')[1]
+    }
 
     while (1) {
-      match = search.exec(query)
+      const match = search.exec(query)
+
       if (!match) {
         break
       }
       urlParams[decode(match[1])] = decode(match[2])
     }
+
     return urlParams
   }
 

@@ -6,8 +6,8 @@
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "webpack --progress --colors --watch --mode=devlopment",
-    "test": "mocha --compilers js:@babel/register --require @babel/polyfill --colors ./test/*.spec.js",
-    "test:watch": "mocha --compilers js:@babel/register --require @babel/polyfill --colors -w ./test/*.spec.js"
+    "test": "mocha --require @babel/register --require @babel/polyfill --colors ./test/*.spec.js",
+    "test:watch": "mocha --require @babel/register --require @babel/polyfill --colors -w ./test/*.spec.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.51",
