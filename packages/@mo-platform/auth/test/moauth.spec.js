@@ -101,6 +101,12 @@ describe('Given an instance of MoAuth', function () {
         expect(err.message).to.be.equal('This user does not have access to this product');
       }
     });
+
+    it('should check access with hash', async () => {
+      const user = await auth.checkToken('#/path?something=value&token=hash');
+      expect(auth.token).to.be.equal('hash');
+    });
+
   });
 });
 
