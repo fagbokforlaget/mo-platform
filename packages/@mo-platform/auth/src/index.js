@@ -1,3 +1,2 @@
-import Authentication from './auth';
-export default Authentication;
-
+import Authentication from './auth'
+export default Authentication

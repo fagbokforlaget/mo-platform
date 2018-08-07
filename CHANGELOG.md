@@ -1,5 +1,56 @@
 <a name="0.1.0"></a>
-# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.0...v0.1.0) (2018-04-11)
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.6.1...v0.1.0) (2018-06-22)
+
+
+### Bug Fixes
+
+* security audits ([2a07b33](https://bitbucket.org/forlagshuset/mo-client/commits/2a07b33))
+
+
+
+<a name="0.6.1"></a>
+## [0.6.1](https://bitbucket.org/forlagshuset/mo-client/compare/v0.6.0...v0.6.1) (2018-06-22)
+
+
+### Bug Fixes
+
+* properly parse hash parameters ([74e6216](https://bitbucket.org/forlagshuset/mo-client/commits/74e6216))
+
+
+
+<a name="0.6.0"></a>
+# [0.6.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.3...v0.6.0) (2018-06-19)
+
+
+### Features
+
+* upgrades to webpack4 ([f4ec226](https://bitbucket.org/forlagshuset/mo-client/commits/f4ec226))
+
+
+
+<a name="0.5.3"></a>
+## [0.5.3](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.2...v0.5.3) (2018-06-18)
+
+
+### Bug Fixes
+
+* do not remove accessToken if request fails ([1fd3362](https://bitbucket.org/forlagshuset/mo-client/commits/1fd3362))
+
+
+
+<a name="0.5.2"></a>
+## [0.5.2](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.1...v0.5.2) (2018-04-13)
+
+
+### Bug Fixes
+
+* removes polyfills ([c3b2ffe](https://bitbucket.org/forlagshuset/mo-client/commits/c3b2ffe))
+* removes polyfills ([c312046](https://bitbucket.org/forlagshuset/mo-client/commits/c312046))
+
+
+
+<a name="0.5.1"></a>
+## [0.5.1](https://bitbucket.org/forlagshuset/mo-client/compare/v0.5.0...v0.5.1) (2018-04-11)
 
 
 
