@@ -27,6 +27,7 @@ export default class MultiDictClient {
   }
 
   _apply_dict_rules(response, phrase){
+    phrase = phrase.toLowerCase();
     response.data = this._inflection_rule(response.data, phrase);
     response.data = this._baseform(response.data, phrase);
     return response;
