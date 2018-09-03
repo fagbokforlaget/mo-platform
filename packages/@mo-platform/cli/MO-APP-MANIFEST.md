@@ -3,15 +3,8 @@ mo-app manifest
 
 ## Introduction
 
-We use `app.json` file in project root to detect if it's a mo-app or
-not. `app.json` contain various properties:
+Uses package json file to deploy app. Create `moapp` section inside package.json file to add moapp specific data.
 
-* name: "string" application name
-* version: "string" application version
-* main: "string" main entry file [not implemented yet]
-* module: "amd" | "umd" [depreceated]
-* license: "string" [depreceated] define it in package.json
-* ignore: Array of ["strings"] ignore file
 * configurable: true | false [default: false]
 * config: object [optional]
     * inputData: object
@@ -51,23 +44,25 @@ Configurable apps should set few options inside `app.json` or
 ```
 {
   ...
-  "configurable": true,
-  "config": {
-    "inputData": {
-      "example": "data.json", // example data file or default data file
-      "parameter: "data" // URI get parameter name for input data
-    },
-    "locale": {
-      "available": ["en_US", "nb_NO"],
-      "parameter: "lang" // URI get paramenter name for locale
-    },
-    "options": [
-      {
-        "name": "theme",
-        "description":"sets theme for this app",
-        "parameter": "theme"
-      }
-     ]
+  "moapp": {
+    "configurable": true,
+    "config": {
+      "inputData": {
+        "example": "data.json", // example data file or default data file
+        "parameter: "data" // URI get parameter name for input data
+      },
+      "locale": {
+        "available": ["en_US", "nb_NO"],
+        "parameter: "lang" // URI get paramenter name for locale
+      },
+      "options": [
+        {
+          "name": "theme",
+          "description":"sets theme for this app",
+          "parameter": "theme"
+        }
+       ]
+    }
   }
   ...
 }
