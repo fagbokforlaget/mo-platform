@@ -1,6 +1,6 @@
 'use strict';
 
-var unirest = require('unirest'),
+var request = require('superagent'),
 	config = require('../../config/'),
 	chalk = require('chalk'),
 	boldInfo = chalk.bold.yellow,
@@ -24,7 +24,7 @@ module.exports = function(options) {
 	searchExpressions = options.argv.remain.slice(1);
 	/* server supports search for more than one expression now , which can be a regex as well*/
 	var params = searchExpressions && searchExpressions.length > 0 ? '?name=' + searchExpressions.join(',') : '';
-	unirest.get(config.moServer + '/api/packages' + params, function(res){
+	request.get(config.moServer + '/api/packages' + params, function(res){
 		var packages = res.body;
 
 		if (!packages || packages.length === 0) {
@@ -41,5 +41,3 @@ module.exports = function(options) {
 		console.log(searchResults.toString());
 	});
 } ;
-
-
