@@ -2,8 +2,7 @@
 
 var expect = require('chai').expect,
     childProcess = require('child_process'),
-    fs = require('fs-extra'),
-    promptHelper = require('./helpers/prompt_helper');
+    fs = require('fs-extra');
 
 describe('MoApp', function() {
 
@@ -26,13 +25,13 @@ describe('MoApp', function() {
 
       after(function(done) {
         fs.remove('./dist', function(err) {
-          fs.remove('mo-app.json', function(err) {
+          fs.remove('package.json', function(err) {
             done()
           })
         })
       })
 
-      it('should throw error when app.json is missing', function(done) {
+      it('should throw error when package.json is missing', function(done) {
           expect(result).to.match(/name: \'test-app\'/)
           done()
       })

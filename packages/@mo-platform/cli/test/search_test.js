@@ -5,10 +5,10 @@ var expect = require('chai').expect,
     fs = require('fs-extra'),
     chalk = require('chalk'),
     error = chalk.red,
-    app = require('unirest'),
+    request = require('superagent'),
     config =  require('../config'),
     /* a 5 letter dummy string to make sure the package is random and not registered */
-    randomString = (Math.random().toString(36)+'00000000000000000').slice(2, 7);
+    randomString = 'abcdefghijkl';
 
 describe('MoApp', function() {
 
@@ -26,16 +26,12 @@ describe('MoApp', function() {
 
   describe('with one search param having registered packages', function () {
      it('should search package with name matt', function () {
-        var result = childProcess.execSync('moapp search matt');
-        if (result.stderr) { console.log(error(result.stderr)); }
-        var output = result.toString('utf-8');
-        app.get(config.moServer + 'api/packages?name=matt', function (req, res) {
-          var packages = req.toJSON().body;
-          if (packages.length === 0) {
-            expect(output).to.contain('No Match Found for matt');
-          }
-          expect(output).to.contain(packages[0].name);
-        });
+       var result = childProcess.execSync('moapp search matt');
+       var output = result.toString('utf-8');
+
+       if (result.stderr) { console.log(error(result.stderr)); }
+
+       expect(output).to.contain('matt');
      });
    });
 
@@ -52,16 +48,11 @@ describe('MoApp', function() {
    describe('with two search params both having registered packages', function () {
      it('should not search packages with both matt and app but not overlapping', function () {
         var result = childProcess.execSync('moapp search matt app');
-        if (result.stderr) { console.log(error(result.stderr)); }
         var output = result.toString('utf-8');
 
-        app.get(config.moServer + 'api/packages?name=matt,app', function (req, res){
-          var packages = req.toJSON().body;
-          if (packages.length == 0) {
-            expect(output).to.contain('No Match Found for matt');
-          }
-          expect(output).to.contain(packages[0].name);
-        });
+        if (result.stderr) { console.log(error(result.stderr)); }
+
+        expect(output).to.contain('matt');
      });
    });
 

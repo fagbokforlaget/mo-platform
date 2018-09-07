@@ -36,9 +36,9 @@ describe('MoApp', function() {
 
     it('the config file should have username and api_keys as defined', function (done) {
        fs.readFile(mo_config, 'utf8', function (err,data) {
-            var j = JSON.parse(data);
+            let j = JSON.parse(data);
 
-            expect(j['api_key']).to.equal(answers['api_key']);
+            expect(j['username']).to.equal(answers['username']);
             done()
        });
     });

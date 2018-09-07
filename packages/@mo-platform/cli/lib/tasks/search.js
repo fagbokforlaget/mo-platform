@@ -23,21 +23,25 @@ function showPackageInfo(element) {
 module.exports = function(options) {
 	searchExpressions = options.argv.remain.slice(1);
 	/* server supports search for more than one expression now , which can be a regex as well*/
-	var params = searchExpressions && searchExpressions.length > 0 ? '?name=' + searchExpressions.join(',') : '';
-	request.get(config.moServer + '/api/packages' + params, function(res){
-		var packages = res.body;
+	let params = searchExpressions && searchExpressions.length > 0 ? '?name=' + searchExpressions.join(',') : '';
+	request.get(config.moServer + '/api/packages' + params)
+    .then(res => {
+		  let packages = res.body;
 
-		if (!packages || packages.length === 0) {
-			var info = params == '' ? 'No packages found' : 'No packages found for ' + searchExpressions.join(',');
-			console.log(boldInfo(info));
-			return;
-		}
+		  if (!packages || packages.length === 0) {
+			  let info = params == '' ? 'No packages found' : 'No packages found for ' + searchExpressions.join(',');
+			  console.log(boldInfo(info));
+			  return;
+		  }
 
-		if (!searchExpressions || searchExpressions.length === 0 || params == '') {
-			console.log(boldInfo('Showing all packages'));
-		}
+		  if (!searchExpressions || searchExpressions.length === 0 || params == '') {
+			  console.log(boldInfo('Showing all packages'));
+		  }
 
-		packages.forEach(showPackageInfo);
-		console.log(searchResults.toString());
-	});
-} ;
+		  packages.forEach(showPackageInfo);
+		  console.log(searchResults.toString());
+	  })
+    .catch(err => {
+      console.error(err);
+    });
+};

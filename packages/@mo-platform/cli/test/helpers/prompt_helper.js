@@ -1,39 +1,40 @@
 module.exports = function(child_process, answers, last_answer) {
-	var answer = true,
-		result = '', error = '';
+  let answer = true;
+  let result = '';
+  let error = '';
 
-	return new Promise(function(resolve, reject) {
-      child_process.stdout.on('data', function(d) {
-        var _d = (''+d).split(':')[0];
+  return new Promise(function(resolve, reject) {
+    child_process.stdout.on('data', function(d) {
+      let shift = '';
+      if ((''+d).match(/username/gi)) {
+        shift = answers['username'] || '';
+      }
+      if (('' + d).match(/api/gi)) {
+        shift = answers['api_key'] || '';
+      }
 
-        var shift = answers[_d];
+      if(answer) {
+        child_process.stdin.write(shift + "\n");
+      } else {
+        result += d
+      }
 
-        if(shift === null) {
-          shift = ''
-        }
+      if(d === last_answer) {
+        answer = false
+        child_process.stdin.end();
+      }
+    })
 
-        if(answer) {
-        	child_process.stdin.write(shift + "\n");
-        } else {
-        	result += d
-        }
+    child_process.stderr.on('data', function(d) {
+      error += d
+    })
 
-        if(_d === last_answer) {
-        	answer = false
-        	child_process.stdin.end();
-        }
-      })
-
-      child_process.stderr.on('data', function(d) {
-        error += d
-      })
-
-      child_process.on('exit', function() {
-	if (error.length) {
-		return resolve(error)
-	} else {
-        	return resolve(result)
-	}
-      })
+    child_process.on('exit', function() {
+	    if (error.length) {
+		    return resolve(error)
+	    } else {
+        return resolve(result)
+	    }
+    })
 	})
 }
