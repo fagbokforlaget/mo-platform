@@ -32,7 +32,7 @@ describe('MoApp', function() {
       before(function (done) {
         fs.copy('./test/fixtures/tmp_config_file.json', './tmp_config_file.json', (err) => {
           fs.copy('./test/fixtures/app', './', function(err) {
-            childProcess.exec('moapp deploy --configFile=tmp_config_file.json', function(error, stdout, stderr) {
+            childProcess.exec('moapp deploy --file=test-package.json --configFile=tmp_config_file.json', function(error, stdout, stderr) {
               error = error
               result = stdout
               done()
@@ -43,7 +43,7 @@ describe('MoApp', function() {
 
       after(function(done) {
         fs.remove('./dist', function(err) {
-          fs.remove('package.json', function(err) {
+          fs.remove('test-package.json', function(err) {
             done()
           })
         })

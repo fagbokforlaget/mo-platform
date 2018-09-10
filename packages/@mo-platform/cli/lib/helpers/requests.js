@@ -20,9 +20,8 @@ exports.putPackageData = function(name, version, options) {
           })
         })
         .catch(err => {
-	  console.log(err)
-          return reject(err.body)
-	})
+          return reject(`${err} (${err.status})`)
+	      })
       })
     })
 }
@@ -40,9 +39,8 @@ exports.postPackageData = function(json, options) {
           return resolve(res.body)
         })
         .catch(err => {
-	  console.log(err)
-          return reject(err.body)
-	})
+          return reject(`${err} (${err.status})`)
+	      })
     })
   })
 }
@@ -60,8 +58,8 @@ exports.deletePackage = function(json, options) {
           return resolve(res.body)
         })
         .catch(err => {
-          return reject(err.body)
-	})
+          return reject(`${err} (${err.status})`)
+        })
     })
   })
 }
@@ -84,7 +82,10 @@ exports.authenticate = function(json) {
 exports.rollback = (json, version, options) => {
   return moConfigFile.read(options).then((authData) => {
     return new Promise((resolve, reject) => {
-      request.post(config.moServer + '/api/packages/' + json.name + '/rollback/' + version)
+      const host = config.moServer
+      const packageName = json.name
+
+      request.post(`${host}/api/packages/${packageName}/rollback/${version}`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send({'token': authData.token})
@@ -92,8 +93,8 @@ exports.rollback = (json, version, options) => {
           return resolve(res.body)
         })
         .catch(err => {
-          return reject(err.body)
-	})
+          return reject(`${err} (${err.status})`)
+	      })
       })
   })
 }
