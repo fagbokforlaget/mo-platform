@@ -12,12 +12,10 @@ describe('MoApp', function() {
 
     describe('without app.json', function() {
       before(function (done) {
-        fs.copy('./test/fixtures/tmp_config_file.json', './tmp_config_file.json', (err) => {
-          childProcess.exec('moapp deploy --configFile=tmp_config_file.json', function(error, stdout, stderr) {
-            result = stderr
-            done()
-          });
-        })
+        childProcess.exec('moapp deploy --configFile=test/fixtures/tmp_config_file.json', function(error, stdout, stderr) {
+          result = stderr
+          done()
+        });
       });
 
       it('should throw error when app.json is missing', function(done) {
@@ -30,14 +28,12 @@ describe('MoApp', function() {
       var result, error;
 
       before(function (done) {
-        fs.copy('./test/fixtures/tmp_config_file.json', './tmp_config_file.json', (err) => {
-          fs.copy('./test/fixtures/app', './', function(err) {
-            childProcess.exec('moapp deploy --file=test-package.json --configFile=tmp_config_file.json', function(error, stdout, stderr) {
-              error = error
-              result = stdout
-              done()
-            });
-          })
+        fs.copy('./test/fixtures/app', './', function(err) {
+          childProcess.exec('moapp deploy --file=test-package.json --configFile=test/fixtures/tmp_config_file.json', function(error, stdout, stderr) {
+            error = error
+            result = stdout
+            done()
+          });
         })
       });
 

@@ -38,6 +38,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^5.2.0",
+    "nixt": "^0.5.1",
     "nock": "^9.6.1"
   }
 }

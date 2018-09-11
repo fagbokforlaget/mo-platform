@@ -20,8 +20,6 @@ module.exports = (options) => {
       } catch (e) {
         ctx = {}
       }
-    } else {
-      console.log("This will create a new file: " + configFile);
     }
 
     ctx.dirname = path.dirname(configFile);
@@ -53,12 +51,12 @@ module.exports = (options) => {
             throw err;
           }
           else {
-            console.info('Success! config file is located at ' + configFile)
-	  }
+            console.log('Success! config file is located at ' + configFile)
+	        }
         })
       })
       .catch((e) => {
-        console.log(e)
+        console.error(e)
       });
   })
 }

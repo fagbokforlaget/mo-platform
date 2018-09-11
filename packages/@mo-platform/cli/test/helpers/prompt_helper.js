@@ -1,26 +1,14 @@
-module.exports = function(child_process, answers, last_answer) {
-  let answer = true;
-  let result = '';
+module.exports = function(child_process, answers) {
   let error = '';
 
   return new Promise(function(resolve, reject) {
+    let i = 0;
     child_process.stdout.on('data', function(d) {
-      let shift = '';
-      if ((''+d).match(/username/gi)) {
-        shift = answers['username'] || '';
-      }
-      if (('' + d).match(/api/gi)) {
-        shift = answers['api_key'] || '';
-      }
-
-      if(answer) {
-        child_process.stdin.write(shift + "\n");
-      } else {
-        result += d
-      }
-
-      if(d === last_answer) {
-        answer = false
+      console.log(d.toString('utf8'), answers[i])
+      child_process.stdin.write(answers[i] + "\n")
+      i += 1;
+      if (i == answers.length) {
+        console.log(d.toString('utf8'), i, 'ending');
         child_process.stdin.end();
       }
     })
@@ -31,9 +19,9 @@ module.exports = function(child_process, answers, last_answer) {
 
     child_process.on('exit', function() {
 	    if (error.length) {
-		    return resolve(error)
+		    return reject(error)
 	    } else {
-        return resolve(result)
+        return resolve(true)
 	    }
     })
 	})
