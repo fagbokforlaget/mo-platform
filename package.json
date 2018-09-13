@@ -1,12 +1,12 @@
 {
   "private": true,
   "devDependencies": {
-    "conventional-changelog": "^2.0.1",
-    "conventional-changelog-cli": "^2.0.1",
+    "conventional-changelog": "^2.0.3",
+    "conventional-changelog-cli": "^2.0.5",
     "husky": "^0.14.3",
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-angular": "^7.0.1",
-    "lerna": "^2.11.0"
+    "@commitlint/cli": "^7.1.2",
+    "@commitlint/config-angular": "^7.1.2",
+    "lerna": "^3.3.2"
   },
   "name": "mo-client",
   "version": "0.1.0",
