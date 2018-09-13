@@ -12,7 +12,7 @@ var fs = require('fs-extra'),
 module.exports = (options, version) => {
   var distFolder = options.dist || config.distFolder || 'build';
   var packageFile = path.resolve(options.file || 'mo-app.json');
-
+  console.log('Rolling back to v' + version);
   fs.readJSON(packageFile, (err, json) => {
     if(err) {
       console.error(error(err.message))

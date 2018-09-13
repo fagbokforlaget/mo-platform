@@ -50,7 +50,7 @@ module.exports = function(options) {
           console.info(info('Removing app from server'))
           requests.deletePackage(json, options)
         }
-        console.info(info('Could not deploy:'))
+        console.info(info('Could not deploy:' + err))
 
         let message = (err ? (err.message || err) : "unknown error")
         console.error(error(message))

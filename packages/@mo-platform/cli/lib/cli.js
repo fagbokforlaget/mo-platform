@@ -24,7 +24,12 @@ Object.defineProperty(exports, 'options', {
 });
 
 exports.run =  function() {
-  var options = exports.options;
+  let options = exports.options;
+
+  if (!options.file) {
+    options.file = 'package.json'
+  }
+
   if (options.argv.original.length === 0 || options['help'] || options.argv.remain[0] === "help") {
     return tasks.help();
   }
@@ -37,20 +42,12 @@ exports.run =  function() {
     return tasks.info(options);
   }
 
-  if (options.argv.remain.length && options.argv.remain[0] === "init") {
-    return tasks.init(options);
-  }
-
   if (options.argv.remain.length && options.argv.remain[0] === "deploy") {
     return tasks.deploy(options);
   }
 
   if (options.argv.remain.length && options.argv.remain[0] === "delete") {
     return tasks.undeploy(options);
-  }
-
-  if (options.argv.remain.length && options.argv.remain[0] === "version") {
-    return tasks.bumpVersion(options);
   }
 
   if (options.argv.remain.length && options.argv.remain[0] === "search") {
@@ -65,5 +62,6 @@ exports.run =  function() {
     return tasks.rollback(options, options.argv.remain[1]);
   }
 
+  console.error('Invalid command: '+ options.argv.remain[0]);
   return;
 }

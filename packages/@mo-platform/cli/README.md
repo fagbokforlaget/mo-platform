@@ -1,4 +1,4 @@
-MoApp tool (previously known as Appo)
+MoApp tool
 =================================
 MoApp tool provides a commandline interface to create and manage moapps.
 
@@ -6,27 +6,19 @@ Install
 =================================
 npm link
 OR
-npm install -g @mo-platform/cli [not available yet]
+npm install -g @mo-platform/cli@next
 
 
 API Spec
 =================================
-1. init
-2. login
-3. deploy
-4. delete
-5. search
-6. info
-7. version
-8. help
-9. login
-
-`init`
-
-Creates app.json file interactively.
-```
-moapp init
-```
+1. login
+2. deploy
+3. delete
+4. search
+5. info
+6. version
+7. help
+8. login
 
 `login`
 
@@ -63,13 +55,9 @@ Display app info from package name.
 moapp info <package>
 ```
 
-`version`
+`version` (removed)
 
-Run this in a package directory to bump the version and write the new data back to the app.json file.
-
-```
-moapp version [<newversion> | major | minor | patch]
-```
+Please use `npm version` command
 
 `help`
 
