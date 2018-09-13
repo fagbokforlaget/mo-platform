@@ -1,10 +1,13 @@
 'use strict';
 
-var fs = require('fs'),
-    path = require('path'),
-    chalk = require('chalk'),
-    error = chalk.bold.red,
-    info = chalk.bgYellow;
+const fs = require('fs');
+const path = require('path');
+const chalk = require('chalk');
+const request = require('superagent');
+
+const config = require('../../config');
+const error = chalk.bold.red;
+const info = chalk.bgYellow;
 
 module.exports = function(options) {
   var packageFile = path.resolve(options.file || 'mo-app.json');
@@ -15,8 +18,24 @@ module.exports = function(options) {
     return console.error(error('Error in Reading File. ' + err));
   }
 
-  fs.readFile(packageFile, 'utf8', function (er, d) {
+  fs.readFile(packageFile, 'utf8', async function (er, d) {
+    let packageInfo = {_id: undefined, version: undefined};
+    const pkg = JSON.parse(d)
+
     if(er) return console.log(error(er));
-    console.log(d);
+
+	  packageInfo = (await request.get(config.moServer + '/api/packages/' + pkg.name)).body
+
+    console.log(packageInfo)
+
+    console.log(chalk`
+      name: {green ${pkg.name}}
+      version: {green ${pkg.version}}
+    `)
+
+    console.log(chalk`
+      id: {green ${packageInfo._id}}
+      version deployed: {green ${packageInfo.version}}
+    `)
   });
 }

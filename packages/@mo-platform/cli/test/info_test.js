@@ -1,16 +1,15 @@
 'use strict';
 const expect = require('chai').expect;
-const packageJson = require('./fixtures/app/test-package.json');
-const childProcess = require('child_process');
+const nixt = require('nixt');
 
 describe('MoApp', function() {
   describe('info', function () {
     it('should build mo-app.json file', function (done) {
-      childProcess.exec('moapp info --file=test/fixtures/app/test-package.json', function (error, stdout, stderr) {
-        let j = JSON.parse(stdout);
-	expect(j.name).to.equal(packageJson.name)
-          done();
-      });
+      nixt()
+      .run('moapp info --file=test/fixtures/app/test-package.json')
+      .stdout(/test-app/gi)
+      .stdout(/0.0.1/gi)
+      .end(done)
     });
   });
 });

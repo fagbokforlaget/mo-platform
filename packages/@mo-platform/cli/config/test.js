@@ -22,6 +22,17 @@ var post = nock('http://localhost:3000')
                   }
             });
 
+var single = nock('http://localhost:3000')
+                .get('/api/packages/test-app')
+                .reply(200, {
+                  name: "test-app",
+                  version: "0.0.1",
+                  data: {
+                    "name": "test-app",
+                    "version": "0.0.1"
+                  }
+            });
+
 var put = nock('http://localhost:3000')
                 .put('/api/packages/test-app/0.0.1')
                 .reply(200, {
