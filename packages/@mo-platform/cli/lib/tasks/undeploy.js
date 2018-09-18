@@ -7,11 +7,17 @@ const chalk = require('chalk');
 const prompts = require('prompts');
 const error = chalk.bold.red;
 const info = chalk.bgYellow;
+const allowedEnvs = ['prod', 'dev', 'stage'];
 
 let prompta;
 
 module.exports = function(options) {
-  var packageFile = path.resolve(options.file || 'mo-app.json');
+  let packageFile = path.resolve(options.file || 'mo-app.json');
+  let env = options.env || 'prod'
+
+  if (!allowedEnvs.includes(env)) {
+    return console.error(error('Invalid env, allowed envs are ' + allowedEnvs.join(', ')))
+  }
 
   try {
     let fileExists = fs.statSync(packageFile);
@@ -24,6 +30,15 @@ module.exports = function(options) {
       console.log(err.message)
       return
     }
+
+    // append name with env
+    if (env !== 'prod') {
+      json.name = (json.moapp
+        && json.moapp.env
+        && json.moapp.env[env]
+        && json.moapp.env[env].name) ? json.moapp.env[env].name : json.name + '-' + env
+    }
+
     return prompta().then(function(data) {
       return requests.deletePackage(json, options)
     })

@@ -31,14 +31,16 @@ moapp login
 
 Uploads and deploy app on server.
 ```
-moapp deploy <package> <url>
+moapp deploy --env=<env> [default: prod]
+
+Allowed envs: prod, dev and stage
 ```
 
 `delete`
 
 Remove package from app registry on server.
 ```
-moapp delete <package>
+moapp delete --env=<env>
 ```
 
 `search`
