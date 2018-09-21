@@ -15,11 +15,6 @@ const allowedEnvs = ['prod', 'dev', 'stage'];
 module.exports = (options) => {
   let distFolder = options.dist || config.distFolder || 'build';
   let packageFile = path.resolve(options.file || 'mo-app.json');
-  let env = options.env || 'prod'
-
-  if (!allowedEnvs.includes(env)) {
-    return console.error(error('Invalid env, allowed envs are ' + allowedEnvs.join(', ')))
-  }
 
   try {
     let fileExists = fs.statSync(packageFile);
@@ -31,14 +26,6 @@ module.exports = (options) => {
     if(err) {
       console.error(error(err.message))
       return
-    }
-
-    // append name with env
-    if (env !== 'prod') {
-      json.name = (json.moapp
-        && json.moapp.env
-        && json.moapp.env[env]
-        && json.moapp.env[env].name) ? json.moapp.env[env].name : json.name + '-' + env
     }
 
     let zipper = new ZipFile(distFolder, json.name, json.version)

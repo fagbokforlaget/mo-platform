@@ -43,7 +43,7 @@ module.exports = (options) => {
     config['username'] = response.username;
     config['api_key'] = response.apiKey;
 
-    requests.authenticate(config)
+    requests.authenticate(config, options)
       .then((data) => {
         config.token = data.token
         fs.writeFile(configFile, JSON.stringify(config, null, 2), (err) => {

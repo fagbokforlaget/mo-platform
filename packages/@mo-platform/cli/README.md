@@ -40,7 +40,7 @@ Allowed envs: prod, dev and stage
 
 Remove package from app registry on server.
 ```
-moapp delete --env=<env>
+moapp delete --env=<env> [default: prod]
 ```
 
 `search`
