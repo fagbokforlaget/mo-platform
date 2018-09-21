@@ -123,7 +123,7 @@ nock('http://localhost:3000')
 
 module.exports = {
   moServer: {
-    dev: "http://localhost:3000",
+    prod: "http://localhost:3000",
     stage: "http://localhost:3001"
   },
   distFolder: './dist'

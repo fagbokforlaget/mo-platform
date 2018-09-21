@@ -36,7 +36,8 @@ exports.run =  function() {
       return console.error('Invalid env, allowed envs are ' + allowedEnvs.join(', '))
     }
   } else {
-    options.env = 'dev'
+    // Default env
+    options.env = 'prod'
   }
 
   if (options.argv.original.length === 0 || options['help'] || options.argv.remain[0] === "help") {
