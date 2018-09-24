@@ -5,4 +5,5 @@ exports.deploy = require('./deploy');
 exports.undeploy = require('./undeploy');
 exports.search = require('./search');
 exports.login = require('./login');
-exports.rollback = require('./rollback')
+exports.rollback = require('./rollback');
+exports.migrate = require('./migrate');

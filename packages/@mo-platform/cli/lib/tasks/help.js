@@ -17,7 +17,7 @@ module.exports = function() {
     {bold Advance options}
     --file          package.json file path [default: ./package.json]
     --configFile    configuration file [default: ~/.mo-config.json]
-    --distDir       bundled dist directory [default: ./dist]
+    --dist          bundled dist directory [default: ./dist]
 
     {bold Examples}
     moapp search mycoolapp
