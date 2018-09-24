@@ -14,7 +14,8 @@ exports.known = {
 // CLI options aliases
 exports.aliases = {
   h:'--help',
-  v:'--version'
+  v:'--version',
+  undeploy: 'delete'
 };
 
 // parse it
@@ -72,6 +73,10 @@ exports.run =  function() {
     return tasks.rollback(options, options.argv.remain[1]);
   }
 
+  if (options.argv.remain.length && options.argv.remain[0] === "migrate") {
+    return tasks.migrate(options);
+  }
+
   console.error('Invalid command: '+ options.argv.remain[0]);
-  return;
+  return tasks.help();
 }
