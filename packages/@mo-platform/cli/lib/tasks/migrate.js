@@ -8,7 +8,7 @@ module.exports = (options, version) => {
   const distFolder = options.dist || config.distFolder || 'build';
   const packageFile = path.resolve(options.file || 'mo-app.json');
 
-  console.log(chalk`{bold Looing for mo-app.json file in current directory}`)
+  console.log(chalk`{bold Looking for mo-app.json file in current directory}`)
 
   fs.readJSON(packageFile, (err, json) => {
     if (err) {
