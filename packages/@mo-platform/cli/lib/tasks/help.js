@@ -18,10 +18,12 @@ module.exports = function() {
     --file          package.json file path [default: ./package.json]
     --configFile    configuration file [default: ~/.mo-config.json]
     --dist          bundled dist directory [default: ./dist]
+    --env           depolyment environment [default: prod] prod, dev and stage available
 
     {bold Examples}
+    moapp login
     moapp search mycoolapp
-    moapp deploy
-    moapp rollback 0.0.1
+    moapp deploy --env=dev
+    moapp rollback 0.0.1 --env=dev
     `)
 }

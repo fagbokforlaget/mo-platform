@@ -1,6 +1,9 @@
 'use strict';
-const nopt = require("nopt");
-const tasks = require('./tasks');
+
+// use nopt to parse commandline options
+var nopt = require("nopt");
+var tasks = require('./tasks');
+var allowedEnvs = ['prod', 'dev', 'stage'];
 
 // CLI options
 exports.known = {
@@ -27,6 +30,15 @@ exports.run =  function() {
 
   if (!options.file) {
     options.file = 'package.json'
+  }
+
+  if (options.env) {
+    if (!allowedEnvs.includes(options.env)) {
+      return console.error('Invalid env, allowed envs are ' + allowedEnvs.join(', '))
+    }
+  } else {
+    // Default env
+    options.env = 'prod'
   }
 
   if (options.argv.original.length === 0 || options['help'] || options.argv.remain[0] === "help") {

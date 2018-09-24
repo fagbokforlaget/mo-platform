@@ -11,7 +11,7 @@ const info = chalk.bgYellow;
 let prompta;
 
 module.exports = function(options) {
-  var packageFile = path.resolve(options.file || 'mo-app.json');
+  let packageFile = path.resolve(options.file || 'mo-app.json');
 
   try {
     let fileExists = fs.statSync(packageFile);
@@ -24,6 +24,7 @@ module.exports = function(options) {
       console.log(err.message)
       return
     }
+
     return prompta().then(function(data) {
       return requests.deletePackage(json, options)
     })

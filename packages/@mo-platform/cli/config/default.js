@@ -1,4 +1,8 @@
 module.exports = {
-	moServer: "https://mo.fagbokforlaget.no",
+	moServer: {
+    prod: "https://mo.fagbokforlaget.no",
+    dev: "https://dev-mo.fagbokforlaget.no",
+    stage: "https://stage-mo.fagbokforlaget.no"
+  },
 	distFolder: './dist'
 }

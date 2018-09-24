@@ -3,8 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const request = require('superagent');
 
+const requests = require('../helpers/requests');
 const config = require('../../config');
 const error = chalk.bold.red;
 const info = chalk.bgYellow;
@@ -24,7 +24,7 @@ module.exports = function(options) {
 
     if(er) return console.log(error(er));
 
-	  packageInfo = (await request.get(config.moServer + '/api/packages/' + pkg.name)).body
+	  packageInfo = await requests.info(pkg.name, options)
 
     console.log(packageInfo)
 
