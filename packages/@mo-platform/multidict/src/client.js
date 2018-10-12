@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 export default class MultiDictClient {
-  constructor(baseUrl = 'https://stage.multidict.fagbokforlaget.no/api/v2') {
+  constructor(baseUrl = 'https://stage.multidict.fagbokforlaget.no/api/v2', timeout = 2000) {
     this.client = axios.create({
       'baseURL': baseUrl,
       'headers': {'X-Custom-Header': 'dict-client'},
-      'timeout': 2000
+      'timeout': timeout
     });
     this.bookTitle = undefined;
   }
