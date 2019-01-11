@@ -1,19 +1,20 @@
 'use strict';
 
-var fs = require('fs-extra'),
-    config = require('../../config/'),
-    path = require('path'),
-    ZipFile = require('../helpers/zipfile'),
-    requests = require('../helpers/requests'),
-    chalk = require('chalk'),
-    info = chalk.yellow,
-    error = chalk.bold.red,
-    success = chalk.bold.green;
+const fs = require('fs-extra');
+const path = require('path');
+const chalk = require('chalk');
+const config = require('../../config/');
+const ZipFile = require('../helpers/zipfile');
+const requests = require('../helpers/requests');
 
+const info = chalk.yellow;
+const error = chalk.bold.red;
+const success = chalk.bold.green;
+const allowedEnvs = ['prod', 'dev', 'stage'];
 
-module.exports = function(options) {
-  var distFolder = options.dist || config.distFolder || 'build';
-  var packageFile = path.resolve(options.file || 'mo-app.json');
+module.exports = (options) => {
+  let distFolder = options.dist || config.distFolder || 'build';
+  let packageFile = path.resolve(options.file || 'mo-app.json');
 
   try {
     let fileExists = fs.statSync(packageFile);
@@ -50,7 +51,7 @@ module.exports = function(options) {
           console.info(info('Removing app from server'))
           requests.deletePackage(json, options)
         }
-        console.info(info('Could not deploy:'))
+        console.info(info('Could not deploy:' + err))
 
         let message = (err ? (err.message || err) : "unknown error")
         console.error(error(message))

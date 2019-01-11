@@ -1,17 +1,17 @@
 'use strict';
+const path = require('path');
+const fs = require('fs-extra')
+const input = path.resolve(__dirname, '../helpers/undeploy_prompt.js');
+const requests = require('../helpers/requests');
+const chalk = require('chalk');
+const prompts = require('prompts');
+const error = chalk.bold.red;
+const info = chalk.bgYellow;
 
-var path = require('path'),
-    fs = require('fs-extra'),
-    PromZard = require('promzard').PromZard,
-    input = path.resolve(__dirname, '../helpers/undeploy_prompt.js'),
-    requests = require('../helpers/requests'),
-    chalk = require('chalk'),
-    error = chalk.bold.red,
-    info = chalk.bgYellow,
-    prompta;
+let prompta;
 
 module.exports = function(options) {
-  var packageFile = path.resolve(options.file || 'mo-app.json');
+  let packageFile = path.resolve(options.file || 'mo-app.json');
 
   try {
     let fileExists = fs.statSync(packageFile);
@@ -24,6 +24,7 @@ module.exports = function(options) {
       console.log(err.message)
       return
     }
+
     return prompta().then(function(data) {
       return requests.deletePackage(json, options)
     })
@@ -39,15 +40,17 @@ module.exports = function(options) {
 }
 
 prompta = function prompta() {
-  return new Promise(function(resolve, reject) {
-    var pz = new PromZard(input, {})
+  return new Promise(async function(resolve, reject) {
+    let response = await prompts({
+      type: 'confirm',
+      name: 'action',
+      message: 'Are you sure you want to remove this app?'
+    });
 
-    pz.on('data', function (data) {
-      if(data.acceptance.toLowerCase() === 'n') {
-        return reject("Action aborted.")
-      } else {
-        return resolve()
-      }
-    })
+    if(!response.action) {
+      return reject("Action aborted.")
+    } else {
+      return resolve()
+    }
   })
 }

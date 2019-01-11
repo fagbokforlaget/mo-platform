@@ -1,18 +1,17 @@
 'use strict';
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+const prompts = require('prompts');
+const requests = require('../helpers/requests');
 
-var fs = require('fs'),
-    path = require('path'),
-    os = require('os'),
-    PromZard = require('promzard').PromZard,
-    requests = require('../helpers/requests');
-
-module.exports = function(options) {
+module.exports = (options) => {
   let config = {};
   let configInfo = path.resolve(__dirname, '../helpers/app-config.js');
   let configFile = options.configFile || path.resolve(os.homedir(), '.mo-config.json')
 
-  fs.readFile(configFile, 'utf8', function (err, data) {
-    var ctx = {};
+  fs.readFile(configFile, 'utf8', async (err, data) => {
+    let ctx = {};
 
     if (!err) {
       try {
@@ -21,41 +20,43 @@ module.exports = function(options) {
       } catch (e) {
         ctx = {}
       }
-    } else {
-      console.log("This will create a new file: " + configFile);
     }
 
     ctx.dirname = path.dirname(configFile);
     ctx.basename = path.basename(ctx.dirname);
 
-    var pz = new PromZard(configInfo, ctx);
+    let questions = [
+      {
+        type: 'text',
+        name: 'username',
+        message: 'Authentication username'
+      },
+      {
+        type: 'text',
+        name: 'apiKey',
+        message: 'Authentication API key'
+      }
+    ];
 
-    pz.on('data', function (configData) {
-      if (!config) config = {};
+    let response = await prompts(questions);
 
-      Object.keys(configData).forEach(function (k) {
-        if (configData[k] !== undefined && configData[k] !== null) {
-          config[k] = configData[k];
-        }
+    config['username'] = response.username;
+    config['api_key'] = response.apiKey;
+
+    requests.authenticate(config, options)
+      .then((data) => {
+        config.token = data.token
+        fs.writeFile(configFile, JSON.stringify(config, null, 2), (err) => {
+          if (err) {
+            throw err;
+          }
+          else {
+            console.log('Success! config file is located at ' + configFile)
+	        }
+        })
       })
-
-      requests.authenticate(config)
-        .then(function(data) {
-          config.token = data.token
-          fs.writeFile(configFile, JSON.stringify(config, null, 2), function (er) {
-            if (er) {
-              throw er;
-            }
-
-          })
-        })
-        .catch(function(e) {
-          console.log(e)
-        })
-    })
-
-    pz.on('error', function(error) {
-      console.log("\moapp error:", error.message)
-    });
+      .catch((e) => {
+        console.error(e)
+      });
   })
 }

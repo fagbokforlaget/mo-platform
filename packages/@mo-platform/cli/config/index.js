@@ -6,11 +6,10 @@
 require('dotenv').config({silent: true});
 
 if(process.env.NODE_ENV === "test" || process.env.MOAPP_COV) {
-	module.exports = require('./test')
+  module.exports = require('./test')
 } else if(process.env.NODE_ENV === "development") {
-	console.log("development mode\n")
-	module.exports = require('./development')
+  console.log("development mode\n")
+  module.exports = require('./development')
 } else {
-	console.log("production mode\n")
-	module.exports = require('./default')
+  module.exports = require('./default')
 }

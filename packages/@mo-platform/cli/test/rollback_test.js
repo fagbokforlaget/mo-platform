@@ -2,8 +2,7 @@
 
 var expect = require('chai').expect,
     childProcess = require('child_process'),
-    fs = require('fs-extra'),
-    promptHelper = require('./helpers/prompt_helper');
+    fs = require('fs-extra');
 
 describe('MoApp', function() {
 
@@ -11,32 +10,14 @@ describe('MoApp', function() {
     var result;
     var error;
 
-    describe('without app.json', function() {
-      before(function (done) {
-        fs.copy('./test/fixtures/tmp_config_file.json', './tmp_config_file.json', (err) => {
-          fs.copy('./test/fixtures/app', './', function(err) {
-            childProcess.exec('moapp rollback 0.0.1 --configFile=tmp_config_file.json', function(error, stdout, stderr) {
-              error = error
-              result = stdout
-              done()
-            });
-          })
-        })
-      });
+    describe('with package app json', function() {
 
-      after(function(done) {
-        fs.remove('./dist', function(err) {
-          fs.remove('mo-app.json', function(err) {
-            done()
-          })
-        })
-      })
-
-      it('should throw error when app.json is missing', function(done) {
-          expect(result).to.match(/name: \'test-app\'/)
+      it('check rollback', function(done) {
+        childProcess.exec('moapp rollback 0.0.1 --file=test/fixtures/app/test-package.json --configFile=test/fixtures/tmp_config_file.json', function(error, stdout, stderr) {
+          expect(stdout).to.match(/Rolling back to/)
           done()
+        })
       })
     })
-
   });
 });

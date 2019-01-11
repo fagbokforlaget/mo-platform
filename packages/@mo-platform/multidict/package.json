@@ -1,6 +1,6 @@
 {
   "name": "@mo-platform/multidict",
-  "version": "0.6.2",
+  "version": "0.6.6",
   "description": "Dictionary service client for mo apps",
   "main": "dist/multidict.js",
   "scripts": {
@@ -45,5 +45,6 @@
   "homepage": "https://github.com/fagbokforlaget/mo-platform#readme",
   "directories": {
     "test": "test"
-  }
+  },
+  "gitHead": "cd67b25865e937d1a4bc4ef103610ef724e17f1a"
 }
