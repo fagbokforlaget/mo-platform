@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default class MultiDictClient {
-  constructor(baseUrl = 'https://stage.multidict.fagbokforlaget.no/api/v2', timeout = 2000) {
+  constructor(baseUrl = 'https://multidict.fagbokforlaget.no/api/v2', timeout = 2000) {
     this.client = axios.create({
       'baseURL': baseUrl,
       'headers': {'X-Custom-Header': 'dict-client'},
