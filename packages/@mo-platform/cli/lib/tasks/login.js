@@ -6,9 +6,8 @@ const prompts = require('prompts');
 const requests = require('../helpers/requests');
 
 module.exports = (options) => {
-  let config = {};
-  let configInfo = path.resolve(__dirname, '../helpers/app-config.js');
-  let configFile = options.configFile || path.resolve(os.homedir(), '.mo-config.json')
+  const configFile = options.configFile || path.resolve(os.homedir(), '.mo-config.json')
+  let config = {}
 
   fs.readFile(configFile, 'utf8', async (err, data) => {
     let ctx = {};
@@ -38,10 +37,15 @@ module.exports = (options) => {
       }
     ];
 
-    let response = await prompts(questions);
+    if (!options.username || !options.apiKey) {
+      const response = await prompts(questions)
 
-    config['username'] = response.username;
-    config['api_key'] = response.apiKey;
+      config.username = response.username
+      config.api_key = response.apiKey
+    } else {
+      config.username = options.username
+      config.api_key = options.apiKey
+    }
 
     requests.authenticate(config, options)
       .then((data) => {
