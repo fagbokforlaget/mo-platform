@@ -2,7 +2,7 @@ const request = require('superagent')
 
 export default class Authentication {
   constructor (opts = {}) {
-    let {authUrl, clientId, storage, loginUrl, userFetchUrl, accessCheckUrl} = opts
+    let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl } = opts
 
     this.authUrl = authUrl || 'https://moauth.fagbokforlaget.no'
     this.currentUser = undefined
@@ -10,6 +10,7 @@ export default class Authentication {
     this.clientId = clientId
     this.storage = storage || window.localStorage
     this.loginUrl = loginUrl || this.authUrl + '/_auth/login'
+    this.logoutUrl = logoutUrl || this.authUrl + '/_auth/logout'
     this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user?token='
     this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access/{{productId}}?token={{token}}'
   }
@@ -45,7 +46,7 @@ export default class Authentication {
   }
 
   authorize (obj = {}) {
-    let {redirectUrl, scope} = obj
+    let { redirectUrl, scope } = obj
 
     window.location = this._loginUrl(redirectUrl || window.location, scope)
   }
@@ -115,44 +116,51 @@ export default class Authentication {
     let self = this
 
     return new Promise((resolve, reject) => {
-      request('GET', url)
-        .end(function (error, response) {
-          if (!error && response.statusCode === 200 && response.body) {
+      request
+        .get(url)
+        .then(response => {
+          if (response.statusCode === 200 && response.body) {
             let resp = response.body
             let user = resp.user || resp.objects[0]
 
             self.storage.setItem('user', JSON.stringify(user))
             resolve(user)
           } else {
-            reject(new Error('authentication failed:' + error))
+            reject(new Error('authentication failed: Invalid response'))
           }
+        })
+        .catch(err => {
+          reject(err)
         })
     })
   }
 
   fetchAccess (url) {
     return new Promise((resolve, reject) => {
-      request('GET', url)
-        .end(function (error, response) {
-          if (!error && response.statusCode === 200 && response.body) {
+      request
+        .get(url)
+        .then(response => {
+          if (response.statusCode === 200 && response.body) {
             if (response.body.success) {
               resolve(response.body.product)
             } else {
               reject(new Error('This user does not have access to this product'))
             }
-          } else {
-            reject(error)
           }
+        })
+        .catch(error => {
+          reject(error)
         })
     })
   }
 
-  logout (url) {
+  async logout (url) {
     this.storage.removeItem('user')
     this.storage.removeItem('token')
 
-    if (url) {
-      window.location = url
+    if (this.logoutUrl) {
+      await request.get(this.logoutUrl).redirects(2)
+      if (url) window.location = url
     }
   }
 

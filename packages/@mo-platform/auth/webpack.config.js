@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const path = require('path');
 
@@ -46,18 +45,6 @@ module.exports = (env) => {
   }
   else {
     config.devtool = 'source-map';
-    config.optimization = {
-      minimizer: [
-        new UglifyJsPlugin({
-          sourceMap: true,
-          uglifyOptions: {
-            compress: {
-              inline: false
-	    },
-          },
-	}),
-      ],
-    };
     config.plugins = [
       ...config.plugins,
       new CompressionPlugin(),
