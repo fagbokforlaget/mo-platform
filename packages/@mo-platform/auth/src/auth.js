@@ -10,7 +10,7 @@ export default class Authentication {
     this.clientId = clientId
     this.storage = storage || window.localStorage
     this.loginUrl = loginUrl || this.authUrl + '/_auth/login'
-    this.logoutUrl = logoutUrl || this.authUrl + '/_auth/logout'
+    this.logoutUrl = logoutUrl
     this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user?token='
     this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access/{{productId}}?token={{token}}'
   }
@@ -158,10 +158,9 @@ export default class Authentication {
     this.storage.removeItem('user')
     this.storage.removeItem('token')
 
-    if (this.logoutUrl) {
-      await request.get(this.logoutUrl).redirects(2)
-      if (url) window.location = url
-    }
+    url = url || this.logoutUrl
+
+    if (url) window.location = url
   }
 
   isAuthenticated () {

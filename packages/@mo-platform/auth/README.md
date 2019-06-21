@@ -23,7 +23,7 @@ src="https://unpkg.com/@mo-platform/auth@0.6.0/dist/moauth.bundle.js"></script>
 let auth = new moauth()
 
 // initate oauth workflow
-auth.authorize({redirectUrl: 'http://locahost:8000'}); // url redirect (optional)
+auth.authorize({redirectUrl: 'http://locahost:8000', scope: 'mo_apps'}); // url redirect (optional)
 
 // listen to access token in url query
 auth
