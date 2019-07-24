@@ -13,14 +13,8 @@ nock('http://localhost:3000')
 
 nock('http://localhost:3000')
   .post('/api/packages')
-  .reply(200, {
-    name: "test-app",
-    version: "0.0.1",
-    data: {
-      "name": "test-app",
-      "version": "0.0.1"
-    }
-  })
+  .reply(200, (uri, body) => body
+  )
 
 nock('http://localhost:3001')
   .post('/api/packages')
@@ -64,19 +58,28 @@ nock('http://localhost:3000')
       status: 'ok'
     });
 
+nock('http://localhost:3000')
+    .put('/api/packages/my-lovely-app/0.0.1')
+    .reply(200, {
+      status: 'ok'
+    });
+
+nock('http://localhost:3000')
+    .put('/api/packages/my-lovely-app/0.0.1')
+    .reply(200, {
+      status: 'ok'
+    });
+
 nock('http://localhost:3001')
     .put('/api/packages/test-app/0.0.1')
     .reply(200, {
       status: 'ok'
     });
 
-
-
 nock('http://localhost:3000')
     .delete('/api/packages/test-app')
     .reply(200, {
-      status: 'ok',
-      n: 1
+      status: 'ok'
     });
 
 nock('http://localhost:3000')
@@ -85,7 +88,6 @@ nock('http://localhost:3000')
       status: 'ok',
       n: 1
     });
-
 
 nock('http://localhost:3000')
     .post('/api/authenticate')
