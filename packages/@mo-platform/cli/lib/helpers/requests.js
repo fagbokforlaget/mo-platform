@@ -13,7 +13,7 @@ exports.putPackageData = function(name, version, options) {
       return new Promise(function(resolve, reject) {
       request.put(`${moServer}/api/packages/${name}/${version}`)
         .set('Accept', 'application/json')
-	      .set('Content-Type', 'multipart/form-data')
+        .set('Content-Type', 'multipart/form-data')
         .attach('package', name + "-" + version + ".zip")
         .field('token', authData.token)
         .then(res => {
