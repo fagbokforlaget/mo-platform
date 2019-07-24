@@ -1,33 +1,29 @@
-'use strict';
+const fs = require('fs-extra')
+const path = require('path')
+const chalk = require('chalk')
+const config = require('../../config/')
+const requests = require('../helpers/requests')
 
-var fs = require('fs-extra'),
-    config = require('../../config/'),
-    path = require('path'),
-    requests = require('../helpers/requests'),
-    chalk = require('chalk'),
-    info = chalk.yellow,
-    error = chalk.bold.red,
-    success = chalk.bold.green;
+const info = chalk.yellow
+const error = chalk.bold.red
+const success = chalk.bold.green
 
-module.exports = (options, version) => {
-  var distFolder = options.dist || config.distFolder || 'build';
-  var packageFile = path.resolve(options.file || 'mo-app.json');
-  console.log('Rolling back to v' + version);
-  fs.readJSON(packageFile, (err, json) => {
-    if(err) {
-      console.error(error(err.message))
-      return
-    }
+module.exports = async (options, version) => {
+  const distFolder = options.dist || config.distFolder || 'build'
+  const  packageFile = path.resolve(options.file || 'mo-app.json')
 
-    requests.rollback(json, version, options)
-	    .then((data) => {
-	    	console.info(info('Version reset to ' + data.version))
-	    	return
-	    })
-	    .catch((err) => {
-	    	console.error(error(err))
-	    	return
-	    })
+  console.log(info(`Rolling back to v${version}`))
 
-  })
+  const json = await fs.readJSON(packageFile)
+  const appName = options.name || json.name
+
+  requests.rollback(json, version, options)
+	  .then((data) => {
+	    console.info(info('Version reset to ' + data.version))
+	    return
+	  })
+	  .catch((err) => {
+	    console.error(error(err))
+	    return
+	  })
 }

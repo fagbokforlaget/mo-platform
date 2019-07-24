@@ -88,5 +88,36 @@ describe('MoApp', function() {
       })
     })
 
+    describe('with package.json and name=appName', function() {
+      let result, error;
+
+      before(function (done) {
+        fs.copy('./test/fixtures/app', './', function(err) {
+          childProcess.exec('moapp deploy --name=my-lovely-app --file=test-package.json --configFile=test/fixtures/tmp_config_file.json', function(error, stdout, stderr) {
+            error = error
+            result = stdout
+            done()
+          });
+        })
+      });
+
+      after(function(done) {
+        fs.remove('./dist', function(err) {
+          fs.remove('test-package.json', function(err) {
+            done()
+          })
+        })
+      })
+
+      it('should send request for creating package', function(done) {
+        expect(result).to.match(/name: \'my-lovely-app\'/)
+        done()
+      })
+
+      it('should send package', function(done) {
+        expect(result).to.match(/done/)
+        done()
+      })
+    })
   });
 });

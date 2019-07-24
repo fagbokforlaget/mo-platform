@@ -10,8 +10,8 @@ const info = chalk.bgYellow;
 
 let prompta;
 
-module.exports = function(options) {
-  let packageFile = path.resolve(options.file || 'mo-app.json');
+module.exports = async (options) => {
+  const packageFile = path.resolve(options.file || 'mo-app.json');
 
   try {
     let fileExists = fs.statSync(packageFile);
@@ -19,32 +19,28 @@ module.exports = function(options) {
     return console.error(error('Error in Reading File. ' + err));
   }
 
-  fs.readJSON(packageFile, function(err, json) {
-    if(err) {
-      console.log(err.message)
-      return
-    }
+  const json = await fs.readJSON(packageFile)
+  const appName = options.name || json.name
 
-    return prompta().then(function(data) {
-      return requests.deletePackage(json, options)
-    })
-    .then(function(data) {
-      console.log(data)
-      return
-    })
-    .catch(function(e) {
-      console.error(e)
-      return
-    })
+  return prompta(appName).then((data) => {
+    return requests.deletePackage(appName, options)
+  })
+  .then((data) => {
+    console.log(data)
+    return
+  })
+  .catch((e) => {
+    console.error(e)
+    return
   })
 }
 
-prompta = function prompta() {
+prompta = (appName) => {
   return new Promise(async function(resolve, reject) {
     let response = await prompts({
       type: 'confirm',
       name: 'action',
-      message: 'Are you sure you want to remove this app?'
+      message: `Are you sure you want to remove ${appName} app?`
     });
 
     if(!response.action) {

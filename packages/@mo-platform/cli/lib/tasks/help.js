@@ -15,6 +15,7 @@ module.exports = function() {
     {green rollback}  Rollbacks to a specific version on mo cloud
 
     {bold Advance options}
+    --name          app name, it will override name from package.json
     --file          package.json file path [default: ./package.json]
     --configFile    configuration file [default: ~/.mo-config.json]
     --dist          bundled dist directory [default: ./dist]
