@@ -1,14 +1,13 @@
 {
   "name": "@mo-platform/cli",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "A commandline tool to manage Forlagshuset mo apps.",
   "bin": {
     "moapp": "./bin/mo"
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "make test",
-    "prepare": "npm link && npm run test"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
