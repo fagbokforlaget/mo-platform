@@ -92,20 +92,25 @@ export default class Authentication {
     })
   }
 
-  checkAccess (productId) {
-    const token = this.token || this.storage.getItem('token') || undefined
+  checkAccess (productId, loc = window.location.search) {
+    const params = this._parseQueryString(loc)
+    const token = this.token || params.access_token || this.storage.getItem('token') || undefined
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       if (token && typeof token !== 'undefined') {
         const url = this.accessCheckUrl.replace(/{{productId}}/g, productId).replace(/{{token}}/g, token)
 
-        this.fetchAccess(url)
-          .then((data) => {
-            resolve(data)
-          })
-          .catch((err) => {
-            reject(err)
-          })
+	try {
+	  await this.fetchAccess(url)
+	} catch (err) {
+          reject(err)
+	}
+	try {
+	  const user = await this.checkToken(loc)
+	  resolve(user)
+	} catch (err) {
+	  reject(err)
+        }
       } else {
         reject(new Error('access token not found'))
       }

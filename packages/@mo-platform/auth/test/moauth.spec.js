@@ -94,7 +94,7 @@ describe('Given an instance of MoAuth', function () {
       auth.currentUser = {username: 'bac'};
       try {
         const user = await auth.checkToken('?token=something');
-	const product = await auth.checkAccess('myproduct');
+	const product = await auth.checkAccess('myproduct', '?token=something');
 	expect(auth.token).to.be.equal('something');
       }
       catch (err) {
