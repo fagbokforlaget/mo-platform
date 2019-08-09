@@ -94,7 +94,7 @@ export default class Authentication {
 
   checkAccess (productId, loc = window.location.search) {
     const params = this._parseQueryString(loc)
-    const token = this.token || params.access_token || this.storage.getItem('token') || undefined
+    const token = params.token || params.access_token || this.storage.getItem('token') || undefined
 
     return new Promise(async (resolve, reject) => {
       if (token && typeof token !== 'undefined') {
