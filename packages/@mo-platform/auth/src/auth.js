@@ -100,16 +100,16 @@ export default class Authentication {
       if (token && typeof token !== 'undefined') {
         const url = this.accessCheckUrl.replace(/{{productId}}/g, productId).replace(/{{token}}/g, token)
 
-	try {
-	  await this.fetchAccess(url)
-	} catch (err) {
+        try {
+          await this.fetchAccess(url)
+        } catch (err) {
           reject(err)
-	}
-	try {
-	  const user = await this.checkToken(loc)
-	  resolve(user)
-	} catch (err) {
-	  reject(err)
+        }
+        try {
+          const user = await this.checkToken(loc)
+          resolve(user)
+        } catch (err) {
+          reject(err)
         }
       } else {
         reject(new Error('access token not found'))
