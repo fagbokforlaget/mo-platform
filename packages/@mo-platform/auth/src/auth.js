@@ -96,20 +96,18 @@ export default class Authentication {
     const params = this._parseQueryString(loc)
     const token = params.token || params.access_token || this.storage.getItem('token') || undefined
     const products = Array.isArray(productIds) ? productIds : [productIds]
-    let access = {products: []}
+    const allowedProducts = []
 
     return new Promise(async (resolve, reject) => {
       if (token && typeof token !== 'undefined') {
-
         try {
-          access = await this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products })
+          allowedProducts.concat(await this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products }))
         } catch (err) {
           reject(err)
         }
         try {
           const user = await this.checkToken(loc)
-          user.access = access.products
-          resolve(user)
+          resolve({user: user, products: allowedProducts})
         } catch (err) {
           reject(err)
         }
@@ -151,7 +149,7 @@ export default class Authentication {
         .then(response => {
           if (response.statusCode === 200 && response.body) {
             if (response.body.success) {
-              resolve(response.body.product)
+              resolve(response.body.products)
             } else {
               reject(new Error('This user does not have access to this product'))
             }
