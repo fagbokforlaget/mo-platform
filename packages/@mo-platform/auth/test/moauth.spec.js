@@ -93,8 +93,8 @@ describe('Given an instance of MoAuth', function () {
     it('should check access', async () => {
       auth.currentUser = {username: 'bac'};
       try {
-        const user = await auth.checkToken('?token=something');
-        const product = await auth.checkAccess('myproduct');
+        const user = await auth.checkToken('?token=something2');
+        const product = await auth.checkAccess('myproduct', '?token=something');
 	      expect(auth.token).to.be.equal('something');
 
         const products = await auth.checkAccess(['product1', 'product2'])
