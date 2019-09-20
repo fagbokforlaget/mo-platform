@@ -12,7 +12,7 @@ export default class Authentication {
     this.loginUrl = loginUrl || this.authUrl + '/_auth/login'
     this.logoutUrl = logoutUrl
     this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user?token='
-    this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access/{{productId}}?token={{token}}'
+    this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access'
   }
 
   _loginUrl (redirectUrl, scope = undefined) {
@@ -92,14 +92,13 @@ export default class Authentication {
     })
   }
 
-  checkAccess (productId) {
+  checkAccess (productIds) {
     const token = this.token || this.storage.getItem('token') || undefined
+    const products = Array.isArray(productIds) ? productIds : [productIds]
 
     return new Promise((resolve, reject) => {
       if (token && typeof token !== 'undefined') {
-        const url = this.accessCheckUrl.replace(/{{productId}}/g, productId).replace(/{{token}}/g, token)
-
-        this.fetchAccess(url)
+        this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products })
           .then((data) => {
             resolve(data)
           })
@@ -135,10 +134,12 @@ export default class Authentication {
     })
   }
 
-  fetchAccess (url) {
+  fetchAccess (url, body) {
     return new Promise((resolve, reject) => {
       request
-        .get(url)
+        .post(url)
+        .send(body)
+        .set('Accept', 'application/json')
         .then(response => {
           if (response.statusCode === 200 && response.body) {
             if (response.body.success) {

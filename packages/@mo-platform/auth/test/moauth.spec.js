@@ -94,8 +94,11 @@ describe('Given an instance of MoAuth', function () {
       auth.currentUser = {username: 'bac'};
       try {
         const user = await auth.checkToken('?token=something');
-	const product = await auth.checkAccess('myproduct');
-	expect(auth.token).to.be.equal('something');
+        const product = await auth.checkAccess('myproduct');
+	      expect(auth.token).to.be.equal('something');
+
+        const products = await auth.checkAccess(['product1', 'product2'])
+        // TODO: add a mock response here
       }
       catch (err) {
         expect(err.message).to.be.equal('This user does not have access to this product');
