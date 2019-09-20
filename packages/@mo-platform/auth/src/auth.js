@@ -107,7 +107,7 @@ export default class Authentication {
         }
         try {
           const user = await this.checkToken(loc)
-          resolve({user: user, products: allowedProducts})
+          resolve({ user: user, products: allowedProducts })
         } catch (err) {
           reject(err)
         }
