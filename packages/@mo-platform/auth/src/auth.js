@@ -99,13 +99,16 @@ export default class Authentication {
 
     return new Promise(async (resolve, reject) => {
       if (token && typeof token !== 'undefined') {
+        let access
+
         try {
-          await this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products })
+          access = await this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products })
         } catch (err) {
           reject(err)
         }
         try {
           const user = await this.checkToken(loc)
+          user.access = access.products || []
           resolve(user)
         } catch (err) {
           reject(err)
