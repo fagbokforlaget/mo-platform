@@ -96,10 +96,10 @@ export default class Authentication {
     const params = this._parseQueryString(loc)
     const token = params.token || params.access_token || this.storage.getItem('token') || undefined
     const products = Array.isArray(productIds) ? productIds : [productIds]
+    let access = {products: []}
 
     return new Promise(async (resolve, reject) => {
       if (token && typeof token !== 'undefined') {
-        let access
 
         try {
           access = await this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products })
@@ -108,7 +108,7 @@ export default class Authentication {
         }
         try {
           const user = await this.checkToken(loc)
-          user.access = access.products || []
+          user.access = access.products
           resolve(user)
         } catch (err) {
           reject(err)
