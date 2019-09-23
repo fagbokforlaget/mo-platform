@@ -1,4 +1,4 @@
-const request = require('superagent')
+const fetch = require('isomorphic-fetch')
 
 export default class Authentication {
   constructor (opts = {}) {
@@ -11,7 +11,7 @@ export default class Authentication {
     this.storage = storage || window.localStorage
     this.loginUrl = loginUrl || this.authUrl + '/_auth/login'
     this.logoutUrl = logoutUrl
-    this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user?token='
+    this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user'
     this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access'
   }
 
@@ -79,7 +79,7 @@ export default class Authentication {
           window.history.replaceState({}, '', window.location.pathname + window.location.hash || '')
         }
         self.storage.setItem('token', self.token)
-        self.fetchUser(this.userFetchUrl + encodeURIComponent(self.token))
+        self.fetchUser(this.userFetchUrl)
           .then((user) => {
             resolve(user)
           })
@@ -99,10 +99,14 @@ export default class Authentication {
 
     return new Promise(async (resolve, reject) => {
       if (token && typeof token !== 'undefined') {
-        const allowedProducts = await this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products })
-        resolve({ success: true, user: user, products: allowedProducts })
+        try {
+          const allowedProducts = await this.fetchAccess(this.accessCheckUrl, { productIds: products })
+          resolve({ success: true, user: user, products: allowedProducts })
+        } catch (err) {
+          reject(err)
+        }
       } else {
-        throw new Error('access token not found')
+        reject(new Error('access token not found'))
       }
     })
   }
@@ -110,44 +114,52 @@ export default class Authentication {
   fetchUser (url) {
     let self = this
 
-    return new Promise((resolve, reject) => {
-      request
-        .get(url)
-        .then(response => {
-          if (response.statusCode === 200 && response.body) {
-            let resp = response.body
-            let user = resp.user || resp.objects[0]
+    return new Promise(async (resolve, reject) => {
+      const response = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Access-Token': self.token || this.storage.getItem('token')
+        }
+      })
 
-            self.storage.setItem('user', JSON.stringify(user))
-            resolve(user)
-          } else {
-            reject(new Error('authentication failed: Invalid response'))
-          }
-        })
-        .catch(err => {
-          reject(err)
-        })
+      if (response.status === 200) {
+        const resp = await response.json()
+        const user = resp.user || resp.objects[0]
+
+        self.storage.setItem('user', JSON.stringify(user))
+        resolve(user)
+      } else {
+        reject(new Error('authentication failed: Invalid response'))
+      }
     })
   }
 
   fetchAccess (url, body) {
-    return new Promise((resolve, reject) => {
-      request
-        .post(url)
-        .send(body)
-        .set('Accept', 'application/json')
-        .then(response => {
-          if (response.statusCode === 200 && response.body) {
-            if (response.body.success) {
-              resolve(response.body.products)
-            } else {
-              reject(new Error('This user does not have access to this product'))
-            }
-          }
-        })
-        .catch(error => {
-          reject(error)
-        })
+    const self = this
+
+    return new Promise(async (resolve, reject) => {
+      const response = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Access-Token': self.token || this.storage.getItem('token')
+        },
+        body: JSON.stringify(body)
+      })
+
+      if (response.status === 200) {
+        const resp = await response.json()
+        if (resp.success) {
+          resolve(resp.products)
+        } else {
+          reject(new Error('This user does not have access to this product'))
+        }
+      }
     })
   }
 

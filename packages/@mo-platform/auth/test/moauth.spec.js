@@ -1,4 +1,5 @@
 import chai from 'chai';
+import 'isomorphic-fetch';
 import MoAuth from '../src/index.js';
 import nock from 'nock'
 
@@ -33,7 +34,7 @@ describe('Given an instance of MoAuth', function () {
     });
 
     it('should have userFetchUrl set', () => {
-      expect(auth.userFetchUrl).to.be.equal('https://moauth.fagbokforlaget.no/_auth/user?token=');
+      expect(auth.userFetchUrl).to.be.equal('https://moauth.fagbokforlaget.no/_auth/user');
     });
 
     it('should have loginUrl set', () => {

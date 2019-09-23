@@ -1,10 +1,14 @@
 const webpack = require('webpack');
-const CompressionPlugin = require('compression-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
 const libraryName = 'moauth';
 
 let config = {
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({terserOptions: {ecma:5}})]
+  },
   entry: [__dirname + '/src/index.js'],
   output: {
     path: __dirname + '/dist',
@@ -41,14 +45,10 @@ let config = {
 
 module.exports = (argv) => {
   if (argv.mode === 'development') {
-    config.devtool = 'eval-sourcemap';
+    config.devtool = 'none';
   }
   else {
-    config.devtool = 'source-map';
-    config.plugins = [
-      ...config.plugins,
-      new CompressionPlugin(),
-    ];
+    config.devtool = 'none';
   }
   return config;
 
