@@ -38,13 +38,34 @@ auth
 
 // To check product access
 auth
-.checkAccess('productId')
-.then(product) {
-  console.log(product)
+  .checkToken()
+  .then((user) => {
+    // Do something
+    return auth.checkAccess(['product1'])
+  })
+  .then((resp) => {
+    if (resp.products.includes('product1)) {
+      // Success
+    }
+    else {
+      // failure
+    }
+  })
+  .catch((err) => {
+    // Handle error
+  })
+
+
+// async await
+
+const user = await auth.checkToken()
+const resp = await auth.checkAccess(['product1'])
+
+if (resp.products.includes('product1') {
+  // success
 }
-.catch(err) {
-  console.log(err);
-  // No access
+else {
+  // failure
 }
 
 // clears localstorage for access token

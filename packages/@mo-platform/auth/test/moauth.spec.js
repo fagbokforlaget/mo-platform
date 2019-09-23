@@ -1,5 +1,15 @@
 import chai from 'chai';
 import MoAuth from '../src/index.js';
+import nock from 'nock'
+
+nock('https://moauth.fagbokforlaget.no')
+  .post('/_auth/access', {token:'something2', productIds: ['product1']})
+  .reply(200, { success: true, products: ['product1'] })
+
+
+nock('https://moauth.fagbokforlaget.no')
+  .post('/_auth/access', {token:'something2', productIds: ['product1', 'product2']})
+  .reply(200, { success: true, products: ['product2'] })
 
 chai.expect();
 
@@ -89,16 +99,19 @@ describe('Given an instance of MoAuth', function () {
         expect(err.message).to.be.equal('access token not found');
       }
     });
-    // TODO fake it in future using sinon
+
     it('should check access', async () => {
       auth.currentUser = {username: 'bac'};
       try {
         const user = await auth.checkToken('?token=something2');
-        const product = await auth.checkAccess('myproduct', '?token=something');
-	      expect(auth.token).to.be.equal('something');
+        const resp = await auth.checkAccess('product1');
 
-        const products = await auth.checkAccess(['product1', 'product2'])
-        // TODO: add a mock response here
+	      expect(auth.token).to.be.equal('something2');
+        expect(resp.products.includes('product1'));
+
+        const resp2 = await auth.checkAccess(['product1', 'product2']);
+        expect(resp2.products.includes('product1')).to.be.equal(false);
+        expect(resp2.products.includes('product2'));
       }
       catch (err) {
         expect(err.message).to.be.equal('This user does not have access to this product');

@@ -92,27 +92,17 @@ export default class Authentication {
     })
   }
 
-  checkAccess (productIds, loc = window.location.search) {
-    const params = this._parseQueryString(loc)
-    const token = params.token || params.access_token || this.storage.getItem('token') || undefined
+  checkAccess (productIds = []) {
+    const token = this.token || this.storage.getItem('token') || undefined
     const products = Array.isArray(productIds) ? productIds : [productIds]
-    const allowedProducts = []
+    const user = this.getUser()
 
     return new Promise(async (resolve, reject) => {
       if (token && typeof token !== 'undefined') {
-        try {
-          allowedProducts.concat(await this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products }))
-        } catch (err) {
-          reject(err)
-        }
-        try {
-          const user = await this.checkToken(loc)
-          resolve({ user: user, products: allowedProducts })
-        } catch (err) {
-          reject(err)
-        }
+        const allowedProducts = await this.fetchAccess(this.accessCheckUrl, { token: token, productIds: products })
+        resolve({ success: true, user: user, products: allowedProducts })
       } else {
-        reject(new Error('access token not found'))
+        throw new Error('access token not found')
       }
     })
   }
