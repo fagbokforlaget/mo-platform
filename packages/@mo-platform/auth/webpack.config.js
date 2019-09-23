@@ -39,8 +39,8 @@ let config = {
   ]
 };
 
-module.exports = (env) => {
-  if (env.mode === 'development') {
+module.exports = (argv) => {
+  if (argv.mode === 'development') {
     config.devtool = 'eval-sourcemap';
   }
   else {
