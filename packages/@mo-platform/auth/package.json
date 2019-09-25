@@ -1,11 +1,11 @@
 {
   "name": "@mo-platform/auth",
-  "version": "0.7.1",
+  "version": "0.7.3",
   "description": "Mo authentication library",
   "main": "dist/moauth.bundle.js",
-  "module": "src/index.js",
+  "module": "lib/index.js",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "babel src --out-dir lib && webpack --mode production",
     "dev": "webpack --progress --colors --watch --mode=devlopment",
     "test": "mocha --require @babel/register --require @babel/polyfill --colors ./test/*.spec.js",
     "test:watch": "mocha --require @babel/register --colors -w ./test/*.spec.js"
@@ -28,6 +28,8 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
+    "fetch-mock": "^7.3.9",
+    "isomorphic-fetch": "^2.2.1",
     "mocha": "6.2.0",
     "nock": "^11.3.5",
     "terser-webpack-plugin": "^2.1.0",
@@ -48,6 +50,6 @@
   "author": "Deepak Thukral",
   "license": "MIT",
   "dependencies": {
-    "isomorphic-fetch": "^2.2.1"
+    "core-js": "^3.2.1"
   }
 }

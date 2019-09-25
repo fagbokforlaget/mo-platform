@@ -1,16 +1,9 @@
 import chai from 'chai';
-import 'isomorphic-fetch';
+import fetch from 'isomorphic-fetch';
 import MoAuth from '../src/index.js';
-import nock from 'nock'
+import fetchMock from 'fetch-mock'
 
-nock('https://moauth.fagbokforlaget.no')
-  .post('/_auth/access', {token:'something2', productIds: ['product1']})
-  .reply(200, { success: true, products: ['product1'] })
-
-
-nock('https://moauth.fagbokforlaget.no')
-  .post('/_auth/access', {token:'something2', productIds: ['product1', 'product2']})
-  .reply(200, { success: true, products: ['product2'] })
+fetchMock.post('https://moauth.fagbokforlaget.no/_auth/access', { success: true, products: ['world'] })
 
 chai.expect();
 
@@ -103,13 +96,13 @@ describe('Given an instance of MoAuth', function () {
 
     it('should check access', async () => {
       auth.currentUser = {username: 'bac'};
+      const user = await auth.checkToken('?token=something2');
+      const resp = await auth.checkAccess('hello');
+
+	    expect(auth.token).to.be.equal('something2');
+      expect(resp.products.includes('product1'));
+
       try {
-        const user = await auth.checkToken('?token=something2');
-        const resp = await auth.checkAccess('product1');
-
-	      expect(auth.token).to.be.equal('something2');
-        expect(resp.products.includes('product1'));
-
         const resp2 = await auth.checkAccess(['product1', 'product2']);
         expect(resp2.products.includes('product1')).to.be.equal(false);
         expect(resp2.products.includes('product2'));
