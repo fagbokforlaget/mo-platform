@@ -29,7 +29,6 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
     "fetch-mock": "^7.3.9",
-    "isomorphic-fetch": "^2.2.1",
     "mocha": "6.2.0",
     "nock": "^11.3.5",
     "terser-webpack-plugin": "^2.1.0",
@@ -50,6 +49,7 @@
   "author": "Deepak Thukral",
   "license": "MIT",
   "dependencies": {
-    "core-js": "^3.2.1"
+    "core-js": "^3.2.1",
+    "isomorphic-fetch": "^2.2.1"
   }
 }

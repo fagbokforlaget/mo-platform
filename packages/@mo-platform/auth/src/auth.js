@@ -1,3 +1,5 @@
+import 'isomorphic-fetch'
+
 export default class Authentication {
   constructor (opts = {}) {
     let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl } = opts
