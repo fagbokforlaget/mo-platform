@@ -1,6 +1,6 @@
 {
   "name": "@mo-platform/auth",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Mo authentication library",
   "main": "dist/moauth.bundle.js",
   "module": "lib/index.js",
