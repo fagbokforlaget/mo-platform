@@ -24,7 +24,9 @@ module.exports = function() {
     {bold Examples}
     moapp login
     moapp search mycoolapp
-    moapp deploy --env=dev
+    moapp deploy
+    moapp deploy --name myapp
+    moapp delete --name myapp --force
     moapp rollback 0.0.1 --env=dev
     `)
 }

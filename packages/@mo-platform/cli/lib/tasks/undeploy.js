@@ -21,9 +21,9 @@ module.exports = async (options) => {
 
   const json = await fs.readJSON(packageFile)
   const appName = options.name || json.name
-  const force = option.force || json.force || false
+  const force = options.force || json.force || false
 
-  return prompta(appName).then((data) => {
+  return prompta(appName, force).then((data) => {
     return requests.deletePackage(appName, options)
   })
   .then((data) => {
