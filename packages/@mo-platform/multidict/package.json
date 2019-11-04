@@ -1,6 +1,6 @@
 {
   "name": "@mo-platform/multidict",
-  "version": "0.6.8",
+  "version": "1.0.0",
   "description": "Dictionary service client for mo apps",
   "main": "dist/multidict.js",
   "scripts": {
