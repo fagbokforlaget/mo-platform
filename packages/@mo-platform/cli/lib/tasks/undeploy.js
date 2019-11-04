@@ -21,6 +21,7 @@ module.exports = async (options) => {
 
   const json = await fs.readJSON(packageFile)
   const appName = options.name || json.name
+  const force = option.force || json.force || false
 
   return prompta(appName).then((data) => {
     return requests.deletePackage(appName, options)
@@ -35,8 +36,12 @@ module.exports = async (options) => {
   })
 }
 
-prompta = (appName) => {
+prompta = (appName, force=false) => {
   return new Promise(async function(resolve, reject) {
+    if (force) {
+      return resolve()
+    }
+
     let response = await prompts({
       type: 'confirm',
       name: 'action',

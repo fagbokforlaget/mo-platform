@@ -1,6 +1,6 @@
 {
   "name": "@mo-platform/auth",
-  "version": "0.7.4",
+  "version": "0.8.0",
   "description": "Mo authentication library",
   "main": "dist/moauth.bundle.js",
   "module": "lib/index.js",
@@ -50,6 +50,6 @@
   "author": "Deepak Thukral",
   "license": "MIT",
   "dependencies": {
-    "core-js": "^3.2.1"
+    "core-js": "^2.6.9"
   }
 }
