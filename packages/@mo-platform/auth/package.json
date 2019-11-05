@@ -9,7 +9,7 @@
     "dev": "webpack --progress --colors --watch --mode=devlopment",
     "test": "mocha --require @babel/register --colors ./test/*.spec.js",
     "test:watch": "mocha --require @babel/register --colors -w ./test/*.spec.js",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist lib",
     "prepublishOnly": "npm run clean && npm run test && npm run build"
   },
   "devDependencies": {
