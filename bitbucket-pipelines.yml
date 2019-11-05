@@ -8,4 +8,5 @@ pipelines:
           - node --version
           - npm install -g lerna
           - lerna bootstrap
+          - cd packages/@mo-platform/auth && npm i && cd ../../../
           - npm test
