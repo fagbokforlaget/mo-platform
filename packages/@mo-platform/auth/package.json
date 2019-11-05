@@ -7,7 +7,7 @@
   "scripts": {
     "build": "babel src --out-dir lib && webpack --mode production",
     "dev": "webpack --progress --colors --watch --mode=devlopment",
-    "test": "mocha --require @babel/register --require @babel/polyfill --colors ./test/*.spec.js",
+    "test": "mocha --require @babel/register --colors ./test/*.spec.js",
     "test:watch": "mocha --require @babel/register --colors -w ./test/*.spec.js",
     "clean": "rimraf dist",
     "prepublishOnly": "npm run clean && npm run test && npm run build"
