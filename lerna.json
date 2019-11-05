@@ -1,7 +1,6 @@
 {
-  "lerna": "2.0.0",
   "packages": [
     "packages/@mo-platform/*"
   ],
-  "version": "0.6.5"
+  "version": "1.0.3"
 }

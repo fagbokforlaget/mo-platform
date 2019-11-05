@@ -8,14 +8,21 @@ var allowedEnvs = ['prod', 'dev', 'stage'];
 // CLI options
 exports.known = {
   help: Boolean,
-  version: Boolean
+  version: Boolean,
+  name: [String, null],
+  force: Boolean,
+  dist: [String, null],
+  configFile: [String, null],
+  file: [String, null]
 };
 
 // CLI options aliases
 exports.aliases = {
-  h:'--help',
-  v:'--version',
-  undeploy: 'delete'
+  h:['--help'],
+  v: ['--version'],
+  undeploy: 'delete',
+  n: ['--name'],
+  f: ['--force']
 };
 
 // parse it

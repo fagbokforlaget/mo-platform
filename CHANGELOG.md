@@ -1,3 +1,44 @@
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v1.0.0-alpha.1...v0.1.0) (2019-11-04)
+
+
+### Bug Fixes
+
+* access default value ([2957da8](https://bitbucket.org/forlagshuset/mo-client/commits/2957da8aade2a7cdde215990fda40ae3d30f25e3))
+* access token param fallback ([0cfa51f](https://bitbucket.org/forlagshuset/mo-client/commits/0cfa51fe3e32ccd722df433be4f5a129b066f928))
+* adds core-js version ([626d078](https://bitbucket.org/forlagshuset/mo-client/commits/626d078ee074384a7d09c716d7a45accba421f3d))
+* adds editorconfig ([0aa132d](https://bitbucket.org/forlagshuset/mo-client/commits/0aa132d8468c803e1ebc297e82ccc2de74ca5847))
+* adds polyfills and some upgrades ([023dfb6](https://bitbucket.org/forlagshuset/mo-client/commits/023dfb67fdef9dc2e4073556460e1a0ac18fb9b0))
+* checkAccess now supports multiple productIds ([82c17eb](https://bitbucket.org/forlagshuset/mo-client/commits/82c17eb17d78c42dfb96279dae9fe155c741d537))
+* code cleanup ([eda0b4f](https://bitbucket.org/forlagshuset/mo-client/commits/eda0b4f2c870538e2e0bece128058256f1b80bcf))
+* code cleanup ([3d89cc7](https://bitbucket.org/forlagshuset/mo-client/commits/3d89cc7463fcb94daec0f8bfb6883d934af5c93a))
+* code linting ([f7ab830](https://bitbucket.org/forlagshuset/mo-client/commits/f7ab8308c365de1937f35c01c5ba2b9b67131866))
+* deps upgrade and minor refactoring, adds logout option ([af681a8](https://bitbucket.org/forlagshuset/mo-client/commits/af681a8e043d203771d3ec6072b2510038426fd8))
+* **auth:** adds fetch polyfills ([1083464](https://bitbucket.org/forlagshuset/mo-client/commits/108346487e0147c8622a06ea85517af7cd14aecb))
+* modules now goes to transpiled files, adds polyfills ([995868f](https://bitbucket.org/forlagshuset/mo-client/commits/995868fc402175c65e2ceecbf72f89295c400e9e))
+* update dependencies ([06ce221](https://bitbucket.org/forlagshuset/mo-client/commits/06ce221f0228c6c3734c1ff5c37facc92795e411))
+* upgrades deps ([40a7238](https://bitbucket.org/forlagshuset/mo-client/commits/40a72386b0988fe51a233ae708fe2e6091bd5b21))
+* use entry instead of usage ([5f7a1c7](https://bitbucket.org/forlagshuset/mo-client/commits/5f7a1c7ac785540818f0bef9166a12cf6bf3614b))
+* uses native fetch when available ([3088162](https://bitbucket.org/forlagshuset/mo-client/commits/308816298356c568fa883fbae62cd368d30492ca))
+* **auth:** version bump ([9736c0a](https://bitbucket.org/forlagshuset/mo-client/commits/9736c0a4d07ea15bf949f2497e7f501ccbca3e25))
+* **auth:** version bump ([318933c](https://bitbucket.org/forlagshuset/mo-client/commits/318933c4f3580e5c4d3eb66a94443666ff87b0ce))
+* **cli:** clear clean ([5195230](https://bitbucket.org/forlagshuset/mo-client/commits/5195230475f61bc17314a98b40407743d9b57938))
+* **cli:** code formatting ([e3eb670](https://bitbucket.org/forlagshuset/mo-client/commits/e3eb670b4071f4cbba3ed40a7576778b7f2b8dbf))
+
+
+### Features
+
+* better checkAccess API ([8528de8](https://bitbucket.org/forlagshuset/mo-client/commits/8528de8c65e1bc7e4d19b0a18211db9046dfef91))
+* removes polyfills, adds checkAccess ([b5fb7f6](https://bitbucket.org/forlagshuset/mo-client/commits/b5fb7f62b2de615a5bec1b6e5660ceff33807d88))
+* **cli:** adds force option to delete ([f39fcd9](https://bitbucket.org/forlagshuset/mo-client/commits/f39fcd937265c2edbc3feab7aa0e287603c98ad1))
+* **cli:** allows app name in command line arguments ([a926771](https://bitbucket.org/forlagshuset/mo-client/commits/a9267715ce6fe15c29a366192c540f3e524547a4))
+
+
+### Reverts
+
+* removes prepare ([8a33b7a](https://bitbucket.org/forlagshuset/mo-client/commits/8a33b7a698eaaf55e384fa53b33183dcf10ff111))
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v0.6.1...v0.1.0) (2018-06-22)
 

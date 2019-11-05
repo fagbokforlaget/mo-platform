@@ -10,7 +10,7 @@ const success = chalk.bold.green
 
 module.exports = async (options, version) => {
   const distFolder = options.dist || config.distFolder || 'build'
-  const  packageFile = path.resolve(options.file || 'mo-app.json')
+  const packageFile = path.resolve(options.file || 'mo-app.json')
 
   console.log(info(`Rolling back to v${version}`))
 
