@@ -10,7 +10,7 @@
     "test": "mocha --require @babel/register --require @babel/polyfill --colors ./test/*.spec.js",
     "test:watch": "mocha --require @babel/register --colors -w ./test/*.spec.js",
     "clean": "rimraf dist",
-    "prepare": "npm run clean && npm run test && npm run build"
+    "prepublishOnly": "npm run clean && npm run test && npm run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",
