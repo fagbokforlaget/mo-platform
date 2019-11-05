@@ -8,7 +8,9 @@
     "build": "babel src --out-dir lib && webpack --mode production",
     "dev": "webpack --progress --colors --watch --mode=devlopment",
     "test": "mocha --require @babel/register --require @babel/polyfill --colors ./test/*.spec.js",
-    "test:watch": "mocha --require @babel/register --colors -w ./test/*.spec.js"
+    "test:watch": "mocha --require @babel/register --colors -w ./test/*.spec.js",
+    "clean": "rimraf dist",
+    "prepare": "npm run clean && npm run test && npm run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",
@@ -30,6 +32,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "fetch-mock": "^7.3.9",
     "mocha": "6.2.0",
+    "rimraf": "^3.0.0",
     "nock": "^11.3.5",
     "terser-webpack-plugin": "^2.1.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
