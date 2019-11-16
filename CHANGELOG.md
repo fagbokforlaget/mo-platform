@@ -1,3 +1,7 @@
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v1.0.5...v0.1.0) (2019-11-16)
+
+
+
 # [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v1.0.4...v0.1.0) (2019-11-16)
 
 
