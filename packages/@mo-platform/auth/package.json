@@ -1,6 +1,6 @@
 {
   "name": "@mo-platform/auth",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Mo authentication library",
   "main": "dist/moauth.bundle.js",
   "module": "lib/index.js",
@@ -32,8 +32,8 @@
     "eslint-plugin-standard": "^4.0.0",
     "fetch-mock": "^7.3.9",
     "mocha": "6.2.0",
-    "rimraf": "^3.0.0",
     "nock": "^11.3.5",
+    "rimraf": "^3.0.0",
     "terser-webpack-plugin": "^2.1.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "4.40.2",
