@@ -13,7 +13,7 @@
   "description": "Mo JS SDK mono repo",
   "main": "index.js",
   "scripts": {
-    "version": "standard-changelog",
+    "version": "standard-changelog -l",
     "test": "cd packages/@mo-platform/cli && npm link && cd ../../../ && lerna run test --stream"
   },
   "author": "Deepak Thukral<iapain@iapa.in>",
