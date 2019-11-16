@@ -1,3 +1,14 @@
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v1.0.3...v0.1.0) (2019-11-16)
+
+
+### Bug Fixes
+
+* adds fetch polyfill ([0c6ede0](https://bitbucket.org/forlagshuset/mo-client/commits/0c6ede06f39e2e17db171d876d9df7b2d0f9204a))
+* updates default hostname ([c19a3c1](https://bitbucket.org/forlagshuset/mo-client/commits/c19a3c1a98da9586e70fc837ec4042ba2bbf9478))
+* updates node image ([14505ee](https://bitbucket.org/forlagshuset/mo-client/commits/14505ee42996d2ebed01c37cd6c5cf0c70a21499))
+
+
+
 # [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v1.0.0-alpha.1...v0.1.0) (2019-11-04)
 
 

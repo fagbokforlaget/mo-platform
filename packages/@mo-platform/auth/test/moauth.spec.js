@@ -3,7 +3,7 @@ import fetch from 'isomorphic-fetch';
 import MoAuth from '../src/index.js';
 import fetchMock from 'fetch-mock'
 
-fetchMock.post('https://moauth.fagbokforlaget.no/_auth/access', { success: true, products: ['world'] })
+fetchMock.post('https://mo-auth.fagbokforlaget.no/_auth/access', { success: true, products: ['world'] })
 
 chai.expect();
 

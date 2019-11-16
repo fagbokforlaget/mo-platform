@@ -54,5 +54,6 @@
   "dependencies": {
     "core-js": "^3.2.1",
     "isomorphic-fetch": "^2.2.1"
-  }
+  },
+  "gitHead": "0d8ba37f43758eb14b08ca30ce77731a881cad49"
 }
