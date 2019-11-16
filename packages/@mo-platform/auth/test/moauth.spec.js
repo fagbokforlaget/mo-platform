@@ -23,15 +23,15 @@ describe('Given an instance of MoAuth', function () {
 
   describe('default vaules should be set', function () {
     it('should have authUrl set', () => {
-      expect(auth.authUrl).to.be.equal('https://moauth.fagbokforlaget.no');
+      expect(auth.authUrl).to.be.equal('https://mo-auth.fagbokforlaget.no');
     });
 
     it('should have userFetchUrl set', () => {
-      expect(auth.userFetchUrl).to.be.equal('https://moauth.fagbokforlaget.no/_auth/user');
+      expect(auth.userFetchUrl).to.be.equal('https://mo-auth.fagbokforlaget.no/_auth/user');
     });
 
     it('should have loginUrl set', () => {
-      expect(auth.loginUrl).to.be.equal('https://moauth.fagbokforlaget.no/_auth/login');
+      expect(auth.loginUrl).to.be.equal('https://mo-auth.fagbokforlaget.no/_auth/login');
     });
   });
 
