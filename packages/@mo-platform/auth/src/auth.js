@@ -4,7 +4,7 @@ export default class Authentication {
   constructor (opts = {}) {
     let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl } = opts
 
-    this.authUrl = authUrl || 'https://moauth.fagbokforlaget.no'
+    this.authUrl = authUrl || 'https://mo-auth.fagbokforlaget.no'
     this.currentUser = undefined
     this.token = undefined
     this.clientId = clientId
