@@ -1,5 +1,3 @@
-import 'isomorphic-fetch'
-
 export default class Authentication {
   constructor (opts = {}) {
     let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl } = opts
@@ -159,6 +157,10 @@ export default class Authentication {
         } else {
           reject(new Error('This user does not have access to this product'))
         }
+      } else if (response.status === 401) {
+        reject(new Error('access token not found'))
+      } else {
+        reject(new Error('invalid response from server'))
       }
     })
   }
