@@ -2,7 +2,7 @@
 
 MoAuth provides an OAuth proxy to various providers. For the time being it only supports [Fagbokforlaget e-portal](https://eportal.fagbokforlaget.no) or FEIDE. This js library provides necessary abstraction for authentication from various services.
 
-NOTE: Mo-Auth lib replies on modern browsers and does not includes polyfills for `fetch` and `Promise`. You may include them yourself and if you use it inside vue then edit `vue.config.js` and add `transpileDependencies:['@mo-platform/auth']` to options
+NOTE: Mo-Auth lib replies on modern browsers and does not includes polyfills for `fetch` and `Promise`. You may include them yourself and if you use it inside vue then edit `vue.config.js` and add `transpileDependencies:['@mo-platform/auth']`. Also vuejs automatically insers es-promise polyfill but you still have to add polyfill for `fetch`. We recommend using `import whatwg-fetch` in your `main.js`.
 
 ## Install
 ```bash
