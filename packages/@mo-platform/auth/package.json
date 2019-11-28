@@ -3,9 +3,11 @@
   "version": "1.0.9",
   "description": "Mo authentication library",
   "main": "dist/moauth.bundle.js",
-  "module": "lib/index.js",
+  "module": "dist/moauth.esm.js",
   "scripts": {
-    "build": "babel src --out-dir lib && webpack --mode production",
+    "build:umd": "webpack --mode production",
+    "build:esm": "rollup -c ./rollup.config.js",
+    "build": "npm run build:umd && npm run build:esm",
     "dev": "webpack --progress --colors --watch --mode=devlopment",
     "test": "mocha --require @babel/register --colors ./test/*.spec.js",
     "test:watch": "mocha --require @babel/register --colors -w ./test/*.spec.js",
@@ -34,6 +36,8 @@
     "mocha": "6.2.0",
     "nock": "^11.3.5",
     "rimraf": "^3.0.0",
+    "rollup": "^1.27.5",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "terser-webpack-plugin": "^2.1.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "4.40.2",
@@ -52,7 +56,6 @@
   "author": "Deepak Thukral",
   "license": "MIT",
   "dependencies": {
-    "core-js": "^3.2.1",
     "isomorphic-fetch": "^2.2.1"
   },
   "gitHead": "0dd3bd8a788c3b4cab06bf7bc2c8bb7b02f3d5ad"
