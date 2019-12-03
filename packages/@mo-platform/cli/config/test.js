@@ -122,6 +122,19 @@ nock('http://localhost:3000')
     .reply(200, [{"_id":"55fbf2fc0b74415f0cf8e9b1","_vs":"000000001","name":"matt","version":"0.0.1","data":{"name":"matt","version":"0.0.1","description":"","main":"index.html","module":"globals","license":"MIT","ignore":["**/.*","node_modules","bower_components","test","tests"]},"__v":0,"url":"https://matt.app.fagbokforlaget.no","created_at":"2015-09-18T11:18:20.401Z","previousVersions":[]}])
 
 
+nock('http://localhost:3000')
+    .get('/api/cnames/test-app')
+    .reply(200,[{"cnames":["test-app.com"]}])
+
+
+nock('http://localhost:3000')
+    .post('/api/cnames/test-app')
+    .reply(200,{status: "nginx conf file and ssl cert created"})
+
+nock('http://localhost:3000')
+    .delete('/api/cnames/test-app')
+    .reply(200,{status: "file deleted"})
+
 
 module.exports = {
   moServer: {

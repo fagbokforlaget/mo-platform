@@ -7,3 +7,4 @@ exports.search = require('./search');
 exports.login = require('./login');
 exports.rollback = require('./rollback');
 exports.migrate = require('./migrate');
+exports.cname = require('./cname');
