@@ -18,6 +18,9 @@ describe('MoApp', function() {
       it('should create cname for given app', function (done) {
         nixt()
         .run('moapp cname create test-app.com --name test-app')
+        .expect(function(res) {
+          console.log(res)
+        })
         .stdout(/created/gi)
         .end(done)
       });
