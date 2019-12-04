@@ -84,6 +84,10 @@ exports.run =  function() {
     return tasks.migrate(options);
   }
 
+ if (options.argv.remain.length && options.argv.remain[0] === "cname") {
+    return tasks.cname(options);
+  }
+
   console.error('Invalid command: '+ options.argv.remain[0]);
   return tasks.help();
 }
