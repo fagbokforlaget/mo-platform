@@ -14,7 +14,7 @@
   "main": "index.js",
   "scripts": {
     "version": "standard-changelog -l",
-    "test": "cd packages/@mo-platform/cli && npm link && cd ../../../ && lerna run test --stream"
+    "test": "cd packages/@mo-platform/cli && npm link && cd ../../../ && lerna run test"
   },
   "author": "Deepak Thukral<iapain@iapa.in>",
   "license": "MIT",
