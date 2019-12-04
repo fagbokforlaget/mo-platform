@@ -19,6 +19,7 @@ API Spec
 6. version
 7. help
 8. login
+9. cname
 
 `login`
 
@@ -71,4 +72,12 @@ Login into MoJS SDK
 
 ```
 moapp login
+```
+
+`cname`
+
+Manage CNAME
+
+```
+moapp cname <list|create|delete>
 ```

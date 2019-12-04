@@ -141,22 +141,27 @@ exports.search = (params, options) => {
 }
 
 exports.cnameList = (name, options) => {
+  if(options == undefined) options = {}
   const moServer = config.moServer[options.env || 'dev']
 
-  return new Promise((resolve, reject) => {
-    request.get(`${moServer}/api/cnames/${name}`)
-      .set('Accept', 'application/json')
-      .set('Content-Type', 'application/json')
-      .then(res => {
-        return resolve(res.body)
-      })
-      .catch(err => {
-        return reject(`${err} (${err.status})`)
-      })
+  return moConfigFile.read(options).then((authData) => {
+    return new Promise((resolve, reject) => {
+      request.get(`${moServer}/api/cnames/${name}`)
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send({token: authData.token})
+        .then(res => {
+          return resolve(res.body)
+        })
+        .catch(err => {
+          return reject(`${err} (${err.status})`)
+        })
+    })
   })
 }
 
 exports.cnameCreate = (name, cname, options) => {
+  if(options == undefined) options = {}
   const moServer = config.moServer[options.env || 'dev']
 
   return moConfigFile.read(options).then((authData) => {
@@ -176,6 +181,7 @@ exports.cnameCreate = (name, cname, options) => {
 }
 
 exports.cnameDelete = (name, cname, options) => {
+  if(options == undefined) options = {}
   const moServer = config.moServer[options.env || 'dev']
 
   return moConfigFile.read(options).then((authData) => {
