@@ -1,6 +1,7 @@
+import EventEmitter from './eventemitter'
 export default class Authentication {
   constructor (opts = {}) {
-    let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl } = opts
+    let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl, refreshTokenUrl } = opts
 
     this.authUrl = authUrl || 'https://mo-auth.fagbokforlaget.no'
     this.currentUser = undefined
@@ -11,6 +12,8 @@ export default class Authentication {
     this.logoutUrl = logoutUrl
     this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user'
     this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access'
+    this.refreshTokenUrl = refreshTokenUrl || ''
+    this.EventEmitter = new EventEmitter()
   }
 
   _loginUrl (redirectUrl, scope = undefined) {
@@ -47,6 +50,32 @@ export default class Authentication {
     let { redirectUrl, scope } = obj
 
     window.location = this._loginUrl(redirectUrl || window.location, scope)
+  }
+
+  refreshTokenTimer() {
+    this.silentRefresh = setTimeout(async () => {
+      const response =  await fetch(this.refreshTokenUrl, {
+        method: 'POST',
+        credentials: 'include'
+      })
+  
+      if (response.status === 200) {
+        const resp = await response.json()
+        if (resp.success) {
+          this.storage.setItem('token', resp.idToken)
+          this.EventEmitter.emit((new Event("tokenRenewed")))
+          this.refreshTokenTimer()
+        } else {
+          throw(new Error('Failed to refresh the token'))
+        }
+      } else {
+        throw(response.err)
+      }
+    }, 15 * 60000)
+  }
+
+  stopRefreshTimer() {
+    this.clearTimeout(this.silentRefresh);
   }
 
   getUser () {
