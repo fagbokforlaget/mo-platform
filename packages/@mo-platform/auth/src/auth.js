@@ -197,6 +197,7 @@ export default class Authentication {
   async logout (url) {
     this.storage.removeItem('user')
     this.storage.removeItem('token')
+    this.stopRefreshTimer()
 
     url = url || this.logoutUrl
 
