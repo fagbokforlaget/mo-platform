@@ -52,8 +52,8 @@ export default class Authentication {
     window.location = this._loginUrl(redirectUrl || window.location, scope)
   }
 
-  refreshTokenTimer() {
-    this.silentRefresh = setTimeout(async () => {
+  refreshTokenTimer(refreshTime = 15 * 60000) {
+    this.silentRefresh = setInterval(async () => {
       const response =  await fetch(this.refreshTokenUrl, {
         method: 'POST',
         credentials: 'include'
@@ -64,18 +64,17 @@ export default class Authentication {
         if (resp.success) {
           this.storage.setItem('token', resp.idToken)
           this.EventEmitter.emit((new Event("tokenRenewed")))
-          this.refreshTokenTimer()
         } else {
           throw(new Error('Failed to refresh the token'))
         }
       } else {
         throw(response.err)
       }
-    }, 15 * 60000)
+    }, refreshTime)
   }
 
   stopRefreshTimer() {
-    this.clearTimeout(this.silentRefresh);
+    clearInterval(this.silentRefresh);
   }
 
   getUser () {
