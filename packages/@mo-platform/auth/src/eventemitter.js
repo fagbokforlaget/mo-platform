@@ -1,45 +1,38 @@
-var EventEmitter = function () {
-    this.events = {};
-};
+class EventEmitter{
 
-EventEmitter.prototype.on = function (event, listener) {
-    if (typeof this.events[event] !== 'object') {
-        this.events[event] = [];
+    constructor(){
+        this.events = {};
     }
 
-    this.events[event].push(listener);
-};
-
-EventEmitter.prototype.removeListener = function (event, listener) {
-    var idx;
-
-    if (typeof this.events[event] === 'object') {
-        idx = indexOf(this.events[event], listener);
-
-        if (idx > -1) {
-            this.events[event].splice(idx, 1);
+    _getEventListByName(eventName){
+        if(typeof this.events[eventName] === 'undefined'){
+            this.events[eventName] = new Set();
         }
+        return this.events[eventName]
     }
-};
 
-EventEmitter.prototype.emit = function (event) {
-    var i, listeners, length, args = [].slice.call(arguments, 1);
+    on(eventName, fn){
+        this._getEventListByName(eventName).add(fn);
+    }
 
-    if (typeof this.events[event] === 'object') {
-        listeners = this.events[event].slice();
-        length = listeners.length;
-
-        for (i = 0; i < length; i++) {
-            listeners[i].apply(this, args);
+    once(eventName, fn){
+        const self = this
+        const onceFn = function(...args){
+            self.removeListener(eventName, onceFn)
+            fn.apply(self, args)
         }
+        this.on(eventName, onceFn)
     }
-};
 
-EventEmitter.prototype.once = function (event, listener) {
-    this.on(event, function g () {
-        this.removeListener(event, g);
-        listener.apply(this, arguments);
-    });
-};
+    emit(eventName, ...args){
+        this._getEventListByName(eventName).forEach(function(fn){
+        fn.apply(this,args)
+        }.bind(this))
+    }
+
+    removeListener(eventName, fn){
+        this._getEventListByName(eventName).delete(fn)
+    }
+}
 
 export default EventEmitter
