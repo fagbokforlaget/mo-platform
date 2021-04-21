@@ -63,7 +63,7 @@ export default class Authentication {
         const resp = await response.json()
         if (resp.success) {
           this.storage.setItem('token', resp.idToken)
-          this.EventEmitter.emit((new Event("tokenRenewed")))
+          this.EventEmitter.emit('accessTokenUpdated', resp.idToken)
         } else {
           throw(new Error('Failed to refresh the token'))
         }
