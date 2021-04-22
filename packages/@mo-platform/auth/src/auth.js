@@ -65,7 +65,7 @@ export default class Authentication {
           this.storage.setItem('token', resp.idToken)
           this.EventEmitter.emit('accessTokenUpdated', resp.idToken)
         } else {
-          throw(new Error('Failed to refresh the token'))
+          this.EventEmitter.emit('accessTokenUpdated', 'Failed to refresh the token')
         }
       } else {
         throw(response.err)
