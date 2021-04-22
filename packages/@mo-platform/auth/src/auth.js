@@ -52,24 +52,27 @@ export default class Authentication {
     window.location = this._loginUrl(redirectUrl || window.location, scope)
   }
 
-  refreshTokenTimer(refreshTime = 15 * 60000) {
-    this.silentRefresh = setInterval(async () => {
-      const response =  await fetch(this.refreshTokenUrl, {
-        method: 'POST',
-        credentials: 'include'
-      })
-  
-      if (response.status === 200) {
-        const resp = await response.json()
-        if (resp.success) {
-          this.storage.setItem('token', resp.idToken)
-          this.EventEmitter.emit('accessTokenUpdated', resp.idToken)
+  async refreshTokenTimer (refreshTime = 15 * 60000) {
+    return new Promise(async (resolve, reject) => {
+      this.silentRefresh = setInterval(async () => {
+        const response =  await fetch(this.refreshTokenUrl, {
+          method: 'POST',
+          credentials: 'include'
+        })
+    
+        if (response.status === 200) {
+          const resp = await response.json()
+          if (resp.success) {
+            this.storage.setItem('token', resp.idToken)
+            this.EventEmitter.emit('accessTokenUpdated', resp.idToken)
+            resolve(resp.idToken);
+          } else {
+            reject(new Error('Failed to refresh the token'))
+          }
         } else {
-          this.EventEmitter.emit('accessTokenUpdated', 'Failed to refresh the token')
+          reject(new Error(response.err))
         }
-      } else {
-        throw(response.err)
-      }
+      })
     }, refreshTime)
   }
 

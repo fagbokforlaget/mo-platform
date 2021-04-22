@@ -139,18 +139,19 @@ describe('passing values through constructor', function () {
       expect(newAccessToken).to.be.equal('newToken')
       this.clock = sinon.restore()
     })
-    auth.refreshTokenTimer(1)
+    auth.refreshTokenTimer(1).then((token) => {
+      expect(token).to.be.equal('newToken')
+    })
     this.clock.tick(1);
   });
 
-  it('should emit accessTokenUpdated event with failed message when token is not successfully returned from the refresh token endpoint', () => {
+  it('should throw failed failed message when token is not successfully returned from the refresh token endpoint', async () => {
     const auth = new MoAuth({'refreshTokenUrl': 'https://someurl.com/refresh_token2', 'storage': fakeStorage})
     this.clock = sinon.useFakeTimers();
-    auth.EventEmitter.on('accessTokenUpdated', (newAccessToken) => {
-      expect(newAccessToken).to.be.equal('Failed to refresh the token')
-      this.clock = sinon.restore()
-    })
-    auth.refreshTokenTimer(1)
-    this.clock.tick(1);
+
+    auth.refreshTokenTimer(1).catch((error) => {
+      expect(error.message).to.be.equal('Failed to refresh the token')
+    });
+    this.clock.tick(1)
   });
 });
