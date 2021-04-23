@@ -2,8 +2,11 @@ import chai from 'chai';
 import fetch from 'isomorphic-fetch';
 import MoAuth from '../src/index.js';
 import fetchMock from 'fetch-mock'
+import sinon from 'sinon'
 
 fetchMock.post('https://mo-auth.fagbokforlaget.no/_auth/access', { success: true, products: ['world'] })
+fetchMock.post('https://someurl.com/refresh_token', { success: true, idToken: 'newToken' })
+fetchMock.post('https://someurl.com/refresh_token2', { success: false })
 
 chai.expect();
 
@@ -122,9 +125,33 @@ describe('Given an instance of MoAuth', function () {
 
 describe('passing values through constructor', function () {
   it('should use passed values', () => {
-    const auth2 = new MoAuth({'authUrl': 'https://someurl.com', 'userFetchUrl': 'https://someurl.com/page?=param', 'storage': fakeStorage});
+    const auth2 = new MoAuth({'authUrl': 'https://someurl.com', 'userFetchUrl': 'https://someurl.com/page?=param', 'refreshTokenUrl': 'https://someurl.com/refresh_token', 'storage': fakeStorage});
 
     expect(auth2.authUrl).to.be.equal('https://someurl.com');
     expect(auth2.userFetchUrl).to.be.equal('https://someurl.com/page?=param');
+    expect(auth2.refreshTokenUrl).to.be.equal('https://someurl.com/refresh_token');
+  });
+  
+  it('should emit accessTokenUpdated event with new token', () => {
+    this.clock = sinon.useFakeTimers();
+    const auth = new MoAuth({'refreshTokenUrl': 'https://someurl.com/refresh_token', 'storage': fakeStorage})
+    auth.EventEmitter.on('accessTokenUpdated', (newAccessToken) => {
+      expect(newAccessToken).to.be.equal('newToken')
+      this.clock = sinon.restore()
+    })
+    auth.refreshTokenTimer(1).then((token) => {
+      expect(token).to.be.equal('newToken')
+    })
+    this.clock.tick(1);
+  });
+
+  it('should throw failed failed message when token is not successfully returned from the refresh token endpoint', async () => {
+    const auth = new MoAuth({'refreshTokenUrl': 'https://someurl.com/refresh_token2', 'storage': fakeStorage})
+    this.clock = sinon.useFakeTimers();
+
+    auth.refreshTokenTimer(1).catch((error) => {
+      expect(error.message).to.be.equal('Failed to refresh the token')
+    });
+    this.clock.tick(1)
   });
 });

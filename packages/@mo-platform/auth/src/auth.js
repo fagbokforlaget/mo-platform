@@ -1,6 +1,7 @@
+import EventEmitter from './eventemitter'
 export default class Authentication {
   constructor (opts = {}) {
-    let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl } = opts
+    let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl, refreshTokenUrl } = opts
 
     this.authUrl = authUrl || 'https://mo-auth.fagbokforlaget.no'
     this.currentUser = undefined
@@ -11,6 +12,8 @@ export default class Authentication {
     this.logoutUrl = logoutUrl
     this.userFetchUrl = userFetchUrl || this.authUrl + '/_auth/user'
     this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access'
+    this.refreshTokenUrl = refreshTokenUrl || ''
+    this.EventEmitter = new EventEmitter()
   }
 
   _loginUrl (redirectUrl, scope = undefined) {
@@ -47,6 +50,34 @@ export default class Authentication {
     let { redirectUrl, scope } = obj
 
     window.location = this._loginUrl(redirectUrl || window.location, scope)
+  }
+
+  async refreshTokenTimer (refreshTime = 15 * 60000) {
+    return new Promise(async (resolve, reject) => {
+      this.silentRefresh = setInterval(async () => {
+        const response =  await fetch(this.refreshTokenUrl, {
+          method: 'POST',
+          credentials: 'include'
+        })
+    
+        if (response.status === 200) {
+          const resp = await response.json()
+          if (resp.success) {
+            this.storage.setItem('token', resp.idToken)
+            this.EventEmitter.emit('accessTokenUpdated', resp.idToken)
+            resolve(resp.idToken);
+          } else {
+            reject(new Error('Failed to refresh the token'))
+          }
+        } else {
+          reject(new Error(response.err))
+        }
+      })
+    }, refreshTime)
+  }
+
+  stopRefreshTimer() {
+    clearInterval(this.silentRefresh);
   }
 
   getUser () {
@@ -168,6 +199,7 @@ export default class Authentication {
   async logout (url) {
     this.storage.removeItem('user')
     this.storage.removeItem('token')
+    this.stopRefreshTimer()
 
     url = url || this.logoutUrl
 
