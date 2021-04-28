@@ -28,7 +28,10 @@ let config = {
         enforce: 'pre',
         test: /\.js$/,
         loader: "eslint-loader",
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        options: {
+          fix: true
+        }
       }
     ]
   },
@@ -45,10 +48,7 @@ let config = {
 
 module.exports = (argv) => {
   if (argv.mode === 'development') {
-    config.devtool = 'none';
-  }
-  else {
-    config.devtool = 'none';
+    config.devtool = 'source-map';
   }
   return config;
 

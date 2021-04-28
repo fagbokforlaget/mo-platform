@@ -1,7 +1,9 @@
+/* eslint-disable no-async-promise-executor */
 import EventEmitter from './eventemitter'
+
 export default class Authentication {
   constructor (opts = {}) {
-    let { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl, refreshTokenUrl } = opts
+    const { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl, refreshTokenUrl } = opts
 
     this.authUrl = authUrl || 'https://mo-auth.fagbokforlaget.no'
     this.currentUser = undefined
@@ -27,7 +29,7 @@ export default class Authentication {
     const pl = /\+/g
     const search = /([^&=]+)=?([^&]*)/g
     const decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')) }
-    let urlParams = {}
+    const urlParams = {}
     let query = loc.substring(1)
 
     if (/\?/.test(query)) {
@@ -47,7 +49,7 @@ export default class Authentication {
   }
 
   authorize (obj = {}) {
-    let { redirectUrl, scope } = obj
+    const { redirectUrl, scope } = obj
 
     window.location = this._loginUrl(redirectUrl || window.location, scope)
   }
@@ -55,33 +57,33 @@ export default class Authentication {
   async refreshTokenTimer (refreshTime = 15 * 60000) {
     return new Promise(async (resolve, reject) => {
       this.silentRefresh = setInterval(async () => {
-        const response =  await fetch(this.refreshTokenUrl, {
-          method: 'POST',
-          credentials: 'include'
-        })
-    
-        if (response.status === 200) {
-          const resp = await response.json()
-          if (resp.success) {
+        let response, resp
+        try {
+          response = await fetch(this.refreshTokenUrl, {
+            method: 'POST',
+            credentials: 'include'
+          })
+          resp = await response.json()
+          if (resp && resp.success) {
             this.storage.setItem('token', resp.idToken)
             this.EventEmitter.emit('accessTokenUpdated', resp.idToken)
-            resolve(resp.idToken);
+            resolve(resp.idToken)
           } else {
-            reject(new Error('Failed to refresh the token'))
+            throw new Error('Failed to refresh access token')
           }
-        } else {
-          reject(new Error(response.err))
+        } catch (err) {
+          reject(err)
         }
-      })
-    }, refreshTime)
+      }, refreshTime)
+    })
   }
 
-  stopRefreshTimer() {
-    clearInterval(this.silentRefresh);
+  stopRefreshTimer () {
+    clearInterval(this.silentRefresh)
   }
 
   getUser () {
-    let storeUser = this.storage.getItem('user')
+    const storeUser = this.storage.getItem('user')
 
     if (this.currentUser) {
       return this.currentUser
@@ -93,8 +95,8 @@ export default class Authentication {
   }
 
   checkToken (loc = window.location.search) {
-    let params = this._parseQueryString(loc)
-    let self = this
+    const params = this._parseQueryString(loc)
+    const self = this
 
     self.token = params.token || params.access_token || this.storage.getItem('token') || undefined
 
@@ -141,7 +143,7 @@ export default class Authentication {
   }
 
   fetchUser (url) {
-    let self = this
+    const self = this
 
     return new Promise(async (resolve, reject) => {
       const response = await fetch(url, {
@@ -174,7 +176,7 @@ export default class Authentication {
         mode: 'cors',
         cache: 'no-cache',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json',
           'X-Access-Token': self.token || this.storage.getItem('token')
         },
@@ -207,7 +209,7 @@ export default class Authentication {
   }
 
   isAuthenticated () {
-    let user = this.getUser()
+    const user = this.getUser()
 
     if (user) {
       return true
