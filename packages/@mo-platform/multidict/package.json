@@ -40,7 +40,7 @@
   "author": "Deepak Thukral",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.21.1"
   },
   "bugs": {
     "url": "https://github.com/fagbokforlaget/mo-platform/issues"
