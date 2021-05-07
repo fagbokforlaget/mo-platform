@@ -1,5 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 import EventEmitter from './eventemitter'
+import jwtDecode from "./jwt-decode";
 
 export default class Authentication {
   constructor (opts = {}) {
@@ -55,27 +56,42 @@ export default class Authentication {
   }
 
   async refreshTokenTimer (refreshTime = 15 * 60000) {
+    this.silentRefresh = setInterval(async () => {
+      return new Promise(async (resolve, reject) => {
+        this.getRefreshToken(true).then((token) => {
+          resolve(token)
+        }).catch(e => {
+          reject(e)
+        })
+      })
+    }, refreshTime)
+  }
+
+  async getRefreshToken (fromTimer = false) {
     return new Promise(async (resolve, reject) => {
-      this.silentRefresh = setInterval(async () => {
-        let response, resp
-        try {
-          response = await fetch(this.refreshTokenUrl, {
-            method: 'POST',
-            credentials: 'include'
-          })
-          resp = await response.json()
-          if (resp && resp.success) {
-            this.storage.setItem('token', resp.idToken)
-            this.EventEmitter.emit('accessTokenUpdated', resp.idToken)
-            resolve(resp.idToken)
-          } else {
-            throw new Error('Failed to refresh access token')
+      let response, resp
+      try {
+        response = await fetch(this.refreshTokenUrl, {
+          method: 'POST',
+          credentials: 'include'
+        })
+        resp = await response.json()
+        if (resp && resp.success) {
+          this.storage.setItem('token', resp.idToken);
+          this.token = resp.idToken
+          if (!fromTimer) {
+            this.stopRefreshTimer()
+            this.refreshTokenTimer()
           }
-        } catch (err) {
-          reject(err)
+          this.EventEmitter.emit('accessTokenUpdated', resp.idToken);
+          resolve(resp.idToken);
+        } else {
+          throw new Error('Failed to refresh access token')
         }
-      }, refreshTime)
-    })
+      } catch (err) {
+        reject(err)
+      }
+    });
   }
 
   stopRefreshTimer () {
@@ -94,13 +110,25 @@ export default class Authentication {
     return undefined
   }
 
+  async jwtExpiryCheck(token) {
+    try {
+      const decodedToken = jwtDecode(token)
+      if (decodedToken.exp * 1000 < Date.now()) {
+        throw new Error("Token Expired")
+      }
+    }
+    catch(err) {
+      await this.getRefreshToken()
+    }
+  }
+
   checkToken (loc = window.location.search) {
     const params = this._parseQueryString(loc)
     const self = this
 
     self.token = params.token || params.access_token || this.storage.getItem('token') || undefined
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       if (self.isAuthenticated() && self.token && typeof self.token !== 'undefined') {
         resolve(self.getUser())
       }
@@ -110,6 +138,9 @@ export default class Authentication {
           window.history.replaceState({}, '', window.location.pathname + window.location.hash || '')
         }
         self.storage.setItem('token', self.token)
+        await self.jwtExpiryCheck(self.token).catch((err) => {
+          reject(err)
+        })
         self.fetchUser(this.userFetchUrl)
           .then((user) => {
             resolve(user)
@@ -131,6 +162,9 @@ export default class Authentication {
     return new Promise(async (resolve, reject) => {
       if (token && typeof token !== 'undefined') {
         try {
+          await this.jwtExpiryCheck(token).catch((err) => {
+            reject(err)
+          })
           const allowedProducts = await this.fetchAccess(this.accessCheckUrl, { productIds: products })
           resolve({ success: true, user: user, products: allowedProducts })
         } catch (err) {
