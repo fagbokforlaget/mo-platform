@@ -58,7 +58,7 @@ export default class Authentication {
   async refreshTokenTimer (refreshTime = 15 * 60000) {
     this.silentRefresh = setInterval(async () => {
       return new Promise(async (resolve, reject) => {
-        this.getRefreshToken(true).then((token) => {
+        this.getRefreshToken().then((token) => {
           resolve(token)
         }).catch(e => {
           reject(e)
@@ -67,7 +67,7 @@ export default class Authentication {
     }, refreshTime)
   }
 
-  async getRefreshToken (fromTimer = false) {
+  async getRefreshToken () {
     return new Promise(async (resolve, reject) => {
       let response, resp
       try {
@@ -79,10 +79,6 @@ export default class Authentication {
         if (resp && resp.success) {
           this.storage.setItem('token', resp.idToken);
           this.token = resp.idToken
-          if (!fromTimer) {
-            this.stopRefreshTimer()
-            this.refreshTokenTimer()
-          }
           this.EventEmitter.emit('accessTokenUpdated', resp.idToken);
           resolve(resp.idToken);
         } else {
@@ -112,13 +108,19 @@ export default class Authentication {
 
   async jwtExpiryCheck(token) {
     try {
-      const decodedToken = jwtDecode(token)
+      var decodedToken = jwtDecode(token)
       if (decodedToken.exp * 1000 < Date.now()) {
         throw new Error("Token Expired")
       }
     }
     catch(err) {
       await this.getRefreshToken()
+      this.stopRefreshTimer()
+      if (decodedToken.exp && decodedToken.iat) {
+        this.refreshTokenTimer((decodedToken.exp - decodedToken.iat) * 1000)
+      } else {
+        this.refreshTokenTimer()
+      }
     }
   }
 
