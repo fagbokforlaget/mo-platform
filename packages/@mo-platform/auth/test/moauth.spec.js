@@ -12,6 +12,8 @@ chai.expect();
 
 const expect = chai.expect;
 const fakeStorage = {'getItem': function(key) { return false; }, 'setItem': function(key) { return key; }};
+const nonExpiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0.Gfx6VO9tcxwk6xqx9yYzSfebfeakZp5JYIgP_edcw_A'
+const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiZXhwIjoxNTE2MjM5MDIyfQ.E9bQ6QAil4HpH825QC5PtjNGEDQTtMpcj0SO2W8vmag'
 let auth;
 
 describe('Given an instance of MoAuth', function () {
@@ -59,6 +61,14 @@ describe('Given an instance of MoAuth', function () {
   });
 
   describe('should checkToken and checkAccess', function () {
+    before(function () {
+      this.jsdom = require('jsdom-global')()
+    })
+    
+    after(function () {
+      this.jsdom()
+    })
+
     it('should find token in query string', () => {
       auth.currentUser = {username: 'abc'}
       return auth.checkToken('?token=token&time=something&tag=1').then( (user) => {
@@ -97,12 +107,47 @@ describe('Given an instance of MoAuth', function () {
       }
     });
 
+    it('should NOT resolve promize if token is expired and the refresh token is failed', async () => {
+      const auth = new MoAuth({'refreshTokenUrl': 'https://someurl.com/refresh_token2', 'storage': fakeStorage})
+      auth.currentUser = {username: 'abc'}
+
+      try {
+        const user = await auth.checkToken(expiredToken);
+        expect(user).to.be.equal(undefined);
+      }
+      catch (err) {
+        expect(err.message).to.be.equal('access token not found');
+      }
+    });
+
     it('should check access', async () => {
       auth.currentUser = {username: 'bac'};
-      const user = await auth.checkToken('?token=something2');
+      const user = await auth.checkToken(`?token=${nonExpiredToken}`);
       const resp = await auth.checkAccess('hello');
 
-	    expect(auth.token).to.be.equal('something2');
+	    expect(auth.token).to.be.equal(nonExpiredToken);
+      expect(resp.products.includes('product1'));
+
+      try {
+        const resp2 = await auth.checkAccess(['product1', 'product2']);
+        expect(resp2.products.includes('product1')).to.be.equal(false);
+        expect(resp2.products.includes('product2'));
+      }
+      catch (err) {
+        expect(err.message).to.be.equal('This user does not have access to this product');
+      }
+    });
+
+    it('should check access even the token is expired with a refreshed token', async () => {
+      this.clock = sinon.useFakeTimers();
+      this.clock.tick(1);
+      const auth = new MoAuth({'refreshTokenUrl': 'https://someurl.com/refresh_token', 'storage': fakeStorage})
+
+      auth.currentUser = {username: 'bac'};
+      const user = await auth.checkToken(`?token=${expiredToken}`);
+      const resp = await auth.checkAccess('hello');
+
+	    expect(auth.token).to.be.equal(expiredToken);
       expect(resp.products.includes('product1'));
 
       try {
