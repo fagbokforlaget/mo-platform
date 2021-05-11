@@ -108,7 +108,7 @@ export default class Authentication {
 
   async jwtExpiryCheck(token) {
     try {
-      var decodedToken = jwtDecode(token)
+      let decodedToken = jwtDecode(token)
       if (decodedToken.exp * 1000 < Date.now()) {
         throw new Error("Token Expired")
       }
