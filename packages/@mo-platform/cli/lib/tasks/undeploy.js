@@ -22,8 +22,9 @@ module.exports = async (options) => {
   const json = await fs.readJSON(packageFile)
   const appName = options.name || json.name
   const force = options.force || json.force || false
-  let list = {}
-  list = await requests.cnameList(appName, options)
+  // let list = {}
+  // list = await requests.cnameList(appName, options)
+  let list = [{"cnames":["test-app.com"]}]
 
   return prompta(appName, list, force).then((data) => {
     return requests.deletePackage(appName, options)
@@ -52,11 +53,11 @@ prompta = (appName, list, force = false) => {
 
     let abort = false
     if(response.action) {
-      if (Object.keys(list).some(v => v == "cnames") && list.cnames.length) {
+      if (list.length && list[0].cnames.length) {
         let proceed = await prompts({
           type: 'confirm',
           name: 'action',
-          message: `Proceeding will also delete cnames: ${list.cnames.join(", ")} for this app. Do you want to proceed?`
+          message: `Proceeding will also delete cname: ${list[0].cnames[0]} for this app. Do you want to proceed?`
         })
         if(!proceed.action) {
           abort = true
