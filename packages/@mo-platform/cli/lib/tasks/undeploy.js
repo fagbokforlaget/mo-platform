@@ -51,7 +51,7 @@ prompta = (appName, force=false) => {
     let abort = false
     if(response.action) {
       let list = {}
-      list = requests.cnameList(appName, options)
+      list = await requests.cnameList(appName, options)
       if (Object.keys(list).some(v => v == "cnames") && list.cnames.length) {
         let proceed = await prompts({
           type: 'confirm',
