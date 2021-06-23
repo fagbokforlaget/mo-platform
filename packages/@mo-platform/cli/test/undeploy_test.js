@@ -21,6 +21,7 @@ describe('MoApp', function() {
         nixt()
         .run('moapp delete --configFile=test/fixtures/tmp_config_file.json --file=test/fixtures/app/test-package.json')
         .on(/sure/gi).respond('y\n')
+        .on(/Proceeding/gi).respond('y\n')
         .stdout(/status: \'ok\'/)
         .end(done)
       })
