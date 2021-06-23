@@ -23,7 +23,7 @@ module.exports = async (options) => {
   const appName = options.name || json.name
   const force = options.force || json.force || false
 
-  return prompta(appName, force).then((data) => {
+  return prompta(appName, options, force).then((data) => {
     return requests.deletePackage(appName, options)
   })
   .then((data) => {
@@ -36,7 +36,7 @@ module.exports = async (options) => {
   })
 }
 
-prompta = (appName, force=false) => {
+prompta = (appName, options, force = false) => {
   return new Promise(async function(resolve, reject) {
     if (force) {
       return resolve()
@@ -51,17 +51,19 @@ prompta = (appName, force=false) => {
     let abort = false
     if(response.action) {
       let list = {}
-      list = await requests.cnameList(appName, options)
-      if (Object.keys(list).some(v => v == "cnames") && list.cnames.length) {
-        let proceed = await prompts({
-          type: 'confirm',
-          name: 'action',
-          message: `Proceeding will also delete cnames: ${list.cnames.join(", ")} for this app. Do you want to proceed?`
-        })
-        if(!proceed.action) {
-          abort = true
+      requests.cnameList(appName, options).then((data) => {
+        list = data
+        if (Object.keys(list).some(v => v == "cnames") && list.cnames.length) {
+          let proceed = await prompts({
+            type: 'confirm',
+            name: 'action',
+            message: `Proceeding will also delete cnames: ${list.cnames.join(", ")} for this app. Do you want to proceed?`
+          })
+          if(!proceed.action) {
+            abort = true
+          }
         }
-      }
+      })
     } else {
       abort = true
     }
