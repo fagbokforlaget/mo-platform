@@ -22,9 +22,8 @@ module.exports = async (options) => {
   const json = await fs.readJSON(packageFile)
   const appName = options.name || json.name
   const force = options.force || json.force || false
-  // let list = {}
-  // list = await requests.cnameList(appName, options)
-  let list = [{"cnames":["test-app.com"]}]
+  let list = []
+  list = await requests.cnameList(appName, options)
 
   return prompta(appName, list, force).then((data) => {
     return requests.deletePackage(appName, options)
