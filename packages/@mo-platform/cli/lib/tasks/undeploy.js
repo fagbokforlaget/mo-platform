@@ -22,8 +22,10 @@ module.exports = async (options) => {
   const json = await fs.readJSON(packageFile)
   const appName = options.name || json.name
   const force = options.force || json.force || false
+  let list = {}
+  list = await requests.cnameList(appName, options)
 
-  return prompta(appName, options, force).then((data) => {
+  return prompta(appName, list, force).then((data) => {
     return requests.deletePackage(appName, options)
   })
   .then((data) => {
@@ -36,7 +38,7 @@ module.exports = async (options) => {
   })
 }
 
-prompta = (appName, options, force = false) => {
+prompta = (appName, list, force = false) => {
   return new Promise(async function(resolve, reject) {
     if (force) {
       return resolve()
@@ -50,8 +52,6 @@ prompta = (appName, options, force = false) => {
 
     let abort = false
     if(response.action) {
-      let list = {}
-      list = requests.cnameList(appName, options)
       if (Object.keys(list).some(v => v == "cnames") && list.cnames.length) {
         let proceed = await prompts({
           type: 'confirm',
