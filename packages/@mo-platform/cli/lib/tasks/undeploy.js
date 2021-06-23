@@ -51,19 +51,17 @@ prompta = (appName, options, force = false) => {
     let abort = false
     if(response.action) {
       let list = {}
-      requests.cnameList(appName, options).then((data) => {
-        list = data
-        if (Object.keys(list).some(v => v == "cnames") && list.cnames.length) {
-          let proceed = await prompts({
-            type: 'confirm',
-            name: 'action',
-            message: `Proceeding will also delete cnames: ${list.cnames.join(", ")} for this app. Do you want to proceed?`
-          })
-          if(!proceed.action) {
-            abort = true
-          }
+      list = requests.cnameList(appName, options)
+      if (Object.keys(list).some(v => v == "cnames") && list.cnames.length) {
+        let proceed = await prompts({
+          type: 'confirm',
+          name: 'action',
+          message: `Proceeding will also delete cnames: ${list.cnames.join(", ")} for this app. Do you want to proceed?`
+        })
+        if(!proceed.action) {
+          abort = true
         }
-      })
+      }
     } else {
       abort = true
     }
