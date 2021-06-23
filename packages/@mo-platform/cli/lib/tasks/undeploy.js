@@ -48,10 +48,27 @@ prompta = (appName, force=false) => {
       message: `Are you sure you want to remove ${appName} app?`
     });
 
-    if(!response.action) {
-      return reject("Action aborted.")
+    let abort = false
+    if(response.action) {
+      let list = {}
+      list = requests.cnameList(appName, options)
+      if (Object.keys(list).some(v => v == "cnames") && list.cnames.length) {
+        let proceed = await prompts({
+          type: 'confirm',
+          name: 'action',
+          message: `Proceeding will also delete cnames: ${list.cnames.join(", ")} for this app. Do you want to proceed?`
+        })
+        if(!proceed.action) {
+          abort = true
+        }
+      }
     } else {
-      return resolve()
+      abort = true
     }
+
+    if (abort) {
+      return reject("Action aborted.")
+    }
+    return resolve()
   })
 }
