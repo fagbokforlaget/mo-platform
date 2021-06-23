@@ -52,11 +52,11 @@ prompta = (appName, options, force = false) => {
     if(response.action) {
       let list = []
       list = await requests.cnameList(appName, options)
-      if (list.length && list[0].cnames.length) {
+      if (list.length) {
         let proceed = await prompts({
           type: 'confirm',
           name: 'action',
-          message: `Proceeding will also delete cname: ${list[0].cnames[0]} for this app. Do you want to proceed?`
+          message: `Proceeding will also delete cname: ${list[0].cnames.join(", ")} for this app. Do you want to proceed?`
         })
         if(!proceed.action) {
           abort = true
