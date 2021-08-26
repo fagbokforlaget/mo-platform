@@ -6,7 +6,7 @@ Install
 =================================
 npm link
 OR
-npm install -g @mo-platform/cli@next
+npm install -g @mo-platform/cli
 
 
 API Spec
