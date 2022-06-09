@@ -17,7 +17,7 @@ module.exports = async (options, version) => {
   const json = await fs.readJSON(packageFile)
   const appName = options.name || json.name
 
-  requests.rollback(json, version, options)
+  requests.rollback(appName, version, options)
 	  .then((data) => {
 	    console.info(info('Version reset to ' + data.version))
 	    return
