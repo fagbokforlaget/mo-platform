@@ -11,3 +11,15 @@ pipelines:
           - npm install -g lerna
           - lerna bootstrap
           - npm test
+  custom:
+    ci-scan-repo:
+      - step:
+          name: CI scanner
+          image:
+            name: forlagshuset.azurecr.io/ci-scanner:prod
+            username: $CI_REGISTRY_USER
+            password: $CI_REGISTRY_SECRET
+          services:
+            - docker
+          script:
+            - /scanner/run
