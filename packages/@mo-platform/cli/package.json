@@ -24,23 +24,23 @@
   "license": "MIT",
   "homepage": "https://github.com/fagbokforlaget/mo-platform.git#readme",
   "dependencies": {
-    "chalk": "^2.4.2",
-    "cli-table": "^0.3.1",
-    "dotenv": "^4.0.0",
+    "chalk": "^4.0.0",
+    "cli-table": "^0.3.11",
+    "dotenv": "^16.0.3",
     "exit": "^0.1.2",
-    "fs-extra": "^8.1.0",
-    "nopt": "^4.0.1",
-    "prompts": "^1.2.1",
-    "resolve": "^1.11.1",
-    "semver": "^5.7.0",
-    "superagent": "^3.8.3",
+    "fs-extra": "^10.1.0",
+    "nopt": "^7.0.0",
+    "prompts": "^2.4.2",
+    "resolve": "^1.22.1",
+    "semver": "^7.3.8",
+    "superagent": "^8.0.3",
     "yazl": "^2.5.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.3.6",
     "mocha": "^5.2.0",
     "nixt": "^0.5.1",
-    "nock": "^9.6.1"
+    "nock": "^13.2.9"
   },
   "gitHead": "0dd3bd8a788c3b4cab06bf7bc2c8bb7b02f3d5ad"
 }
