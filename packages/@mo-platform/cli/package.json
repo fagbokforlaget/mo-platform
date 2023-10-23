@@ -1,6 +1,6 @@
 {
   "name": "@mo-platform/cli",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "A commandline tool to manage Forlagshuset mo apps.",
   "bin": {
     "moapp": "./bin/mo"
