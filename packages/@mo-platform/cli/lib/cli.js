@@ -11,7 +11,7 @@ exports.known = {
   version: Boolean,
   name: [String, null],
   force: Boolean,
-  ssl: Boolean,
+  ssl: [Boolean, true],
   dist: [String, null],
   configFile: [String, null],
   file: [String, null]
