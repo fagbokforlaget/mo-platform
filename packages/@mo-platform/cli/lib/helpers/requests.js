@@ -169,7 +169,7 @@ exports.cnameCreate = (name, cname, options) => {
       request.post(`${moServer}/api/cnames/${name}`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
-        .send({"cname": cname, token: authData.token})
+        .send({"cname": cname, "ssl": options.ssl || true, token: authData.token})
         .then(res => {
           return resolve(res.body)
         })

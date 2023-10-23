@@ -11,7 +11,7 @@ module.exports = async (options) => {
   const json = await fs.readJSON(packageFile)
   const appName = options.name || json.name
   const cmd = options.argv.remain[1]
-  const cname = options.argv.remain[2]
+  const cname = (options.argv.remain[2] || "").replace(/^www\./gi, '');
   let response = {}
   switch(cmd) {
     case 'list':
