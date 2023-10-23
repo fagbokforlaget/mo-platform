@@ -30,7 +30,7 @@ module.exports = function() {
     moapp delete --name myapp --force
     moapp rollback 0.0.1 --env=dev
     moapp cname list --name myapp
-    moapp cname create myapp.com --name myapp
+    moapp cname create myapp.com --name myapp --www
     moapp cname create myapp.com --name myapp --no-ssl
     moapp cname delete myapp.com --name myapp
     `)
