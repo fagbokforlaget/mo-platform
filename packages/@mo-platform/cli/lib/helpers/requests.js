@@ -199,3 +199,43 @@ exports.cnameDelete = (name, cname, options) => {
     })
   })
 }
+
+exports.symlinkCreate = ( name, appName, options ) => {
+  if(options == undefined) options = {}
+  const moServer = config.moServer[options.env || 'dev']
+
+  return moConfigFile.read(options).then((authData) => {
+    return new Promise((resolve, reject) => {
+      request.post(`${moServer}/api/symlink/${name}`)
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send({"symlink": name, "appName": appName, "www": options.www, token: authData.token})
+        .then(res => {
+          return resolve(res.body)
+        })
+        .catch(err => {
+          throw new Error(`${err} (${err.status})`)
+        })
+    })
+  })
+}
+
+exports.symlinkDelete = (name, options) => {
+  if (options == undefined) options = {};
+  const moServer = config.moServer[options.env || "dev"];
+  return moConfigFile.read(options).then((authData) => {
+    return new Promise((resolve, reject) => {
+      request
+        .delete(`${moServer}/api/symlink/${name}`)
+        .set("Accept", "application/json")
+        .set("Content-Type", "application/json")
+        .send({ symlink: name, token: authData.token })
+        .then((res) => {
+          return resolve(res.status);
+        })
+        .catch((err) => {
+          return reject(`${err} (${err.status})`);
+        });
+    });
+  });
+};

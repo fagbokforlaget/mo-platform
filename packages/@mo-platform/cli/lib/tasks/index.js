@@ -8,3 +8,4 @@ exports.login = require('./login');
 exports.rollback = require('./rollback');
 exports.migrate = require('./migrate');
 exports.cname = require('./cname');
+exports.symlink = require('./symlink');
