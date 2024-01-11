@@ -194,7 +194,7 @@ exports.cnameDelete = (name, cname, options) => {
           return resolve(res.body)
         })
         .catch(err => {
-          return reject(`${err} (${err.status})`)
+         return reject(`${err} (${err.status})`)
         })
     })
   })
@@ -203,7 +203,6 @@ exports.cnameDelete = (name, cname, options) => {
 exports.symlinkCreate = ( name, appName, options ) => {
   if(options == undefined) options = {}
   const moServer = config.moServer[options.env || 'dev']
-
   return moConfigFile.read(options).then((authData) => {
     return new Promise((resolve, reject) => {
       request.post(`${moServer}/api/symlink/${name}`)
@@ -214,14 +213,13 @@ exports.symlinkCreate = ( name, appName, options ) => {
           return resolve(res.body)
         })
         .catch(err => {
-          throw new Error(`${err} (${err.status})`)
+           return reject(`${err} (${err.status})`);
         })
     })
   })
 }
 
-exports.symlinkDelete = (name, options) => {
-  if (options == undefined) options = {};
+exports.symlinkDelete = (name, appName, options) => {
   const moServer = config.moServer[options.env || "dev"];
   return moConfigFile.read(options).then((authData) => {
     return new Promise((resolve, reject) => {
@@ -229,11 +227,11 @@ exports.symlinkDelete = (name, options) => {
         .delete(`${moServer}/api/symlink/${name}`)
         .set("Accept", "application/json")
         .set("Content-Type", "application/json")
-        .send({ symlink: name, token: authData.token })
+        .send({ symlink: name, token: authData.token, www: options.www })
         .then((res) => {
-          return resolve(res.status);
+          return resolve(res);
         })
-        .catch((err) => {
+        .catch((err) => { 
           return reject(`${err} (${err.status})`);
         });
     });

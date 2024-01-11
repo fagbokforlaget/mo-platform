@@ -10,7 +10,7 @@ module.exports = async (options) => {
   const json = await fs.readJSON(packageFile);
   const appName = options.name || json.name;
   const cmd = options.argv.remain[1];
-  const symlink = (options.argv.remain[2] || "").replace(/^www\./gi, "");
+  const symlink = options.argv.remain[2]
   let response = {};
   switch (cmd) {
     case "create":

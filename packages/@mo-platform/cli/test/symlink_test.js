@@ -27,5 +27,15 @@ describe("MoApp", function () {
           .end(done);
       });
     });
+    describe("invalid", function () {
+      it("should print out invalid for not valid symlink command for given app", function (done) {
+        nixt()
+          .run(
+            "moapp symlink adsad test-app.com --name test-app --file=test/fixtures/app/test-package.json --configFile=test/fixtures/tmp_config_file.json"
+          )
+          .stdout(/invalid/gi)
+          .end(done);
+      });
+    });
   });
 });

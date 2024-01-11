@@ -137,11 +137,11 @@ nock('http://localhost:3000')
 
 nock("http://localhost:3000")
     .post('/api/symlink/test-app')
-    .reply(200, { status: "symlink created" });
+    .reply(200,{status: "symlink created"});
 
 nock("http://localhost:3000")
     .delete('/api/symlink/test-app')
-    .reply(200, { status: "symlink deleted" });
+    .reply(200,{status:"symlink deleted"});
 
 module.exports = {
   moServer: {
