@@ -8,7 +8,7 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - npm --version
           - node --version
-          - npm install -g lerna
+          - npm install -g lerna@5.0.0
           - lerna bootstrap
           - npm test
   custom:
