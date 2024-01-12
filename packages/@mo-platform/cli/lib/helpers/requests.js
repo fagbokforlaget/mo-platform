@@ -208,7 +208,7 @@ exports.symlinkCreate = ( name, appName, options ) => {
       request.post(`${moServer}/api/symlink/${name}`)
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
-        .send({"symlink": name, "appName": appName, "www": options.www, token: authData.token})
+        .send({"symlink": name, "appName": appName, token: authData.token})
         .then(res => {
           return resolve(res.body)
         })
@@ -227,7 +227,7 @@ exports.symlinkDelete = (name, appName, options) => {
         .delete(`${moServer}/api/symlink/${name}`)
         .set("Accept", "application/json")
         .set("Content-Type", "application/json")
-        .send({ symlink: name, token: authData.token, www: options.www })
+        .send({ symlink: name, token: authData.token })
         .then((res) => {
           return resolve(res);
         })

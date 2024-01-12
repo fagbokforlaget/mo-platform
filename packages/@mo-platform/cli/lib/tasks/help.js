@@ -33,5 +33,7 @@ module.exports = function() {
     moapp cname create myapp.com --name myapp --www
     moapp cname create myapp.com --name myapp --no-ssl
     moapp cname delete myapp.com --name myapp
-    `)
+    moapp symlink create myapp.com --name myapp
+    moapp symlink delete myapp.com --name myapp
+    `);
 }
