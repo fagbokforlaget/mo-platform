@@ -194,7 +194,7 @@ exports.cnameDelete = (name, cname, options) => {
           return resolve(res.body)
         })
         .catch(err => {
-         return reject(`${err} (${err.status})`)
+          return reject(`${err} (${err.status})`)
         })
     })
   })
