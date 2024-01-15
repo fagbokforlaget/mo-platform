@@ -14,6 +14,7 @@ module.exports = function() {
     {green delete}    Deletes app from mo cloud
     {green rollback}  Rollbacks to a specific version on mo cloud
     {green cname [list|create|delete]} CNAME management
+    {green symlink [create|delete]} Symlink management 
 
     {bold Advance options}
     --name          app name, it will override name from package.json
