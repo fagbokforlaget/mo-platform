@@ -56,7 +56,7 @@ exports.deletePackage = function(name, options) {
   const moServer = config.moServer[options.env || 'dev']
 
   if(options.force) name = `${name}?forceDelete=true` 
-  
+
   return moConfigFile.read(options).then((authData) => {
     return new Promise(function(resolve, reject) {
       request
@@ -227,7 +227,7 @@ exports.symlinkDelete = (name, appName, options) => {
   return moConfigFile.read(options).then((authData) => {
     return new Promise((resolve, reject) => {
       request
-        .delete(`${moServer}/api/symlink/${appName}`)
+        .delete(`${moServer}/api/symlink/${name}`)
         .set("Accept", "application/json")
         .set("Content-Type", "application/json")
         .send({ symlink: name, token: authData.token })
