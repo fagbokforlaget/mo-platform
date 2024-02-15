@@ -55,18 +55,21 @@ exports.deletePackage = function(name, options) {
   if(options == undefined) options = {}
   const moServer = config.moServer[options.env || 'dev']
 
+  if(options.force) name = `${name}?forceDelete=true` 
+
   return moConfigFile.read(options).then((authData) => {
     return new Promise(function(resolve, reject) {
-      request.delete(`${moServer}/api/packages/${name}`)
-        .set('Accept', 'application/json')
-        .set('Content-Type', 'application/json')
-        .send({'token': authData.token})
-        .then(res => {
-          return resolve(res.body)
+      request
+        .delete(`${moServer}/api/packages/${name}`) 
+        .set("Accept", "application/json")
+        .set("Content-Type", "application/json")
+        .send({ token: authData.token })
+        .then((res) => {
+          return resolve(res.body);
         })
-        .catch(err => {
-          return reject(`${err} (${err.status})`)
-        })
+        .catch((err) => {
+          return reject(`${err} (${err.status})`);
+        });
     })
   })
 }
@@ -199,3 +202,41 @@ exports.cnameDelete = (name, cname, options) => {
     })
   })
 }
+
+exports.symlinkCreate = ( name, appName, options ) => {
+  if(options == undefined) options = {}
+  const moServer = config.moServer[options.env || 'dev']
+  return moConfigFile.read(options).then((authData) => {
+    return new Promise((resolve, reject) => {
+      request.post(`${moServer}/api/symlink/${name}`)
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send({"symlink": name, "appName": appName, token: authData.token})
+        .then(res => {
+          return resolve(res.body)
+        })
+        .catch(err => {
+           return reject(`${err} (${err.status})`);
+        })
+    })
+  })
+}
+
+exports.symlinkDelete = (name, appName, options) => {
+  const moServer = config.moServer[options.env || "dev"];
+  return moConfigFile.read(options).then((authData) => {
+    return new Promise((resolve, reject) => {
+      request
+        .delete(`${moServer}/api/symlink/${name}`)
+        .set("Accept", "application/json")
+        .set("Content-Type", "application/json")
+        .send({ symlink: name, token: authData.token })
+        .then((res) => {
+          return resolve(res);
+        })
+        .catch((err) => {
+          return reject(`${err} (${err.status})`);
+        });
+    });
+  });
+};

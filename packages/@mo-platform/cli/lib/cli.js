@@ -90,6 +90,10 @@ exports.run =  function() {
     return tasks.cname(options);
   }
 
+   if (options.argv.remain.length && options.argv.remain[0] === "symlink") {
+    return tasks.symlink(options);
+   }
+
   console.error('Invalid command: '+ options.argv.remain[0]);
   return tasks.help();
 }

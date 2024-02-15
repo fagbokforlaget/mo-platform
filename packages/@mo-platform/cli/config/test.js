@@ -135,6 +135,13 @@ nock('http://localhost:3000')
     .delete('/api/cnames/test-app')
     .reply(200,{status: "file deleted"})
 
+nock("http://localhost:3000")
+    .post('/api/symlink/test-app')
+    .reply(200,{status: "symlink created"});
+
+nock("http://localhost:3000")
+    .delete('/api/symlink/test-app')
+    .reply(200,{status:"symlink deleted"});
 
 module.exports = {
   moServer: {
