@@ -169,14 +169,6 @@ describe('Given an instance of MoAuth', function () {
 
 describe('passing values through constructor', function () {
   it('should use passed values', () => {
-    const auth2 = new MoAuth({'authUrl': 'https://someurl.com', 'userFetchUrl': 'https://someurl.com/page?=param', 'refreshTokenUrl': 'https://someurl.com/refresh_token', 'storage': fakeStorage});
-
-    expect(auth2.authUrl).to.be.equal('https://someurl.com');
-    expect(auth2.userFetchUrl).to.be.equal('https://someurl.com/page?=param');
-    expect(auth2.refreshTokenUrl).to.be.equal('https://someurl.com/refresh_token');
-  });
-
-    it('should use passed values', () => {
     const auth2 = new MoAuth({'authUrl': 'https://someurl.com', 'userFetchUrl': 'https://someurl.com/page?=param', 'refreshTokenUrl': 'https://someurl.com/refresh_token', 'storage': fakeStorage,
       'configId': '25349808-2125-4e9b-8389-e2ab6df29b54', 'namespaceId': '559283eb-cce1-4657-93bf-67e481cb79e5'
     });

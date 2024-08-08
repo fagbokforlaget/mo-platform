@@ -25,7 +25,11 @@ export default class Authentication {
     if (!this.loginUrl.includes('?')) {
       this.loginUrl += '?'
     }
-    return this.loginUrl + '&client_id=' + (this.clientId || 'generic') + '&redirect_url=' + encodeURIComponent(redirectUrl) + '&scope=' + (scope || 'dbok')
+    
+     this.loginUrl += '&client_id=' + (this.clientId || 'generic') + '&redirect_url=' + encodeURIComponent(redirectUrl) + '&scope=' + (scope || 'dbok')
+     if(this.configId) this.loginUrl += `&config_id=${this.configId}`
+     if(this.namespaceId) this.loginUrl += `&namespace_id=${this.namespaceId}`
+     return this.loginUrl;
   }
 
   _parseQueryString (loc) {
