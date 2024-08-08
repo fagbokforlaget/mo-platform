@@ -17,11 +17,9 @@ export default class Authentication {
     this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access'
     this.refreshTokenUrl = refreshTokenUrl || ''
     this.EventEmitter = new EventEmitter()
-    this.configId = configId
-    this.namespaceId = namespaceId
   }
 
-  _loginUrl (redirectUrl, scope = undefined) {
+  _loginUrl (redirectUrl, scope = undefined, configId = undefined, namespaceId = undefined) {
     if (!this.loginUrl.includes('?')) {
       this.loginUrl += '?'
     }
@@ -56,9 +54,9 @@ export default class Authentication {
   }
 
   authorize (obj = {}) {
-    const { redirectUrl, scope } = obj
+    const { redirectUrl, scope, configId, namespaceId } = obj
 
-    window.location = this._loginUrl(redirectUrl || window.location, scope)
+    window.location = this._loginUrl(redirectUrl || window.location, scope, configId, namespaceId)
   }
 
   async refreshTokenTimer (refreshTime = 15 * 60000) {
