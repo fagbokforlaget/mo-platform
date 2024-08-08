@@ -1,10 +1,10 @@
 /* eslint-disable no-async-promise-executor */
-import EventEmitter from './eventemitter'
+import EventEmitter from './eventemitter';
 import jwtDecode from "./jwt-decode";
 
 export default class Authentication {
   constructor (opts = {}) {
-    const { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl, refreshTokenUrl } = opts
+    const { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl, refreshTokenUrl, configId, namespaceId } = opts
 
     this.authUrl = authUrl || 'https://mo-auth.fagbokforlaget.no'
     this.currentUser = undefined
@@ -17,6 +17,8 @@ export default class Authentication {
     this.accessCheckUrl = accessCheckUrl || this.authUrl + '/_auth/access'
     this.refreshTokenUrl = refreshTokenUrl || ''
     this.EventEmitter = new EventEmitter()
+    this.configId = configId
+    this.namespaceId = namespaceId
   }
 
   _loginUrl (redirectUrl, scope = undefined) {

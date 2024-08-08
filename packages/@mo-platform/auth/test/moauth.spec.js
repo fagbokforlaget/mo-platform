@@ -1,8 +1,7 @@
 import chai from 'chai';
-import fetch from 'isomorphic-fetch';
+import fetchMock from 'fetch-mock';
+import sinon from 'sinon';
 import MoAuth from '../src/index.js';
-import fetchMock from 'fetch-mock'
-import sinon from 'sinon'
 
 fetchMock.post('https://mo-auth.fagbokforlaget.no/_auth/access', { success: true, products: ['world'] })
 fetchMock.post('https://someurl.com/refresh_token', { success: true, idToken: 'newToken' })
@@ -175,6 +174,18 @@ describe('passing values through constructor', function () {
     expect(auth2.authUrl).to.be.equal('https://someurl.com');
     expect(auth2.userFetchUrl).to.be.equal('https://someurl.com/page?=param');
     expect(auth2.refreshTokenUrl).to.be.equal('https://someurl.com/refresh_token');
+  });
+
+    it('should use passed values', () => {
+    const auth2 = new MoAuth({'authUrl': 'https://someurl.com', 'userFetchUrl': 'https://someurl.com/page?=param', 'refreshTokenUrl': 'https://someurl.com/refresh_token', 'storage': fakeStorage,
+      'configId': '25349808-2125-4e9b-8389-e2ab6df29b54', 'namespaceId': '559283eb-cce1-4657-93bf-67e481cb79e5'
+    });
+
+    expect(auth2.authUrl).to.be.equal('https://someurl.com');
+    expect(auth2.userFetchUrl).to.be.equal('https://someurl.com/page?=param');
+    expect(auth2.refreshTokenUrl).to.be.equal('https://someurl.com/refresh_token');
+    expect(auth2.configId).to.be.equal('25349808-2125-4e9b-8389-e2ab6df29b54');
+    expect(auth2.namespaceId).to.be.equal('559283eb-cce1-4657-93bf-67e481cb79e5');
   });
   
   it('should emit accessTokenUpdated event with new token', () => {
