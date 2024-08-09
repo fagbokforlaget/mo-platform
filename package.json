@@ -1,14 +1,15 @@
 {
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^17.2.0",
+    "@commitlint/cli": "^17.8.1",
     "@commitlint/config-angular": "^17.2.0",
-    "@commitlint/config-conventional": "^17.2.0",
+    "@commitlint/config-conventional": "^17.8.1",
     "husky": "^8.0.3",
     "lerna": "^8.1.8",
     "standard-changelog": "^2.0.27"
   },
   "name": "mo-client",
+  "type": "module",
   "version": "0.1.0",
   "description": "Mo JS SDK mono repo",
   "main": "index.js",
@@ -16,10 +17,5 @@
     "version": "standard-changelog -l"
   },
   "author": "Deepak Thukral<iapain@iapa.in>",
-  "license": "MIT",
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
-    }
-  }
+  "license": "MIT"
 }
