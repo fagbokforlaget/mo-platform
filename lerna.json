@@ -2,5 +2,7 @@
   "packages": [
     "packages/@mo-platform/*"
   ],
-  "version": "1.0.16"
+  "version": "1.0.16",
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "useNx": false
 }

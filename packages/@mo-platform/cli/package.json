@@ -7,7 +7,7 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "make test",
+    "test": "npm link && make test",
     "prepublishOnly": "npm run test"
   },
   "repository": {

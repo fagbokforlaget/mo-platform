@@ -5,7 +5,7 @@
     "@commitlint/config-angular": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
     "husky": "^8.0.3",
-    "lerna": "^5.0.0",
+    "lerna": "^8.1.8",
     "standard-changelog": "^2.0.27"
   },
   "name": "mo-client",
@@ -13,8 +13,7 @@
   "description": "Mo JS SDK mono repo",
   "main": "index.js",
   "scripts": {
-    "version": "standard-changelog -l",
-    "test": "cd packages/@mo-platform/cli && npm link && cd ../../../ && lerna run test --stream"
+    "version": "standard-changelog -l"
   },
   "author": "Deepak Thukral<iapain@iapa.in>",
   "license": "MIT",
