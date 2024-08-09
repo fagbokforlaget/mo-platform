@@ -1,8 +1,7 @@
 import chai from 'chai';
-import fetch from 'isomorphic-fetch';
+import fetchMock from 'fetch-mock';
+import sinon from 'sinon';
 import MoAuth from '../src/index.js';
-import fetchMock from 'fetch-mock'
-import sinon from 'sinon'
 
 fetchMock.post('https://mo-auth.fagbokforlaget.no/_auth/access', { success: true, products: ['world'] })
 fetchMock.post('https://someurl.com/refresh_token', { success: true, idToken: 'newToken' })
