@@ -4,8 +4,8 @@ Mo Core JS SDK (mo-client) monorepo
 Install
 ========
 ```
-npm i -g lerna
-lerna bootstrap
+npx lerna init
+npm install
 lerna run test
 ```
 

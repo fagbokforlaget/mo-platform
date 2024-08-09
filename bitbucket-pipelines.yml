@@ -1,4 +1,4 @@
-image: node:16
+image: node:20
 
 pipelines:
   default:
@@ -8,7 +8,7 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - npm --version
           - node --version
-          - npm install -g lerna@8.1.8
+          - npx lerna init
           - npm install
           - npm test
   custom:
