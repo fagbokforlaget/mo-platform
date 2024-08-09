@@ -10,7 +10,7 @@ pipelines:
           - node --version
           - npx lerna init
           - npm install
-          - npm test
+          - npx lerna run test
   custom:
     ci-scan-repo:
       - step:
