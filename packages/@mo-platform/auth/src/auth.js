@@ -4,7 +4,7 @@ import jwtDecode from "./jwt-decode";
 
 export default class Authentication {
   constructor (opts = {}) {
-    const { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl, refreshTokenUrl, configId, namespaceId } = opts
+    const { authUrl, clientId, storage, loginUrl, logoutUrl, userFetchUrl, accessCheckUrl, refreshTokenUrl } = opts
 
     this.authUrl = authUrl || 'https://mo-auth.fagbokforlaget.no'
     this.currentUser = undefined
@@ -54,9 +54,9 @@ export default class Authentication {
   }
 
   authorize (obj = {}) {
-    const { redirectUrl, scope, configId, namespaceId } = obj
+    const { redirectUrl, scope, namespaceConfigId, namespaceId } = obj
 
-    window.location = this._loginUrl(redirectUrl || window.location, scope, configId, namespaceId)
+    window.location = this._loginUrl(redirectUrl || window.location, scope, namespaceConfigId, namespaceId)
   }
 
   async refreshTokenTimer (refreshTime = 15 * 60000) {
