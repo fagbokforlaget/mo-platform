@@ -19,14 +19,14 @@ export default class Authentication {
     this.EventEmitter = new EventEmitter()
   }
 
-  _loginUrl (redirectUrl, scope = undefined, configId = undefined, namespaceId = undefined) {
+  _loginUrl (redirectUrl, scope = undefined, namespaceConfigId = undefined, namespaceId = undefined) {
     if (!this.loginUrl.includes('?')) {
       this.loginUrl += '?'
     }
     
      this.loginUrl += '&client_id=' + (this.clientId || 'generic') + '&redirect_url=' + encodeURIComponent(redirectUrl) + '&scope=' + (scope || 'dbok')
-     if(this.configId) this.loginUrl += `&config_id=${this.configId}`
-     if(this.namespaceId) this.loginUrl += `&namespace_id=${this.namespaceId}`
+     if(this.configId) this.loginUrl += `&config_id=${namespaceConfigId}`
+     if(this.namespaceId) this.loginUrl += `&namespace_id=${namespaceId}`
      return this.loginUrl;
   }
 
