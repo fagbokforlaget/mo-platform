@@ -9,7 +9,7 @@ pipelines:
           - npm --version
           - node --version
           - npx lerna init
-          - npm install
+          - npm install --legacy-peer-deps
           - npx lerna run test
   custom:
     ci-scan-repo:

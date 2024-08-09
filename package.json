@@ -16,6 +16,7 @@
   "scripts": {
     "version": "standard-changelog -l"
   },
+  "workspaces": ["packages/@mo-platform/cli", "packages/@mo-platform/auth", "packages/@mo-platform/multidict"],
   "author": "Deepak Thukral<iapain@iapa.in>",
   "license": "MIT"
 }
