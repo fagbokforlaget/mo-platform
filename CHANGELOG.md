@@ -1,3 +1,12 @@
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v1.0.17...v0.1.0) (2024-08-10)
+
+
+### Performance Improvements
+
+* updates auth to support new modules ([5a88f43](https://bitbucket.org/forlagshuset/mo-client/commits/5a88f43781167ca61a100cab99a1e664eecb6c2e))
+
+
+
 # 0.1.0 (2024-03-19)
 
 
