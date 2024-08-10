@@ -24,15 +24,6 @@ let config = {
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        loader: "eslint-loader",
-        exclude: /node_modules/,
-        options: {
-          fix: true
-        }
-      }
     ]
   },
   resolve: {
