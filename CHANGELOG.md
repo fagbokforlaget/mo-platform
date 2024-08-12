@@ -1,3 +1,12 @@
+# [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v1.0.19...v0.1.0) (2024-08-12)
+
+
+### Bug Fixes
+
+* if statement ([c35fdda](https://bitbucket.org/forlagshuset/mo-client/commits/c35fdda3ca4a5cf3102889225bd6bba872d077a8))
+
+
+
 # [0.1.0](https://bitbucket.org/forlagshuset/mo-client/compare/v1.0.17...v0.1.0) (2024-08-10)
 
 
