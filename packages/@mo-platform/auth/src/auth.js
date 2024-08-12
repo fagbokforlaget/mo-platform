@@ -26,7 +26,7 @@ export default class Authentication {
 
     this.loginUrl += '&client_id=' + (this.clientId || 'generic') + '&redirect_url=' + encodeURIComponent(redirectUrl) + '&scope=' + (scope || 'dbok')
     // Both namespaceId and namespaceConfigId are required to perform access check on server
-    if(this.namespaceId && this.namespaceConfigId) this.loginUrl += `&namespace_id=${namespaceId}&namespace_config_id=${namespaceConfigId}`
+    if(namespaceId && namespaceConfigId) this.loginUrl += `&namespace_id=${namespaceId}&namespace_config_id=${namespaceConfigId}`
     return this.loginUrl;
   }
 
